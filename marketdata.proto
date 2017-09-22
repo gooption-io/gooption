@@ -1,0 +1,54 @@
+syntax = "proto3"; 
+package pb; 
+
+message Spot {
+    int64 timestamp = 1;
+    double value = 2;
+    string ticker = 3;
+}
+
+message RiskFreeRate {
+    int64 timestamp = 1;
+    string ticker = 2;
+    double value = 3;
+}
+
+message FlatVol {
+    int64 timestamp = 1;
+    string ticker = 2;
+    double value = 3;
+}
+
+message OptionQuoteSlice {
+    int64 timestamp = 1;
+    double expiry = 2;
+
+    message OptionQuote {
+        double strike = 8;
+        double bid = 9;
+        double ask = 10;
+        int32 volume = 11;
+        int32 openinterest = 12;
+    }
+
+    repeated OptionQuote puts = 3;
+    repeated OptionQuote calls = 4;    
+}
+
+message ImpliedVolMarket { 
+    int64 timestamp = 1;
+    Spot spot = 2;
+    RiskFreeRate rate = 3;
+} 
+
+message ImpliedVolSlice {
+    bool iserror = 2; 
+    double expiry = 3;
+    repeated string errors = 4;
+    repeated double strikes = 5;
+    repeated double vols = 6;
+}
+
+message ImpliedVolSurface { 
+  repeated ImpliedVolSlice volsurface = 1;
+} 

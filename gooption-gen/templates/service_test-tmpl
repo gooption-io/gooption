@@ -1,0 +1,33 @@
+{{define "service"}}
+
+package {{.Package}}
+
+import (
+	"testing"
+	"os"
+
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/gooption/pb"
+)
+
+{{range .Requests}}
+func Test_{{.}}(t *testing.T) {
+	if file, err := os.Open("./testdata/{{.}}Request.json"); err == nil {
+		defer file.Close()
+		request := &pb.{{.}}Request{}
+		if jsonpb.Unmarshal(file, request) == nil {
+			response, err := Service{}.{{.}}(request)
+			if err != nil {
+				t.Error(err)
+			}
+
+			t.Log(response)
+		} else {
+			t.Error(err)			
+		}
+	} else {
+		t.Error(err)					
+	}
+}
+{{end}}
+{{end}}

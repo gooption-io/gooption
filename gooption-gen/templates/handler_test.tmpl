@@ -1,0 +1,41 @@
+{{define "handler_test"}}
+
+package {{.Package}}
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/gooption/pb"
+)
+
+{{range .Requests}}
+func Test_{{.}}Handler(t *testing.T) {
+	router := gin.Default()
+	router.POST("/{{. | ToLower}}", handler{{.}})
+
+	if file, err := os.Open("./testdata/{{.}}Request.json"); err == nil {
+		defer file.Close()
+		httpRequest, _ := http.NewRequest("POST", "/{{. | ToLower}}", file)
+		httpRequest.Header.Set("Content-Type", binding.MIMEJSON)
+
+		httpResponse := httptest.NewRecorder()
+		router.ServeHTTP(httpResponse, httpRequest)
+
+		response := &pb.{{.}}Response{}
+		if err = jsonpb.Unmarshal(httpResponse.Body, response); err != nil {
+			t.Error(err)
+		}
+		t.Log(response.String())
+	} else {
+		t.Error(err)
+	}
+}
+{{end}}
+{{end}}
+
