@@ -3,6 +3,7 @@
 package main
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,9 +22,9 @@ func handlerPrice(c *gin.Context) {
 		return
 	}
 
-	response, err := gooption.Service{}.Price(request)
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+	response := gooption.NewService().Price(request)
+	if response.Error != "" {
+		c.AbortWithError(http.StatusBadRequest, errors.New(response.Error))
 		return
 	}
 
@@ -47,9 +48,9 @@ func handlerGreek(c *gin.Context) {
 		return
 	}
 
-	response, err := gooption.Service{}.Greek(request)
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+	response := gooption.NewService().Greek(request)
+	if response.Error != "" {
+		c.AbortWithError(http.StatusBadRequest, errors.New(response.Error))
 		return
 	}
 
@@ -73,9 +74,9 @@ func handlerImpliedVol(c *gin.Context) {
 		return
 	}
 
-	response, err := gooption.Service{}.ImpliedVol(request)
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+	response := gooption.NewService().ImpliedVol(request)
+	if response.Error != "" {
+		c.AbortWithError(http.StatusBadRequest, errors.New(response.Error))
 		return
 	}
 

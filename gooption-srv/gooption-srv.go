@@ -1,4 +1,4 @@
-//go:generate gooption-gen service Price Greek ImpliedVol
+//go:generate gooption-cli -p service -r Price -r Greek -r ImpliedVol
 package main
 
 import (
