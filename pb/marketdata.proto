@@ -55,7 +55,8 @@ message ImpliedVolSlice {
     repeated string errors = 4;
     repeated double strikes = 5;
     repeated double vols = 6;
-    repeated OptionQuote quotes = 7;
+    repeated int64 nbsolveriteration = 7;
+    repeated OptionQuote quotes = 8;
 }
 
 message ImpliedVolSurface { 

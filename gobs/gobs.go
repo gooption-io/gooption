@@ -18,7 +18,13 @@ func BS(s, v, r, k, t, mult float64) float64 {
 	return mult * (s*phi(mult*d1) - k*phi(mult*d2)*math.Exp(-r*t))
 }
 
-func IVRootSolver(mktPrice, s, r, k, t, mult float64) (float64, int, error) {
+type IVSolverResult struct {
+	IV                float64
+	NbSolverIteration int
+	Error             error
+}
+
+func IVRootSolver(mktPrice, s, r, k, t, mult float64) *IVSolverResult {
 	var (
 		iv      = 0.1
 		maxIter = 1000
@@ -28,10 +34,29 @@ func IVRootSolver(mktPrice, s, r, k, t, mult float64) (float64, int, error) {
 		bsPrice := BS(s, iv, r, k, t, mult)
 		iv = iv - (bsPrice-mktPrice)/Vega(s, t, D1(s, k, t, iv, r))
 		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
-			return iv, index, nil
+			return &IVSolverResult{iv, index, nil}
 		}
 	}
-	return iv, maxIter, errors.New("Did not converge to required interval")
+	return &IVSolverResult{iv, maxIter, errors.New("Did not converge to required interval")}
+}
+
+func BSGreek(label string, s, v, r, k, t, mult, d1, d2 float64) (float64, error) {
+	var val float64
+	switch label {
+	case "delta":
+		val = Delta(d1, mult)
+	case "gamma":
+		val = Gamma(s, t, v, d1)
+	case "vega":
+		val = Vega(s, t, d1)
+	case "theta":
+		val = Theta(s, k, t, v, r, d1, d2, mult)
+	case "rho":
+		val = Rho(k, t, r, d2, mult)
+	default:
+		return val, errors.New("Unknown greek " + label)
+	}
+	return val, nil
 }
 
 func D1(S, K, T, Sigma, R float64) float64 {

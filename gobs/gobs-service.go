@@ -62,19 +62,6 @@ Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
 func (service BSService) Greek(request *pb.GreekRequest) *pb.GreekResponse {
-	if len(request.Greek) == 0 {
-		return &pb.GreekResponse{Error: "No greeks requested"}
-	}
-
-	sort.Strings(request.Greek)
-	if sort.SearchStrings(request.Greek, "all") < len(request.Greek) {
-		request.Greek = allGreeks
-	}
-
-	return newGreekResponse(request)
-}
-
-func newGreekResponse(request *pb.GreekRequest) *pb.GreekResponse {
 	var (
 		mult = putCallMap[request.Request.Contract.Putcall]
 
@@ -88,30 +75,13 @@ func newGreekResponse(request *pb.GreekRequest) *pb.GreekResponse {
 		d2 = D2(d1, v, t)
 	)
 
-	newGreek := func(label string) *pb.GreekResponse_Greek {
-		var val float64
-		switch label {
-		case "delta":
-			val = Delta(d1, mult)
-		case "gamma":
-			val = Gamma(s, t, v, d1)
-		case "vega":
-			val = Vega(s, t, d1)
-		case "theta":
-			val = Theta(s, k, t, v, r, d1, d2, mult)
-		case "rho":
-			val = Rho(k, t, r, d2, mult)
-		default:
-			return &pb.GreekResponse_Greek{
-				Label: label,
-				Error: "Unknown greek " + label,
-			}
-		}
+	if len(request.Greek) == 0 {
+		return &pb.GreekResponse{Error: "No greeks requested"}
+	}
 
-		return &pb.GreekResponse_Greek{
-			Label: label,
-			Value: val,
-		}
+	sort.Strings(request.Greek)
+	if sort.SearchStrings(request.Greek, "all") < len(request.Greek) {
+		request.Greek = allGreeks
 	}
 
 	response := &pb.GreekResponse{
@@ -119,7 +89,15 @@ func newGreekResponse(request *pb.GreekRequest) *pb.GreekResponse {
 	}
 
 	for index := 0; index < len(request.Greek); index++ {
-		response.Greeks[index] = newGreek(request.Greek[index])
+		response.Greeks[index] = &pb.GreekResponse_Greek{
+			Label: request.Greek[index],
+		}
+
+		greek, err := BSGreek(response.Greeks[index].Label, s, v, r, k, t, mult, d1, d2)
+		if err != nil {
+			response.Greeks[index].Error = err.Error()
+		}
+		response.Greeks[index].Value = greek
 	}
 
 	return response
@@ -133,13 +111,31 @@ Set PutCall to -1.0 for a Put option
 The second argument returned is the number of iteration used to converge
 */
 func (service BSService) ImpliedVol(request *pb.ImpliedVolRequest) *pb.ImpliedVolResponse {
+	var (
+		mult = func(q *pb.OptionQuote) float64 { return putCallMap[q.Putcall] }
+
+		s = request.Marketdata.Spot.Value
+		r = request.Marketdata.Rate.Value
+		k = func(q *pb.OptionQuote) float64 { return q.Strike }
+		p = func(q *pb.OptionQuote) float64 { return (q.Ask + q.Bid) / 2.0 }
+		t = func(q *pb.OptionQuoteSlice) float64 {
+			return time.Unix(int64(q.Expiry), 0).Sub(time.Unix(int64(request.Pricingdate), 0)).Hours() / 24.0 / 365.250
+		}
+	)
+
 	surf := &pb.ImpliedVolSurface{
 		Timestamp:  request.Marketdata.Timestamp,
 		Volsurface: make([]*pb.ImpliedVolSlice, len(request.Quotes)),
 	}
 
 	for index := 0; index < len(request.Quotes); index++ {
-		surf.Volsurface[index] = NewImpliedVolSlice(int64(request.Pricingdate), request.Quotes[index], request.Marketdata)
+		newOptionQuoteSliceIterator(request.Quotes[index], request.Marketdata).foreach(
+			func(quote *pb.OptionQuote) *IVSolverResult {
+				return IVRootSolver(p(quote), s, r, k(quote), t(request.Quotes[index]), mult(quote))
+			}).then(
+			func(calibratedSlice *pb.ImpliedVolSlice) {
+				surf.Volsurface[index] = calibratedSlice
+			})
 	}
 
 	return &pb.ImpliedVolResponse{

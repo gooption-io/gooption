@@ -59,39 +59,39 @@ func TestPutCallParity(t *testing.T) {
 }
 
 func TestPutCallIVRootSolver(t *testing.T) {
-	ivCall, iter, err := IVRootSolver(
+	call := IVRootSolver(
 		params["atmCall"],
 		params["S"],
 		params["R"],
 		params["K"],
 		params["T"],
 		params["Call"])
-	t.Logf("atmCall iv: %v", ivCall)
-	t.Logf("atmCall iv iteration: %v", iter)
-	if err != nil {
-		t.Errorf(err.Error())
+	t.Logf("atmCall iv: %v", call.IV)
+	t.Logf("atmCall iv iteration: %v", call.NbSolverIteration)
+	if call.Error != nil {
+		t.Errorf(call.Error.Error())
 	}
-	if math.Abs(ivCall-params["Sigma"]) > 1E-10 {
-		t.Errorf("atmCall iv %v should be equal to %v", ivCall, params["Sigma"])
+	if math.Abs(call.IV-params["Sigma"]) > 1E-10 {
+		t.Errorf("atmCall iv %v should be equal to %v", call.IV, params["Sigma"])
 	}
 
-	ivPut, iter, err := IVRootSolver(
+	put := IVRootSolver(
 		params["atmPut"],
 		params["S"],
 		params["R"],
 		params["K"],
 		params["T"],
 		params["Put"])
-	t.Logf("atmPut iv: %v", ivPut)
-	t.Logf("atmPut iv iteration: %v", iter)
-	if err != nil {
-		t.Errorf(err.Error())
+	t.Logf("atmPut iv: %v", put.IV)
+	t.Logf("atmPut iv iteration: %v", put.NbSolverIteration)
+	if put.Error != nil {
+		t.Errorf(put.Error.Error())
 	}
-	if math.Abs(ivPut-params["Sigma"]) > 1E-10 {
-		t.Errorf("atmPut iv %v should be equal to %v", ivPut, params["Sigma"])
+	if math.Abs(put.IV-params["Sigma"]) > 1E-10 {
+		t.Errorf("atmPut iv %v should be equal to %v", put.IV, params["Sigma"])
 	}
 
-	if math.Abs(ivCall-ivPut) > 1E-10 {
+	if math.Abs(call.IV-put.IV) > 1E-10 {
 		t.Errorf("atm vol call different from atm put")
 	}
 }
