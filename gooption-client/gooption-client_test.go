@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -22,6 +23,7 @@ func Test_readCSV(t *testing.T) {
 			got, err := readCSV(tt.args.filepath)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("readCSV() error = %v, wantErr %v", err, tt.wantErr)
+				errors.New("")
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {

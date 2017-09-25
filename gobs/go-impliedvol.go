@@ -1,105 +1,69 @@
 package gooption
 
 import (
-	"errors"
-	"sort"
 	"time"
 
 	"github.com/gooption/pb"
 )
 
-type VolSlice struct {
-	Expiry          float64
-	Strikes, Values []float64
-	OpenInterest    []float64
-	Errors          []string
-	IsError         bool
-}
+func NewImpliedVolSlice(pricingDate int64, quotes *pb.OptionQuoteSlice, market *pb.OptionMarket) *pb.ImpliedVolSlice {
+	var (
+		mult = func(q *pb.OptionQuote) float64 { return putCallMap[q.Putcall] }
 
-func NewVolSlice(expiry float64, NbContract int) VolSlice {
-	return VolSlice{
-		Expiry:       expiry,
-		Strikes:      make([]float64, NbContract),
-		Values:       make([]float64, NbContract),
-		OpenInterest: make([]float64, NbContract),
-		Errors:       make([]string, NbContract),
-		IsError:      false,
+		s = market.Spot.Value
+		r = market.Rate.Value
+		k = func(q *pb.OptionQuote) float64 { return q.Strike }
+		p = func(q *pb.OptionQuote) float64 { return (q.Ask + q.Bid) / 2.0 }
+		t = time.Unix(int64(quotes.Expiry), 0).Sub(time.Unix(int64(pricingDate), 0)).Hours() / 24.0 / 365.250
+		n = len(quotes.Puts) + len(quotes.Calls)
+	)
+
+	count, isError, errors := 0, false, make([]string, n)
+	calibQuotes, vols, strikes := make([]*pb.OptionQuote, n), make([]float64, n), make([]float64, n)
+	optionQuoteSliceIterator{quotes, market}.foreach(
+		func(index int, quote *pb.OptionQuote) {
+			if quote != nil {
+				count++
+				calibQuotes[index] = quote
+				if iv, _, err := IVRootSolver(p(quote), s, r, k(quote), t, mult(quote)); err == nil {
+					strikes[index], vols[index] = k(quote), iv
+				} else {
+					isError, errors[index] = true, err.Error()
+				}
+			}
+		})
+
+	return &pb.ImpliedVolSlice{
+		Timestamp: market.Timestamp,
+		Expiry:    quotes.Expiry,
+		Iserror:   isError,
+		Vols:      vols[0:count],
+		Strikes:   strikes[0:count],
+		Errors:    errors[0:count],
+		Quotes:    calibQuotes[0:count],
 	}
 }
 
-func buildVolSurface(pricingDate time.Time, spot, rate float64, optionQuotes []*pb.ImpliedVolRequest_QuoteTermStructure) ([]VolSlice, error) {
-	volSurface := make([]VolSlice, len(optionQuotes))
-	for i, quote := range optionQuotes {
-		life := time.Unix(int64(quote.Expiry), 0).Sub(pricingDate).Hours() / 24.0 / 365.25
-		slice, err := buildSlice(
-			spot,
-			rate,
-			life,
-			quote.Calls,
-			quote.Puts)
-		if err != nil {
-			slice = VolSlice{IsError: true, Errors: []string{err.Error()}}
+type optionQuoteSliceIterator struct {
+	Slice  *pb.OptionQuoteSlice
+	Market *pb.OptionMarket
+}
+
+func (it optionQuoteSliceIterator) foreach(f func(idx int, quote *pb.OptionQuote)) {
+	count := 0
+	for index := 0; index < len(it.Slice.Puts); index++ {
+		if index < len(it.Slice.Puts) && it.Slice.Puts[index].Strike <= it.Market.Spot.Value {
+			if it.Slice.Puts[index].Strike/it.Market.Spot.Value > 0.20 {
+				f(count, it.Slice.Puts[index])
+				count++
+			}
 		}
-
-		volSurface[i] = slice
-	}
-	return volSurface, nil
-}
-
-func buildSlice(
-	spot, rate, life float64,
-	calls []*pb.ImpliedVolRequest_Quote,
-	puts []*pb.ImpliedVolRequest_Quote) (VolSlice, error) {
-
-	if len(calls) < 3 || len(puts) < 3 {
-		return VolSlice{}, errors.New("Not enough quotes to calibrate")
 	}
 
-	callLowerBound := sort.Search(len(calls), func(i int) bool { return calls[i].Strike >= spot })
-	if callLowerBound < 2 {
-		return VolSlice{}, errors.New("Not enough Call quotes to calibrate")
-	}
-
-	putUpperBound := sort.Search(len(puts), func(i int) bool { return puts[i].Strike >= calls[callLowerBound].Strike })
-	if putUpperBound < 2 {
-		return VolSlice{}, errors.New("Not enough Put quotes to calibrate")
-	}
-
-	putUpperBound = putUpperBound - 1
-	putLowerBound := sort.Search(putUpperBound, func(i int) bool { return puts[i].Strike/spot >= 0.20 })
-	if putLowerBound >= putUpperBound {
-		return VolSlice{}, errors.New("Put moneyness must be greater than 20%")
-	}
-
-	slice := NewVolSlice(life, len(calls)-callLowerBound+putUpperBound-putLowerBound)
-	calibrateSlice(putLowerBound, putUpperBound, 0, spot, rate, life, -1.0, &slice, puts)
-	calibrateSlice(callLowerBound, len(calls), putUpperBound-putLowerBound, spot, rate, life, 1.0, &slice, calls)
-
-	return slice, nil
-}
-
-func calibrateSlice(
-	lbound, ubound, sliceIndex int,
-	spot, rate, life, putCall float64,
-	slice *VolSlice,
-	quotes []*pb.ImpliedVolRequest_Quote) {
-
-	currentSliceIndex := sliceIndex
-	for index := lbound; index < ubound; index++ {
-		iv, _, err := ImpliedVol(
-			quotes[index].Bid,
-			spot,
-			quotes[index].Strike,
-			life,
-			rate,
-			putCall)
-		if err != nil {
-			slice.IsError = true
-			slice.Errors[currentSliceIndex] = err.Error()
-		} else {
-			slice.Strikes[currentSliceIndex] = quotes[index].Strike
-			slice.Values[currentSliceIndex] = iv
+	for index := 0; index < len(it.Slice.Calls); index++ {
+		if index < len(it.Slice.Calls) && it.Slice.Calls[index].Strike > it.Market.Spot.Value {
+			f(count, it.Slice.Calls[index])
+			count++
 		}
-		currentSliceIndex++
 	}
 }

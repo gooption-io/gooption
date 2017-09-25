@@ -16,8 +16,8 @@ func Test_{{.}}(t *testing.T) {
 		defer file.Close()
 		request := &pb.{{.}}Request{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response, err := Service{}.{{.}}(request)
-			if err != nil {
+			response := NewService().{{.}}(request)
+			if response.Error != "" {
 				t.Error(err)
 			}
 

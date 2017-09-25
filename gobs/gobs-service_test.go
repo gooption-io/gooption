@@ -16,8 +16,8 @@ func Test_Price(t *testing.T) {
 		defer file.Close()
 		request := &pb.PriceRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response, err := Service{}.Price(request)
-			if err != nil {
+			response := NewService().Price(request)
+			if response.Error != "" {
 				t.Error(err)
 			}
 
@@ -35,8 +35,8 @@ func Test_Greek(t *testing.T) {
 		defer file.Close()
 		request := &pb.GreekRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response, err := Service{}.Greek(request)
-			if err != nil {
+			response := NewService().Greek(request)
+			if response.Error != "" {
 				t.Error(err)
 			}
 
@@ -54,8 +54,8 @@ func Test_ImpliedVol(t *testing.T) {
 		defer file.Close()
 		request := &pb.ImpliedVolRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response, err := Service{}.ImpliedVol(request)
-			if err != nil {
+			response := NewService().ImpliedVol(request)
+			if response.Error != "" {
 				t.Error(err)
 			}
 

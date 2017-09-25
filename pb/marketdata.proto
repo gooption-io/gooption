@@ -1,0 +1,64 @@
+syntax = "proto3"; 
+package pb; 
+
+enum OptionType {
+    PUT = 0;
+    CALL = 1;
+}
+
+message Spot {
+    float timestamp = 1;
+    double value = 2;
+    string ticker = 3;
+}
+
+message RiskFreeRate {
+    float timestamp = 1;
+    string ticker = 2;
+    double value = 3;
+}
+
+message FlatVol {
+    float timestamp = 1;
+    string ticker = 2;
+    double value = 3;
+}
+
+message OptionQuote {
+    float timestamp = 1;
+    double strike = 8;
+    double bid = 9;
+    double ask = 10;
+    float volume = 11;
+    float openinterest = 12;
+    OptionType putcall = 13;
+}
+
+message OptionQuoteSlice {
+    float timestamp = 1;
+    float expiry = 2;
+    repeated OptionQuote puts = 3;
+    repeated OptionQuote calls = 4;    
+}
+
+message OptionMarket { 
+    float timestamp = 1;
+    Spot spot = 2;
+    FlatVol vol = 3;
+    RiskFreeRate rate = 4;
+} 
+
+message ImpliedVolSlice {
+    float timestamp = 1;
+    bool iserror = 2; 
+    float expiry = 3;
+    repeated string errors = 4;
+    repeated double strikes = 5;
+    repeated double vols = 6;
+    repeated OptionQuote quotes = 7;
+}
+
+message ImpliedVolSurface { 
+    float timestamp = 1;
+    repeated ImpliedVolSlice volsurface = 2;
+} 

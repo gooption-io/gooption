@@ -7,44 +7,50 @@ import (
 	"text/template"
 
 	"github.com/golang/protobuf/jsonpb"
+	"github.com/mkideal/cli"
 )
 
-type ArgT struct {
+type argT struct {
+	cli.Helper
+	Project  string   `cli:"*p, project" usage:"target project eg. service or gobs"`
+	Requests []string `cli:"*r, requests" usage:"requets to generate eg. price greek or impliedvol"`
+}
+
+type config struct {
 	TemplateName string
 	FileName     string
 }
 
 var (
 	ticker      = "AAPL"
-	templateDir = "/src/github.com/gooption/gooption-gen/templates"
-	projectMap  = map[string][]ArgT{
-		"service": []ArgT{
+	templateDir = "/src/github.com/gooption/gooption-cli/templates"
+	configMap   = map[string][]config{
+		"service": []config{
 			{TemplateName: "handler", FileName: "handlers.go"},
 			{TemplateName: "handler_test", FileName: "handlers_test.go"},
 		},
-		"gobs": []ArgT{
+		"gobs": []config{
 			{TemplateName: "service", FileName: "gobs-service_test.go"},
 		},
-		"client": []ArgT{},
 	}
 )
 
 func main() {
-	project := os.Args[1]
-	requests := os.Args[2:]
+	cli.Run(new(argT), func(ctx *cli.Context) error {
+		argv := ctx.Argv().(*argT)
 
-	generateJSON(requests, func(path string) (io.WriteCloser, error) {
-		f, err := os.Create(path)
-		return f, err
-	})
+		newFileWriter := func(path string) (io.WriteCloser, error) {
+			f, err := os.Create(path)
+			return f, err
+		}
 
-	generateTemplate(projectMap[project], requests, func(path string) (io.WriteCloser, error) {
-		f, err := os.Create(path)
-		return f, err
+		generateJSON(argv.Requests, newFileWriter)
+		generateTemplate(configMap[argv.Project], argv.Requests, newFileWriter)
+		return nil
 	})
 }
 
-func generateTemplate(projectConfig []ArgT, requests []string, newWriter func(path string) (io.WriteCloser, error)) {
+func generateTemplate(projectConfig []config, requests []string, newWriter func(path string) (io.WriteCloser, error)) {
 	funcMap := template.FuncMap{
 		"ToLower": strings.ToLower,
 	}

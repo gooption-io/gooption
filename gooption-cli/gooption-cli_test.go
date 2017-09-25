@@ -22,7 +22,7 @@ func (w mockwriter) Close() error {
 
 func Test_generateTemplate(t *testing.T) {
 	type args struct {
-		projectConfig []ArgT
+		projectConfig []config
 		requests      []string
 		newWriter     func(path string) (io.WriteCloser, error)
 	}
@@ -33,7 +33,7 @@ func Test_generateTemplate(t *testing.T) {
 		{
 			"service",
 			args{
-				projectMap["service"],
+				configMap["service"],
 				[]string{"Price", "Greek"},
 				func(path string) (io.WriteCloser, error) { return mockwriter{}, nil },
 			},
@@ -41,15 +41,7 @@ func Test_generateTemplate(t *testing.T) {
 		{
 			"gobs",
 			args{
-				projectMap["gobs"],
-				[]string{"Price", "Greek"},
-				func(path string) (io.WriteCloser, error) { return mockwriter{}, nil },
-			},
-		},
-		{
-			"utils",
-			args{
-				[]ArgT{{TemplateName: "request_utils", FileName: "request_utils.go"}},
+				configMap["gobs"],
 				[]string{"Price", "Greek"},
 				func(path string) (io.WriteCloser, error) { return mockwriter{}, nil },
 			},

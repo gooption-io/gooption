@@ -12,8 +12,8 @@ var (
 		"T":       1,
 		"Sigma":   0.1,
 		"R":       0.01,
-		"Call":    1,
-		"Put":     -1,
+		"Call":    1.0,
+		"Put":     -1.0,
 		"atmCall": 4.485236409022086,
 		"atmPut":  3.4902197839388975,
 	}
@@ -21,34 +21,31 @@ var (
 
 func BenchmarkFairValue(b *testing.B) {
 	for index := 0; index < b.N; index++ {
-		_, err := FairValue(
+		BS(
 			params["S"],
-			params["K"],
-			params["T"],
 			params["Sigma"],
 			params["R"],
+			params["K"],
+			params["T"],
 			params["Call"])
-		if err != nil {
-			b.Errorf(err.Error())
-		}
 	}
 }
 func TestPutCallParity(t *testing.T) {
-	call, _ := FairValue(
+	call := BS(
 		params["S"],
-		params["K"],
-		params["T"],
 		params["Sigma"],
 		params["R"],
+		params["K"],
+		params["T"],
 		params["Call"])
 	t.Logf("Call: %v", call)
 
-	put, _ := FairValue(
+	put := BS(
 		params["S"],
-		params["K"],
-		params["T"],
 		params["Sigma"],
 		params["R"],
+		params["K"],
+		params["T"],
 		params["Put"])
 	t.Logf("Put: %v", put)
 
@@ -61,48 +58,13 @@ func TestPutCallParity(t *testing.T) {
 	}
 }
 
-func TestWrongPutCall(t *testing.T) {
-	_, err := FairValue(
-		params["S"],
-		params["K"],
-		params["T"],
-		params["Sigma"],
-		params["R"],
-		0)
-	if err == nil {
-		t.Errorf("Invalid PutCall value equal to 0")
-	}
-
-	_, err = FairValue(
-		params["S"],
-		params["K"],
-		params["T"],
-		params["Sigma"],
-		params["R"],
-		-2)
-	if err == nil {
-		t.Errorf("Invalid PutCall value equal to -2")
-	}
-
-	_, err = FairValue(
-		params["S"],
-		params["K"],
-		params["T"],
-		params["Sigma"],
-		params["R"],
-		2)
-	if err == nil {
-		t.Errorf("Invalid PutCall value equal to 2")
-	}
-}
-
-func TestPutCallImpliedVol(t *testing.T) {
-	ivCall, iter, err := ImpliedVol(
+func TestPutCallIVRootSolver(t *testing.T) {
+	ivCall, iter, err := IVRootSolver(
 		params["atmCall"],
 		params["S"],
+		params["R"],
 		params["K"],
 		params["T"],
-		params["R"],
 		params["Call"])
 	t.Logf("atmCall iv: %v", ivCall)
 	t.Logf("atmCall iv iteration: %v", iter)
@@ -113,12 +75,12 @@ func TestPutCallImpliedVol(t *testing.T) {
 		t.Errorf("atmCall iv %v should be equal to %v", ivCall, params["Sigma"])
 	}
 
-	ivPut, iter, err := ImpliedVol(
+	ivPut, iter, err := IVRootSolver(
 		params["atmPut"],
 		params["S"],
+		params["R"],
 		params["K"],
 		params["T"],
-		params["R"],
 		params["Put"])
 	t.Logf("atmPut iv: %v", ivPut)
 	t.Logf("atmPut iv iteration: %v", iter)
