@@ -32,7 +32,7 @@ func newOptionQuoteSliceIterator(quotes *pb.OptionQuoteSlice, market *pb.OptionM
 	}
 }
 
-func (it optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *IVSolverResult) {
+func (it optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *ivSolverResult) {
 	if res.Error == nil {
 		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = quote
 		it.CalibratedSlice.Vols[it.NbCalibratedSlice] = res.IV
@@ -44,7 +44,7 @@ func (it optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *IVSolverRe
 	}
 }
 
-func (it optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *IVSolverResult) *optionQuoteSliceIterator {
+func (it optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSolverResult) *optionQuoteSliceIterator {
 	it.NbCalibratedSlice = 0
 	increment := func(q *pb.OptionQuote) {
 		res := f(q)

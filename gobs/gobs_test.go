@@ -21,7 +21,7 @@ var (
 
 func BenchmarkFairValue(b *testing.B) {
 	for index := 0; index < b.N; index++ {
-		BS(
+		bs(
 			params["S"],
 			params["Sigma"],
 			params["R"],
@@ -31,7 +31,7 @@ func BenchmarkFairValue(b *testing.B) {
 	}
 }
 func TestPutCallParity(t *testing.T) {
-	call := BS(
+	call := bs(
 		params["S"],
 		params["Sigma"],
 		params["R"],
@@ -40,7 +40,7 @@ func TestPutCallParity(t *testing.T) {
 		params["Call"])
 	t.Logf("Call: %v", call)
 
-	put := BS(
+	put := bs(
 		params["S"],
 		params["Sigma"],
 		params["R"],
@@ -59,7 +59,7 @@ func TestPutCallParity(t *testing.T) {
 }
 
 func TestPutCallIVRootSolver(t *testing.T) {
-	call := IVRootSolver(
+	call := ivRootSolver(
 		params["atmCall"],
 		params["S"],
 		params["R"],
@@ -75,7 +75,7 @@ func TestPutCallIVRootSolver(t *testing.T) {
 		t.Errorf("atmCall iv %v should be equal to %v", call.IV, params["Sigma"])
 	}
 
-	put := IVRootSolver(
+	put := ivRootSolver(
 		params["atmPut"],
 		params["S"],
 		params["R"],

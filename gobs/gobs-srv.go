@@ -22,12 +22,12 @@ type Service interface {
 	ImpliedVol(request *pb.ImpliedVolRequest) *pb.ImpliedVolResponse
 }
 
-type BSService struct {
-	Service
+func NewService() Service {
+	return gobsService{}
 }
 
-func NewService() Service {
-	return BSService{}
+type gobsService struct {
+	Service
 }
 
 /*
@@ -35,7 +35,7 @@ Price computes the fair value of a european stock option according to Black Scho
 Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
 Stock assumed to pay no dividends
 */
-func (service BSService) Price(request *pb.PriceRequest) *pb.PriceResponse {
+func (service gobsService) Price(request *pb.PriceRequest) *pb.PriceResponse {
 	var (
 		mult = putCallMap[request.Contract.Putcall]
 
@@ -45,7 +45,7 @@ func (service BSService) Price(request *pb.PriceRequest) *pb.PriceResponse {
 		k = request.Contract.Strike
 		t = time.Unix(int64(request.Contract.Expiry), 0).Sub(
 			time.Unix(int64(request.Pricingdate), 0)).Hours() / 24.0 / 365.250
-		bs = BS(s, v, r, k, t, mult)
+		bs = bs(s, v, r, k, t, mult)
 	)
 
 	return &pb.PriceResponse{
@@ -56,12 +56,10 @@ func (service BSService) Price(request *pb.PriceRequest) *pb.PriceResponse {
 /*
 Greeks computes the greeks of a european option according to Black Scholes formula
 Black Scholes Greeks : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#The_Greeks
-Set PutCall to 1.0 for a Call option
-Set PutCall to -1.0 for a Put option
 Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
-func (service BSService) Greek(request *pb.GreekRequest) *pb.GreekResponse {
+func (service gobsService) Greek(request *pb.GreekRequest) *pb.GreekResponse {
 	var (
 		mult = putCallMap[request.Request.Contract.Putcall]
 
@@ -71,8 +69,8 @@ func (service BSService) Greek(request *pb.GreekRequest) *pb.GreekResponse {
 		k = request.Request.Contract.Strike
 		t = time.Unix(int64(request.Request.Contract.Expiry), 0).Sub(
 			time.Unix(int64(request.Request.Pricingdate), 0)).Hours() / 24.0 / 365.250
-		d1 = D1(s, k, t, v, r)
-		d2 = D2(d1, v, t)
+		d1 = d1(s, k, t, v, r)
+		d2 = d2(d1, v, t)
 	)
 
 	if len(request.Greek) == 0 {
@@ -93,7 +91,7 @@ func (service BSService) Greek(request *pb.GreekRequest) *pb.GreekResponse {
 			Label: request.Greek[index],
 		}
 
-		greek, err := BSGreek(response.Greeks[index].Label, s, v, r, k, t, mult, d1, d2)
+		greek, err := bsGreek(response.Greeks[index].Label, s, v, r, k, t, mult, d1, d2)
 		if err != nil {
 			response.Greeks[index].Error = err.Error()
 		}
@@ -106,11 +104,9 @@ func (service BSService) Greek(request *pb.GreekRequest) *pb.GreekResponse {
 /*
 ImpliedVol computes volatility matching the option quote passed as Quote using Newton Raphson solver
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
-Set PutCall to 1.0 for a Call option
-Set PutCall to -1.0 for a Put option
 The second argument returned is the number of iteration used to converge
 */
-func (service BSService) ImpliedVol(request *pb.ImpliedVolRequest) *pb.ImpliedVolResponse {
+func (service gobsService) ImpliedVol(request *pb.ImpliedVolRequest) *pb.ImpliedVolResponse {
 	var (
 		mult = func(q *pb.OptionQuote) float64 { return putCallMap[q.Putcall] }
 
@@ -130,8 +126,8 @@ func (service BSService) ImpliedVol(request *pb.ImpliedVolRequest) *pb.ImpliedVo
 
 	for index := 0; index < len(request.Quotes); index++ {
 		newOptionQuoteSliceIterator(request.Quotes[index], request.Marketdata).foreach(
-			func(quote *pb.OptionQuote) *IVSolverResult {
-				return IVRootSolver(p(quote), s, r, k(quote), t(request.Quotes[index]), mult(quote))
+			func(quote *pb.OptionQuote) *ivSolverResult {
+				return ivRootSolver(p(quote), s, r, k(quote), t(request.Quotes[index]), mult(quote))
 			}).then(
 			func(calibratedSlice *pb.ImpliedVolSlice) {
 				surf.Volsurface[index] = calibratedSlice
