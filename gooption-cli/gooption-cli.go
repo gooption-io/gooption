@@ -30,7 +30,7 @@ var (
 			{TemplateName: "handler_test", FileName: "handlers_test.go"},
 		},
 		"gobs": []config{
-			{TemplateName: "service", FileName: "gobs-service_test.go"},
+			{TemplateName: "service", FileName: "gobs-srv_test.go"},
 		},
 	}
 )

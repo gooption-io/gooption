@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 	"sort"
+	"time"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/gooption/pb"
@@ -17,10 +18,10 @@ var (
 		"price":      priceRequestGenerator{},
 	}
 
-	pricingDate float32 = 1136192400
-	option              = &pb.Contract{
+	pricingDate = float32(time.Now().Unix())
+	option      = &pb.Contract{
 		Strike:  100.0,
-		Expiry:  1167728400,
+		Expiry:  float32(time.Now().AddDate(0, 1, 0).Unix()),
 		Putcall: pb.OptionType_CALL,
 	}
 	mkt = &pb.OptionMarket{
@@ -97,7 +98,7 @@ func (g impliedVolRequestGenerator) bind(quotes []goyahoo.Quote, putcall pb.Opti
 func (g impliedVolRequestGenerator) generate(ticker string) proto.Message {
 	chain, _, _ := goyahoo.GetOptionChain(ticker)
 	request := &pb.ImpliedVolRequest{
-		Pricingdate: pricingDate,
+		Pricingdate: float32(time.Now().Unix()),
 		Marketdata:  mkt,
 		Quotes:      make([]*pb.OptionQuoteSlice, len(chain)),
 	}

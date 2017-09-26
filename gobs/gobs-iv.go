@@ -4,6 +4,10 @@ import (
 	"github.com/gooption/pb"
 )
 
+var (
+	putLBound = 0.20
+)
+
 type optionQuoteSliceIterator struct {
 	NbCalibratedSlice int
 	Slice             *pb.OptionQuoteSlice
@@ -54,7 +58,7 @@ func (it optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSolv
 
 	for index := 0; index < len(it.Slice.Puts); index++ {
 		if index < len(it.Slice.Puts) && it.Slice.Puts[index].Strike <= it.Market.Spot.Value {
-			if it.Slice.Puts[index].Strike/it.Market.Spot.Value > 0.20 {
+			if it.Slice.Puts[index].Strike/it.Market.Spot.Value > putLBound {
 				increment(it.Slice.Puts[index])
 			}
 		}
