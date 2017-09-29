@@ -1,27 +1,23 @@
 syntax = "proto3"; 
 package pb; 
+import "common.proto";
 
-enum OptionType {
-    PUT = 0;
-    CALL = 1;
+message Index {
+    float timestamp = 1;
+    string ticker = 2;
+    double value = 3;
 }
 
 message Spot {
-    float timestamp = 1;
-    double value = 2;
-    string ticker = 3;
+    Index index = 1;
 }
 
 message RiskFreeRate {
-    float timestamp = 1;
-    string ticker = 2;
-    double value = 3;
+    Index index = 1;
 }
 
 message FlatVol {
-    float timestamp = 1;
-    string ticker = 2;
-    double value = 3;
+    Index index = 1;
 }
 
 message OptionQuote {

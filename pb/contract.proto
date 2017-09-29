@@ -1,0 +1,11 @@
+syntax = "proto3"; 
+package pb; 
+import "common.proto";
+
+message European {
+  float timestamp = 1;
+  string ticker = 2;
+  double strike = 3;
+  float expiry = 4;
+  OptionType putcall = 5;
+}

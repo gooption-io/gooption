@@ -1,7 +1,7 @@
-package gooption
+package main
 
 import (
-	"github.com/gooption/pb"
+	"github.com/gooption/gobs/pb"
 )
 
 var (
@@ -46,27 +46,27 @@ func (it optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *ivSolverRe
 		it.CalibratedSlice.Iserror = true
 		it.CalibratedSlice.Errors[it.NbCalibratedSlice] = res.Error.Error()
 	}
+
+	it.NbCalibratedSlice++
 }
 
 func (it optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSolverResult) *optionQuoteSliceIterator {
 	it.NbCalibratedSlice = 0
-	increment := func(q *pb.OptionQuote) {
-		res := f(q)
-		it.update(q, res)
-		it.NbCalibratedSlice++
-	}
+	spot := it.Market.Spot.Index.Value
 
 	for index := 0; index < len(it.Slice.Puts); index++ {
-		if index < len(it.Slice.Puts) && it.Slice.Puts[index].Strike <= it.Market.Spot.Value {
-			if it.Slice.Puts[index].Strike/it.Market.Spot.Value > putLBound {
-				increment(it.Slice.Puts[index])
+		if index < len(it.Slice.Puts) && it.Slice.Puts[index].Strike <= spot {
+			if it.Slice.Puts[index].Strike/spot > putLBound {
+				res := f(it.Slice.Puts[index])
+				it.update(it.Slice.Puts[index], res)
 			}
 		}
 	}
 
 	for index := 0; index < len(it.Slice.Calls); index++ {
-		if index < len(it.Slice.Calls) && it.Slice.Calls[index].Strike > it.Market.Spot.Value {
-			increment(it.Slice.Calls[index])
+		if index < len(it.Slice.Calls) && it.Slice.Calls[index].Strike > spot {
+			res := f(it.Slice.Calls[index])
+			it.update(it.Slice.Calls[index], res)
 		}
 	}
 

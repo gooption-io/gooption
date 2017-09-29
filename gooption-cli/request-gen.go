@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/gooption/pb"
+	"github.com/gooption/gobs/pb"
 	"github.com/goyahoo"
 )
 
@@ -19,27 +19,27 @@ var (
 	}
 
 	pricingDate = float32(time.Now().Unix())
-	option      = &pb.Contract{
+	option      = &pb.European{
+		Ticker:  "AAPL DEC2017 PUT",
 		Strike:  100.0,
 		Expiry:  float32(time.Now().AddDate(0, 1, 0).Unix()),
 		Putcall: pb.OptionType_CALL,
 	}
+	index = &pb.Index{
+		Timestamp: pricingDate,
+		Ticker:    "AAPL",
+		Value:     100.0,
+	}
 	mkt = &pb.OptionMarket{
 		Timestamp: pricingDate,
 		Spot: &pb.Spot{
-			Timestamp: pricingDate,
-			Ticker:    "AAPL",
-			Value:     100.0,
+			Index: index,
 		},
 		Vol: &pb.FlatVol{
-			Timestamp: pricingDate,
-			Ticker:    "AAPL",
-			Value:     0.10,
+			Index: index,
 		},
 		Rate: &pb.RiskFreeRate{
-			Timestamp: pricingDate,
-			Ticker:    "USD.FEDFUND",
-			Value:     0.01,
+			Index: index,
 		},
 	}
 )

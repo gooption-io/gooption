@@ -1,0 +1,59 @@
+/*
+faffy@faffypad:~/go/src/github.com/gooption/gobs$ protoc 
+--proto_path=$GOPATH/src/github.com/gooption/pb 
+--proto_path=$GOPATH/src/github.com/gooption/gobs/pb 
+--gofast_out=plugins=grpc:pb 
+$GOPATH/src/github.com/gooption/gobs/pb
+/service.proto $GOPATH/src/github.com/gooption/pb/\*.proto
+
+protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --gofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto $GOPATH/src/github.com/gooption/pb/\*.proto
+*/
+
+syntax = "proto3"; 
+package pb; 
+
+import "contract.proto";
+import "marketdata.proto";
+
+service GoBSServer {
+  rpc Price (PriceRequest) returns (PriceResponse) {}
+  rpc Greek (GreekRequest) returns (GreekResponse) {}
+  rpc ImpliedVol (ImpliedVolRequest) returns (ImpliedVolResponse) {}
+}
+
+message PriceRequest { 
+  float pricingdate = 1;
+  European contract = 2;
+  OptionMarket marketdata = 3;  
+} 
+
+message PriceResponse { 
+  double price = 2; 
+  string error = 3; 
+} 
+
+message GreekRequest { 
+  PriceRequest request = 1;
+  repeated string greek = 2;
+}
+
+message GreekResponse { 
+  message Greek { 
+    string label = 1; 
+    double value = 2; 
+    string error = 3; 
+  }
+  repeated Greek greeks = 1;
+  string error = 2;
+}
+
+message ImpliedVolRequest { 
+  float pricingdate = 1;
+  OptionMarket marketdata = 2;
+  repeated OptionQuoteSlice quotes = 3;
+} 
+
+message ImpliedVolResponse { 
+  ImpliedVolSurface volsurface = 1;
+  string error = 2;
+} 

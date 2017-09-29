@@ -8,14 +8,20 @@
 //  * tmpl file instead.
 //  * ----------------------------------------------------------------------------- */
 
-package gooption
+package main
 
 import (
-	"testing"
-	"os"
+	context "golang.org/x/net/context"
 
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/gooption/pb"
+	"os"
+	"testing"
+
+	"github.com/gogo/protobuf/jsonpb"
+	"github.com/gooption/gobs/pb"
+)
+
+var (
+	s = &server{}
 )
 
 
@@ -24,12 +30,13 @@ func Test_Price(t *testing.T) {
 		defer file.Close()
 		request := &pb.PriceRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response := NewService().Price(request)
-			if response.Error != "" {
+			if response, err := s.Price(context.Background(), request); err != nil {
+				t.Log(response)
 				t.Error(err)
+				if response.Error != "" {
+					t.Error(response.Error)
+				}
 			}
-
-			t.Log(response)
 		} else {
 			t.Error(err)			
 		}
@@ -43,12 +50,13 @@ func Test_Greek(t *testing.T) {
 		defer file.Close()
 		request := &pb.GreekRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response := NewService().Greek(request)
-			if response.Error != "" {
+			if response, err := s.Greek(context.Background(), request); err != nil {
+				t.Log(response)
 				t.Error(err)
+				if response.Error != "" {
+					t.Error(response.Error)
+				}
 			}
-
-			t.Log(response)
 		} else {
 			t.Error(err)			
 		}
@@ -62,12 +70,13 @@ func Test_ImpliedVol(t *testing.T) {
 		defer file.Close()
 		request := &pb.ImpliedVolRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response := NewService().ImpliedVol(request)
-			if response.Error != "" {
+			if response, err := s.ImpliedVol(context.Background(), request); err != nil {
+				t.Log(response)
 				t.Error(err)
+				if response.Error != "" {
+					t.Error(response.Error)
+				}
 			}
-
-			t.Log(response)
 		} else {
 			t.Error(err)			
 		}

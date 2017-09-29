@@ -14,121 +14,84 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-type OptionType int32
-
-const (
-	OptionType_PUT  OptionType = 0
-	OptionType_CALL OptionType = 1
-)
-
-var OptionType_name = map[int32]string{
-	0: "PUT",
-	1: "CALL",
-}
-var OptionType_value = map[string]int32{
-	"PUT":  0,
-	"CALL": 1,
+type Index struct {
+	Timestamp float32 `protobuf:"fixed32,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Ticker    string  `protobuf:"bytes,2,opt,name=ticker,proto3" json:"ticker,omitempty"`
+	Value     float64 `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
 }
 
-func (x OptionType) String() string {
-	return proto.EnumName(OptionType_name, int32(x))
+func (m *Index) Reset()                    { *m = Index{} }
+func (m *Index) String() string            { return proto.CompactTextString(m) }
+func (*Index) ProtoMessage()               {}
+func (*Index) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{0} }
+
+func (m *Index) GetTimestamp() float32 {
+	if m != nil {
+		return m.Timestamp
+	}
+	return 0
 }
-func (OptionType) EnumDescriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{0} }
+
+func (m *Index) GetTicker() string {
+	if m != nil {
+		return m.Ticker
+	}
+	return ""
+}
+
+func (m *Index) GetValue() float64 {
+	if m != nil {
+		return m.Value
+	}
+	return 0
+}
 
 type Spot struct {
-	Timestamp float32 `protobuf:"fixed32,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Value     float64 `protobuf:"fixed64,2,opt,name=value,proto3" json:"value,omitempty"`
-	Ticker    string  `protobuf:"bytes,3,opt,name=ticker,proto3" json:"ticker,omitempty"`
+	Index *Index `protobuf:"bytes,1,opt,name=index" json:"index,omitempty"`
 }
 
 func (m *Spot) Reset()                    { *m = Spot{} }
 func (m *Spot) String() string            { return proto.CompactTextString(m) }
 func (*Spot) ProtoMessage()               {}
-func (*Spot) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{0} }
+func (*Spot) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{1} }
 
-func (m *Spot) GetTimestamp() float32 {
+func (m *Spot) GetIndex() *Index {
 	if m != nil {
-		return m.Timestamp
+		return m.Index
 	}
-	return 0
-}
-
-func (m *Spot) GetValue() float64 {
-	if m != nil {
-		return m.Value
-	}
-	return 0
-}
-
-func (m *Spot) GetTicker() string {
-	if m != nil {
-		return m.Ticker
-	}
-	return ""
+	return nil
 }
 
 type RiskFreeRate struct {
-	Timestamp float32 `protobuf:"fixed32,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Ticker    string  `protobuf:"bytes,2,opt,name=ticker,proto3" json:"ticker,omitempty"`
-	Value     float64 `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
+	Index *Index `protobuf:"bytes,1,opt,name=index" json:"index,omitempty"`
 }
 
 func (m *RiskFreeRate) Reset()                    { *m = RiskFreeRate{} }
 func (m *RiskFreeRate) String() string            { return proto.CompactTextString(m) }
 func (*RiskFreeRate) ProtoMessage()               {}
-func (*RiskFreeRate) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{1} }
+func (*RiskFreeRate) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{2} }
 
-func (m *RiskFreeRate) GetTimestamp() float32 {
+func (m *RiskFreeRate) GetIndex() *Index {
 	if m != nil {
-		return m.Timestamp
+		return m.Index
 	}
-	return 0
-}
-
-func (m *RiskFreeRate) GetTicker() string {
-	if m != nil {
-		return m.Ticker
-	}
-	return ""
-}
-
-func (m *RiskFreeRate) GetValue() float64 {
-	if m != nil {
-		return m.Value
-	}
-	return 0
+	return nil
 }
 
 type FlatVol struct {
-	Timestamp float32 `protobuf:"fixed32,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Ticker    string  `protobuf:"bytes,2,opt,name=ticker,proto3" json:"ticker,omitempty"`
-	Value     float64 `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
+	Index *Index `protobuf:"bytes,1,opt,name=index" json:"index,omitempty"`
 }
 
 func (m *FlatVol) Reset()                    { *m = FlatVol{} }
 func (m *FlatVol) String() string            { return proto.CompactTextString(m) }
 func (*FlatVol) ProtoMessage()               {}
-func (*FlatVol) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{2} }
+func (*FlatVol) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{3} }
 
-func (m *FlatVol) GetTimestamp() float32 {
+func (m *FlatVol) GetIndex() *Index {
 	if m != nil {
-		return m.Timestamp
+		return m.Index
 	}
-	return 0
-}
-
-func (m *FlatVol) GetTicker() string {
-	if m != nil {
-		return m.Ticker
-	}
-	return ""
-}
-
-func (m *FlatVol) GetValue() float64 {
-	if m != nil {
-		return m.Value
-	}
-	return 0
+	return nil
 }
 
 type OptionQuote struct {
@@ -144,7 +107,7 @@ type OptionQuote struct {
 func (m *OptionQuote) Reset()                    { *m = OptionQuote{} }
 func (m *OptionQuote) String() string            { return proto.CompactTextString(m) }
 func (*OptionQuote) ProtoMessage()               {}
-func (*OptionQuote) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{3} }
+func (*OptionQuote) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{4} }
 
 func (m *OptionQuote) GetTimestamp() float32 {
 	if m != nil {
@@ -205,7 +168,7 @@ type OptionQuoteSlice struct {
 func (m *OptionQuoteSlice) Reset()                    { *m = OptionQuoteSlice{} }
 func (m *OptionQuoteSlice) String() string            { return proto.CompactTextString(m) }
 func (*OptionQuoteSlice) ProtoMessage()               {}
-func (*OptionQuoteSlice) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{4} }
+func (*OptionQuoteSlice) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{5} }
 
 func (m *OptionQuoteSlice) GetTimestamp() float32 {
 	if m != nil {
@@ -245,7 +208,7 @@ type OptionMarket struct {
 func (m *OptionMarket) Reset()                    { *m = OptionMarket{} }
 func (m *OptionMarket) String() string            { return proto.CompactTextString(m) }
 func (*OptionMarket) ProtoMessage()               {}
-func (*OptionMarket) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{5} }
+func (*OptionMarket) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{6} }
 
 func (m *OptionMarket) GetTimestamp() float32 {
 	if m != nil {
@@ -289,7 +252,7 @@ type ImpliedVolSlice struct {
 func (m *ImpliedVolSlice) Reset()                    { *m = ImpliedVolSlice{} }
 func (m *ImpliedVolSlice) String() string            { return proto.CompactTextString(m) }
 func (*ImpliedVolSlice) ProtoMessage()               {}
-func (*ImpliedVolSlice) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{6} }
+func (*ImpliedVolSlice) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{7} }
 
 func (m *ImpliedVolSlice) GetTimestamp() float32 {
 	if m != nil {
@@ -355,7 +318,7 @@ type ImpliedVolSurface struct {
 func (m *ImpliedVolSurface) Reset()                    { *m = ImpliedVolSurface{} }
 func (m *ImpliedVolSurface) String() string            { return proto.CompactTextString(m) }
 func (*ImpliedVolSurface) ProtoMessage()               {}
-func (*ImpliedVolSurface) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{7} }
+func (*ImpliedVolSurface) Descriptor() ([]byte, []int) { return fileDescriptorMarketdata, []int{8} }
 
 func (m *ImpliedVolSurface) GetTimestamp() float32 {
 	if m != nil {
@@ -372,6 +335,7 @@ func (m *ImpliedVolSurface) GetVolsurface() []*ImpliedVolSlice {
 }
 
 func init() {
+	proto.RegisterType((*Index)(nil), "pb.Index")
 	proto.RegisterType((*Spot)(nil), "pb.Spot")
 	proto.RegisterType((*RiskFreeRate)(nil), "pb.RiskFreeRate")
 	proto.RegisterType((*FlatVol)(nil), "pb.FlatVol")
@@ -380,8 +344,41 @@ func init() {
 	proto.RegisterType((*OptionMarket)(nil), "pb.OptionMarket")
 	proto.RegisterType((*ImpliedVolSlice)(nil), "pb.ImpliedVolSlice")
 	proto.RegisterType((*ImpliedVolSurface)(nil), "pb.ImpliedVolSurface")
-	proto.RegisterEnum("pb.OptionType", OptionType_name, OptionType_value)
 }
+func (m *Index) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Index) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Timestamp != 0 {
+		dAtA[i] = 0xd
+		i++
+		i = encodeFixed32Marketdata(dAtA, i, uint32(math.Float32bits(float32(m.Timestamp))))
+	}
+	if len(m.Ticker) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintMarketdata(dAtA, i, uint64(len(m.Ticker)))
+		i += copy(dAtA[i:], m.Ticker)
+	}
+	if m.Value != 0 {
+		dAtA[i] = 0x19
+		i++
+		i = encodeFixed64Marketdata(dAtA, i, uint64(math.Float64bits(float64(m.Value))))
+	}
+	return i, nil
+}
+
 func (m *Spot) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -397,21 +394,15 @@ func (m *Spot) MarshalTo(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Timestamp != 0 {
-		dAtA[i] = 0xd
+	if m.Index != nil {
+		dAtA[i] = 0xa
 		i++
-		i = encodeFixed32Marketdata(dAtA, i, uint32(math.Float32bits(float32(m.Timestamp))))
-	}
-	if m.Value != 0 {
-		dAtA[i] = 0x11
-		i++
-		i = encodeFixed64Marketdata(dAtA, i, uint64(math.Float64bits(float64(m.Value))))
-	}
-	if len(m.Ticker) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintMarketdata(dAtA, i, uint64(len(m.Ticker)))
-		i += copy(dAtA[i:], m.Ticker)
+		i = encodeVarintMarketdata(dAtA, i, uint64(m.Index.Size()))
+		n1, err := m.Index.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n1
 	}
 	return i, nil
 }
@@ -431,21 +422,15 @@ func (m *RiskFreeRate) MarshalTo(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Timestamp != 0 {
-		dAtA[i] = 0xd
+	if m.Index != nil {
+		dAtA[i] = 0xa
 		i++
-		i = encodeFixed32Marketdata(dAtA, i, uint32(math.Float32bits(float32(m.Timestamp))))
-	}
-	if len(m.Ticker) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintMarketdata(dAtA, i, uint64(len(m.Ticker)))
-		i += copy(dAtA[i:], m.Ticker)
-	}
-	if m.Value != 0 {
-		dAtA[i] = 0x19
-		i++
-		i = encodeFixed64Marketdata(dAtA, i, uint64(math.Float64bits(float64(m.Value))))
+		i = encodeVarintMarketdata(dAtA, i, uint64(m.Index.Size()))
+		n2, err := m.Index.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n2
 	}
 	return i, nil
 }
@@ -465,21 +450,15 @@ func (m *FlatVol) MarshalTo(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Timestamp != 0 {
-		dAtA[i] = 0xd
+	if m.Index != nil {
+		dAtA[i] = 0xa
 		i++
-		i = encodeFixed32Marketdata(dAtA, i, uint32(math.Float32bits(float32(m.Timestamp))))
-	}
-	if len(m.Ticker) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintMarketdata(dAtA, i, uint64(len(m.Ticker)))
-		i += copy(dAtA[i:], m.Ticker)
-	}
-	if m.Value != 0 {
-		dAtA[i] = 0x19
-		i++
-		i = encodeFixed64Marketdata(dAtA, i, uint64(math.Float64bits(float64(m.Value))))
+		i = encodeVarintMarketdata(dAtA, i, uint64(m.Index.Size()))
+		n3, err := m.Index.MarshalTo(dAtA[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n3
 	}
 	return i, nil
 }
@@ -613,31 +592,31 @@ func (m *OptionMarket) MarshalTo(dAtA []byte) (int, error) {
 		dAtA[i] = 0x12
 		i++
 		i = encodeVarintMarketdata(dAtA, i, uint64(m.Spot.Size()))
-		n1, err := m.Spot.MarshalTo(dAtA[i:])
+		n4, err := m.Spot.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n1
+		i += n4
 	}
 	if m.Vol != nil {
 		dAtA[i] = 0x1a
 		i++
 		i = encodeVarintMarketdata(dAtA, i, uint64(m.Vol.Size()))
-		n2, err := m.Vol.MarshalTo(dAtA[i:])
+		n5, err := m.Vol.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n2
+		i += n5
 	}
 	if m.Rate != nil {
 		dAtA[i] = 0x22
 		i++
 		i = encodeVarintMarketdata(dAtA, i, uint64(m.Rate.Size()))
-		n3, err := m.Rate.MarshalTo(dAtA[i:])
+		n6, err := m.Rate.MarshalTo(dAtA[i:])
 		if err != nil {
 			return 0, err
 		}
-		i += n3
+		i += n6
 	}
 	return i, nil
 }
@@ -697,22 +676,22 @@ func (m *ImpliedVolSlice) MarshalTo(dAtA []byte) (int, error) {
 		i++
 		i = encodeVarintMarketdata(dAtA, i, uint64(len(m.Strikes)*8))
 		for _, num := range m.Strikes {
-			f4 := math.Float64bits(float64(num))
-			dAtA[i] = uint8(f4)
+			f7 := math.Float64bits(float64(num))
+			dAtA[i] = uint8(f7)
 			i++
-			dAtA[i] = uint8(f4 >> 8)
+			dAtA[i] = uint8(f7 >> 8)
 			i++
-			dAtA[i] = uint8(f4 >> 16)
+			dAtA[i] = uint8(f7 >> 16)
 			i++
-			dAtA[i] = uint8(f4 >> 24)
+			dAtA[i] = uint8(f7 >> 24)
 			i++
-			dAtA[i] = uint8(f4 >> 32)
+			dAtA[i] = uint8(f7 >> 32)
 			i++
-			dAtA[i] = uint8(f4 >> 40)
+			dAtA[i] = uint8(f7 >> 40)
 			i++
-			dAtA[i] = uint8(f4 >> 48)
+			dAtA[i] = uint8(f7 >> 48)
 			i++
-			dAtA[i] = uint8(f4 >> 56)
+			dAtA[i] = uint8(f7 >> 56)
 			i++
 		}
 	}
@@ -721,42 +700,42 @@ func (m *ImpliedVolSlice) MarshalTo(dAtA []byte) (int, error) {
 		i++
 		i = encodeVarintMarketdata(dAtA, i, uint64(len(m.Vols)*8))
 		for _, num := range m.Vols {
-			f5 := math.Float64bits(float64(num))
-			dAtA[i] = uint8(f5)
+			f8 := math.Float64bits(float64(num))
+			dAtA[i] = uint8(f8)
 			i++
-			dAtA[i] = uint8(f5 >> 8)
+			dAtA[i] = uint8(f8 >> 8)
 			i++
-			dAtA[i] = uint8(f5 >> 16)
+			dAtA[i] = uint8(f8 >> 16)
 			i++
-			dAtA[i] = uint8(f5 >> 24)
+			dAtA[i] = uint8(f8 >> 24)
 			i++
-			dAtA[i] = uint8(f5 >> 32)
+			dAtA[i] = uint8(f8 >> 32)
 			i++
-			dAtA[i] = uint8(f5 >> 40)
+			dAtA[i] = uint8(f8 >> 40)
 			i++
-			dAtA[i] = uint8(f5 >> 48)
+			dAtA[i] = uint8(f8 >> 48)
 			i++
-			dAtA[i] = uint8(f5 >> 56)
+			dAtA[i] = uint8(f8 >> 56)
 			i++
 		}
 	}
 	if len(m.Nbsolveriteration) > 0 {
-		dAtA7 := make([]byte, len(m.Nbsolveriteration)*10)
-		var j6 int
+		dAtA10 := make([]byte, len(m.Nbsolveriteration)*10)
+		var j9 int
 		for _, num1 := range m.Nbsolveriteration {
 			num := uint64(num1)
 			for num >= 1<<7 {
-				dAtA7[j6] = uint8(uint64(num)&0x7f | 0x80)
+				dAtA10[j9] = uint8(uint64(num)&0x7f | 0x80)
 				num >>= 7
-				j6++
+				j9++
 			}
-			dAtA7[j6] = uint8(num)
-			j6++
+			dAtA10[j9] = uint8(num)
+			j9++
 		}
 		dAtA[i] = 0x3a
 		i++
-		i = encodeVarintMarketdata(dAtA, i, uint64(j6))
-		i += copy(dAtA[i:], dAtA7[:j6])
+		i = encodeVarintMarketdata(dAtA, i, uint64(j9))
+		i += copy(dAtA[i:], dAtA10[:j9])
 	}
 	if len(m.Quotes) > 0 {
 		for _, msg := range m.Quotes {
@@ -835,17 +814,27 @@ func encodeVarintMarketdata(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return offset + 1
 }
-func (m *Spot) Size() (n int) {
+func (m *Index) Size() (n int) {
 	var l int
 	_ = l
 	if m.Timestamp != 0 {
 		n += 5
 	}
+	l = len(m.Ticker)
+	if l > 0 {
+		n += 1 + l + sovMarketdata(uint64(l))
+	}
 	if m.Value != 0 {
 		n += 9
 	}
-	l = len(m.Ticker)
-	if l > 0 {
+	return n
+}
+
+func (m *Spot) Size() (n int) {
+	var l int
+	_ = l
+	if m.Index != nil {
+		l = m.Index.Size()
 		n += 1 + l + sovMarketdata(uint64(l))
 	}
 	return n
@@ -854,15 +843,9 @@ func (m *Spot) Size() (n int) {
 func (m *RiskFreeRate) Size() (n int) {
 	var l int
 	_ = l
-	if m.Timestamp != 0 {
-		n += 5
-	}
-	l = len(m.Ticker)
-	if l > 0 {
+	if m.Index != nil {
+		l = m.Index.Size()
 		n += 1 + l + sovMarketdata(uint64(l))
-	}
-	if m.Value != 0 {
-		n += 9
 	}
 	return n
 }
@@ -870,15 +853,9 @@ func (m *RiskFreeRate) Size() (n int) {
 func (m *FlatVol) Size() (n int) {
 	var l int
 	_ = l
-	if m.Timestamp != 0 {
-		n += 5
-	}
-	l = len(m.Ticker)
-	if l > 0 {
+	if m.Index != nil {
+		l = m.Index.Size()
 		n += 1 + l + sovMarketdata(uint64(l))
-	}
-	if m.Value != 0 {
-		n += 9
 	}
 	return n
 }
@@ -1023,6 +1000,117 @@ func sovMarketdata(x uint64) (n int) {
 func sozMarketdata(x uint64) (n int) {
 	return sovMarketdata(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+func (m *Index) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMarketdata
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Index: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Index: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 5 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
+			}
+			var v uint32
+			if (iNdEx + 4) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += 4
+			v = uint32(dAtA[iNdEx-4])
+			v |= uint32(dAtA[iNdEx-3]) << 8
+			v |= uint32(dAtA[iNdEx-2]) << 16
+			v |= uint32(dAtA[iNdEx-1]) << 24
+			m.Timestamp = float32(math.Float32frombits(v))
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ticker", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMarketdata
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMarketdata
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Ticker = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += 8
+			v = uint64(dAtA[iNdEx-8])
+			v |= uint64(dAtA[iNdEx-7]) << 8
+			v |= uint64(dAtA[iNdEx-6]) << 16
+			v |= uint64(dAtA[iNdEx-5]) << 24
+			v |= uint64(dAtA[iNdEx-4]) << 32
+			v |= uint64(dAtA[iNdEx-3]) << 40
+			v |= uint64(dAtA[iNdEx-2]) << 48
+			v |= uint64(dAtA[iNdEx-1]) << 56
+			m.Value = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMarketdata(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMarketdata
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *Spot) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1053,42 +1141,10 @@ func (m *Spot) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
-			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 4
-			v = uint32(dAtA[iNdEx-4])
-			v |= uint32(dAtA[iNdEx-3]) << 8
-			v |= uint32(dAtA[iNdEx-2]) << 16
-			v |= uint32(dAtA[iNdEx-1]) << 24
-			m.Timestamp = float32(math.Float32frombits(v))
-		case 2:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 8
-			v = uint64(dAtA[iNdEx-8])
-			v |= uint64(dAtA[iNdEx-7]) << 8
-			v |= uint64(dAtA[iNdEx-6]) << 16
-			v |= uint64(dAtA[iNdEx-5]) << 24
-			v |= uint64(dAtA[iNdEx-4]) << 32
-			v |= uint64(dAtA[iNdEx-3]) << 40
-			v |= uint64(dAtA[iNdEx-2]) << 48
-			v |= uint64(dAtA[iNdEx-1]) << 56
-			m.Value = float64(math.Float64frombits(v))
-		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ticker", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMarketdata
@@ -1098,20 +1154,24 @@ func (m *Spot) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
+				msglen |= (int(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMarketdata
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Ticker = string(dAtA[iNdEx:postIndex])
+			if m.Index == nil {
+				m.Index = &Index{}
+			}
+			if err := m.Index.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1164,24 +1224,10 @@ func (m *RiskFreeRate) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
-			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 4
-			v = uint32(dAtA[iNdEx-4])
-			v |= uint32(dAtA[iNdEx-3]) << 8
-			v |= uint32(dAtA[iNdEx-2]) << 16
-			v |= uint32(dAtA[iNdEx-1]) << 24
-			m.Timestamp = float32(math.Float32frombits(v))
-		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ticker", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMarketdata
@@ -1191,39 +1237,25 @@ func (m *RiskFreeRate) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
+				msglen |= (int(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMarketdata
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Ticker = string(dAtA[iNdEx:postIndex])
+			if m.Index == nil {
+				m.Index = &Index{}
+			}
+			if err := m.Index.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
-		case 3:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 8
-			v = uint64(dAtA[iNdEx-8])
-			v |= uint64(dAtA[iNdEx-7]) << 8
-			v |= uint64(dAtA[iNdEx-6]) << 16
-			v |= uint64(dAtA[iNdEx-5]) << 24
-			v |= uint64(dAtA[iNdEx-4]) << 32
-			v |= uint64(dAtA[iNdEx-3]) << 40
-			v |= uint64(dAtA[iNdEx-2]) << 48
-			v |= uint64(dAtA[iNdEx-1]) << 56
-			m.Value = float64(math.Float64frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipMarketdata(dAtA[iNdEx:])
@@ -1275,24 +1307,10 @@ func (m *FlatVol) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
-			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 4
-			v = uint32(dAtA[iNdEx-4])
-			v |= uint32(dAtA[iNdEx-3]) << 8
-			v |= uint32(dAtA[iNdEx-2]) << 16
-			v |= uint32(dAtA[iNdEx-1]) << 24
-			m.Timestamp = float32(math.Float32frombits(v))
-		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Ticker", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMarketdata
@@ -1302,39 +1320,25 @@ func (m *FlatVol) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= (uint64(b) & 0x7F) << shift
+				msglen |= (int(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMarketdata
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Ticker = string(dAtA[iNdEx:postIndex])
+			if m.Index == nil {
+				m.Index = &Index{}
+			}
+			if err := m.Index.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
-		case 3:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += 8
-			v = uint64(dAtA[iNdEx-8])
-			v |= uint64(dAtA[iNdEx-7]) << 8
-			v |= uint64(dAtA[iNdEx-6]) << 16
-			v |= uint64(dAtA[iNdEx-5]) << 24
-			v |= uint64(dAtA[iNdEx-4]) << 32
-			v |= uint64(dAtA[iNdEx-3]) << 40
-			v |= uint64(dAtA[iNdEx-2]) << 48
-			v |= uint64(dAtA[iNdEx-1]) << 56
-			m.Value = float64(math.Float64frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipMarketdata(dAtA[iNdEx:])
@@ -2367,40 +2371,40 @@ var (
 func init() { proto.RegisterFile("marketdata.proto", fileDescriptorMarketdata) }
 
 var fileDescriptorMarketdata = []byte{
-	// 554 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xac, 0x54, 0xcb, 0x6e, 0xd4, 0x30,
-	0x14, 0xad, 0x93, 0x74, 0x1e, 0x37, 0x43, 0x9b, 0x1a, 0x84, 0xbc, 0x28, 0x43, 0x14, 0x40, 0x44,
-	0x08, 0x75, 0x31, 0xfd, 0x02, 0x40, 0xaa, 0x84, 0x54, 0x04, 0xb8, 0x8f, 0x05, 0x3b, 0x4f, 0xeb,
-	0x4a, 0x56, 0x3c, 0x63, 0x63, 0x3b, 0x23, 0xfa, 0x15, 0x6c, 0x58, 0xf0, 0x49, 0x6c, 0x90, 0xf8,
-	0x04, 0x54, 0xfe, 0x03, 0x21, 0x3b, 0xa9, 0x26, 0x85, 0x4a, 0x33, 0x0b, 0x76, 0x3e, 0xe7, 0xdc,
-	0x9c, 0x7b, 0x7d, 0x7c, 0x15, 0xc8, 0x66, 0xcc, 0x54, 0xdc, 0x9d, 0x33, 0xc7, 0xf6, 0xb4, 0x51,
-	0x4e, 0xe1, 0x48, 0x4f, 0x0b, 0x0a, 0xc9, 0x91, 0x56, 0x0e, 0xef, 0xc2, 0xd0, 0x89, 0x19, 0xb7,
-	0x8e, 0xcd, 0x34, 0x41, 0x39, 0x2a, 0x23, 0xba, 0x24, 0xf0, 0x3d, 0xd8, 0x5c, 0x30, 0x59, 0x73,
-	0x12, 0xe5, 0xa8, 0x44, 0xb4, 0x01, 0xf8, 0x3e, 0xf4, 0x9c, 0x38, 0xab, 0xb8, 0x21, 0x71, 0x8e,
-	0xca, 0x21, 0x6d, 0x51, 0xf1, 0x01, 0x46, 0x54, 0xd8, 0xea, 0xc0, 0x70, 0x4e, 0x99, 0xe3, 0x2b,
-	0xbc, 0x97, 0x2e, 0x51, 0xd7, 0x65, 0xd9, 0x33, 0xee, 0xf4, 0x2c, 0x4e, 0xa0, 0x7f, 0x20, 0x99,
-	0x3b, 0x55, 0xf2, 0xbf, 0xda, 0x7e, 0x47, 0x90, 0xbe, 0xd5, 0x4e, 0xa8, 0xf9, 0xfb, 0x5a, 0xad,
-	0x33, 0xb2, 0x75, 0x46, 0x54, 0x9c, 0x0c, 0x82, 0x49, 0x8b, 0x70, 0x06, 0xf1, 0x54, 0x9c, 0x93,
-	0x61, 0x20, 0xfd, 0xd1, 0x33, 0xcc, 0x56, 0x04, 0x1a, 0x86, 0xd9, 0xca, 0x7f, 0xbb, 0x50, 0xb2,
-	0x9e, 0x71, 0x92, 0x06, 0xdb, 0x16, 0xe1, 0x02, 0x46, 0x4a, 0xf3, 0xb9, 0x98, 0x3b, 0x6e, 0xb8,
-	0x75, 0x64, 0x14, 0xd4, 0x1b, 0x1c, 0x2e, 0xa1, 0xaf, 0x6b, 0x77, 0xc6, 0xa4, 0x24, 0x77, 0x72,
-	0x54, 0x6e, 0x4d, 0xb6, 0xf6, 0xf4, 0x74, 0xaf, 0x99, 0xfb, 0xf8, 0x52, 0x73, 0x7a, 0x2d, 0x17,
-	0x5f, 0x10, 0x64, 0x9d, 0xfb, 0x1c, 0x49, 0x71, 0xb6, 0xc6, 0xa5, 0xf8, 0x27, 0x2d, 0xcc, 0x65,
-	0x08, 0x2c, 0xa2, 0x2d, 0xc2, 0x8f, 0x20, 0xd1, 0xb5, 0xb3, 0x24, 0xce, 0xe3, 0x32, 0x9d, 0x6c,
-	0x2f, 0x3b, 0x06, 0x67, 0x1a, 0x44, 0xfc, 0x04, 0x36, 0x7d, 0x5f, 0x4b, 0x92, 0xdb, 0xab, 0x1a,
-	0xb5, 0xf8, 0x8c, 0x60, 0xd4, 0xd0, 0x6f, 0xc2, 0x32, 0xae, 0x18, 0x69, 0x17, 0x12, 0xab, 0x95,
-	0x0b, 0x03, 0xa5, 0x93, 0x81, 0x37, 0xf5, 0xcb, 0x4a, 0x03, 0x8b, 0x1f, 0x40, 0xbc, 0x50, 0x32,
-	0xbc, 0x63, 0x3a, 0x49, 0xbd, 0xd8, 0x6e, 0x06, 0xf5, 0x3c, 0x7e, 0x0c, 0x89, 0x61, 0x8e, 0x93,
-	0x24, 0xe8, 0x99, 0xd7, 0xbb, 0x5b, 0x49, 0x83, 0x5a, 0xfc, 0x46, 0xb0, 0xfd, 0x7a, 0xa6, 0xa5,
-	0xe0, 0xe7, 0xa7, 0x4a, 0xae, 0x93, 0x13, 0x81, 0xbe, 0xb0, 0xdc, 0x18, 0xd5, 0x6c, 0xd6, 0x80,
-	0x5e, 0xc3, 0x4e, 0x82, 0xf1, 0x8d, 0x04, 0x3d, 0xef, 0x0b, 0x9a, 0x74, 0x86, 0xb4, 0x45, 0xde,
-	0xa9, 0x59, 0x1c, 0x4b, 0x36, 0xf3, 0xb8, 0x44, 0xf4, 0x1a, 0x62, 0x0c, 0xc9, 0x42, 0x49, 0x4b,
-	0x7a, 0x81, 0x0e, 0x67, 0xfc, 0x1c, 0x76, 0xe6, 0x53, 0xab, 0xe4, 0x82, 0x1b, 0xe1, 0xb8, 0x61,
-	0x3e, 0x45, 0xd2, 0xcf, 0xe3, 0x32, 0xa6, 0xff, 0x0a, 0xf8, 0x29, 0xf4, 0x3e, 0xfa, 0xe4, 0x2d,
-	0x19, 0xdc, 0xfe, 0x22, 0xad, 0x5c, 0x5c, 0xc0, 0x4e, 0xe7, 0xfe, 0xb5, 0xb9, 0x60, 0x2b, 0x13,
-	0xd8, 0x07, 0xf0, 0x13, 0x35, 0xb5, 0x24, 0x0a, 0xfe, 0x77, 0xbd, 0xff, 0x5f, 0x41, 0xd2, 0x4e,
-	0xd9, 0xb3, 0x87, 0x00, 0xcb, 0x45, 0xc5, 0x7d, 0x88, 0xdf, 0x9d, 0x1c, 0x67, 0x1b, 0x78, 0x00,
-	0xc9, 0xab, 0x17, 0x87, 0x87, 0x19, 0x7a, 0x99, 0x7d, 0xbb, 0x1a, 0xa3, 0x1f, 0x57, 0x63, 0xf4,
-	0xf3, 0x6a, 0x8c, 0xbe, 0xfe, 0x1a, 0x6f, 0x4c, 0x7b, 0xe1, 0x37, 0xb5, 0xff, 0x27, 0x00, 0x00,
-	0xff, 0xff, 0x63, 0xf4, 0x7a, 0x2e, 0xba, 0x04, 0x00, 0x00,
+	// 553 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x6e, 0x13, 0x3d,
+	0x14, 0xfd, 0x9c, 0x99, 0xfc, 0xdd, 0xc9, 0xd7, 0xa6, 0x06, 0x21, 0x0b, 0x95, 0x30, 0x1a, 0x40,
+	0x1d, 0x21, 0x14, 0xa4, 0xf4, 0x0d, 0x58, 0x54, 0xea, 0x02, 0x21, 0x1c, 0xd4, 0xbd, 0x93, 0xb8,
+	0x92, 0x35, 0x9e, 0xb1, 0xb1, 0x3d, 0x51, 0xfb, 0x14, 0x6c, 0x58, 0xf0, 0x48, 0x6c, 0x90, 0x78,
+	0x04, 0x14, 0xde, 0x03, 0x21, 0x7b, 0x26, 0x6a, 0x22, 0x2a, 0xa5, 0xbb, 0x39, 0xe7, 0x5c, 0x1f,
+	0xdf, 0x7b, 0x7c, 0x13, 0x18, 0x97, 0xcc, 0x14, 0xdc, 0xad, 0x98, 0x63, 0x53, 0x6d, 0x94, 0x53,
+	0xb8, 0xa3, 0x17, 0x4f, 0x47, 0x4b, 0x55, 0x96, 0xaa, 0x6a, 0x98, 0x6c, 0x0e, 0xdd, 0xcb, 0x6a,
+	0xc5, 0x6f, 0xf0, 0x29, 0x0c, 0x9d, 0x28, 0xb9, 0x75, 0xac, 0xd4, 0x04, 0xa5, 0x28, 0xef, 0xd0,
+	0x3b, 0x02, 0x3f, 0x81, 0x9e, 0x13, 0xcb, 0x82, 0x1b, 0xd2, 0x49, 0x51, 0x3e, 0xa4, 0x2d, 0xc2,
+	0x8f, 0xa1, 0xbb, 0x66, 0xb2, 0xe6, 0x24, 0x4a, 0x51, 0x8e, 0x68, 0x03, 0xb2, 0x33, 0x88, 0xe7,
+	0x5a, 0x39, 0xfc, 0x1c, 0xba, 0xc2, 0x9b, 0x07, 0xbf, 0x64, 0x36, 0x9c, 0xea, 0xc5, 0x34, 0xdc,
+	0x46, 0x1b, 0x3e, 0x7b, 0x0b, 0x23, 0x2a, 0x6c, 0x71, 0x61, 0x38, 0xa7, 0xcc, 0xf1, 0xc3, 0x07,
+	0x5e, 0x43, 0xff, 0x42, 0x32, 0x77, 0xa5, 0xe4, 0xe1, 0xda, 0x1f, 0x08, 0x92, 0x0f, 0xda, 0x09,
+	0x55, 0x7d, 0xac, 0x95, 0xe3, 0x87, 0x27, 0xb4, 0xce, 0x88, 0x82, 0x93, 0x41, 0x18, 0xa5, 0x45,
+	0x78, 0x0c, 0xd1, 0x42, 0xac, 0xc8, 0x30, 0x90, 0xfe, 0xd3, 0x33, 0xcc, 0x16, 0x04, 0x1a, 0x86,
+	0xd9, 0xc2, 0x9f, 0x5d, 0x2b, 0x59, 0x97, 0x9c, 0x24, 0xc1, 0xb6, 0x45, 0x38, 0x83, 0x91, 0xd2,
+	0xbc, 0x12, 0x95, 0xe3, 0x86, 0x5b, 0x47, 0x46, 0x41, 0xdd, 0xe3, 0x70, 0x0e, 0x7d, 0x5d, 0xbb,
+	0x25, 0x93, 0x92, 0xfc, 0x9f, 0xa2, 0xfc, 0x68, 0x76, 0xe4, 0x07, 0x69, 0xfa, 0xfe, 0x74, 0xab,
+	0x39, 0xdd, 0xca, 0xd9, 0x57, 0x04, 0xe3, 0x9d, 0x79, 0xe6, 0x52, 0x2c, 0x1f, 0x30, 0x14, 0xbf,
+	0xd1, 0xc2, 0xdc, 0x86, 0x67, 0xeb, 0xd0, 0x16, 0xe1, 0x17, 0x10, 0xeb, 0xda, 0x59, 0x12, 0xa5,
+	0x51, 0x9e, 0xcc, 0x8e, 0xef, 0x6e, 0x0c, 0xce, 0x34, 0x88, 0xf8, 0x15, 0x74, 0xfd, 0xbd, 0x96,
+	0xc4, 0xf7, 0x57, 0x35, 0x6a, 0xf6, 0x05, 0xc1, 0xa8, 0xa1, 0xdf, 0x87, 0x75, 0x3b, 0xd0, 0xd2,
+	0x29, 0xc4, 0x56, 0x2b, 0x17, 0x1a, 0x4a, 0x66, 0x03, 0x6f, 0xea, 0x77, 0x85, 0x06, 0x16, 0x3f,
+	0x83, 0x68, 0xad, 0x64, 0xd8, 0xa6, 0x64, 0x96, 0x78, 0xb1, 0x7d, 0x6e, 0xea, 0x79, 0xfc, 0x12,
+	0x62, 0xc3, 0x1c, 0x27, 0x71, 0xd0, 0xc7, 0x5e, 0xdf, 0xdd, 0x1f, 0x1a, 0xd4, 0xec, 0x0f, 0x82,
+	0xe3, 0xcb, 0x52, 0x4b, 0xc1, 0x57, 0x57, 0x4a, 0x3e, 0x24, 0x27, 0x02, 0x7d, 0x61, 0xb9, 0x31,
+	0xaa, 0xd9, 0xef, 0x01, 0xdd, 0xc2, 0x9d, 0x04, 0xa3, 0xbd, 0x04, 0x3d, 0xef, 0x0b, 0x9a, 0x74,
+	0x86, 0xb4, 0x45, 0xde, 0xa9, 0x59, 0x1c, 0x4b, 0xba, 0x69, 0x94, 0x23, 0xba, 0x85, 0x18, 0x43,
+	0xbc, 0x56, 0xd2, 0x92, 0x5e, 0xa0, 0xc3, 0x37, 0x7e, 0x03, 0x27, 0xd5, 0xc2, 0x2a, 0xb9, 0xe6,
+	0x46, 0x38, 0x6e, 0x98, 0x4f, 0x91, 0xf4, 0xd3, 0x28, 0x8f, 0xe8, 0xbf, 0x02, 0x3e, 0x83, 0xde,
+	0x67, 0x9f, 0xbc, 0x25, 0x83, 0xfb, 0x5f, 0xa4, 0x95, 0xb3, 0x6b, 0x38, 0xd9, 0x99, 0xbf, 0x36,
+	0xd7, 0xec, 0x60, 0x02, 0xe7, 0x00, 0xbe, 0xa3, 0xa6, 0x96, 0x74, 0x82, 0xff, 0xa3, 0xf0, 0x93,
+	0xda, 0x0f, 0x92, 0xee, 0x94, 0xbd, 0x1b, 0x7f, 0xdf, 0x4c, 0xd0, 0xcf, 0xcd, 0x04, 0xfd, 0xda,
+	0x4c, 0xd0, 0xb7, 0xdf, 0x93, 0xff, 0x16, 0xbd, 0xf0, 0xaf, 0x72, 0xfe, 0x37, 0x00, 0x00, 0xff,
+	0xff, 0x39, 0x73, 0xcc, 0xd5, 0x7b, 0x04, 0x00, 0x00,
 }

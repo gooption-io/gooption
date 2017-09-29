@@ -1,4 +1,4 @@
-package gooption
+package main
 
 import (
 	"errors"

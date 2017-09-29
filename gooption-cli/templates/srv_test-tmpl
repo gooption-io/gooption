@@ -11,11 +11,17 @@
 package {{.Package}}
 
 import (
-	"testing"
-	"os"
+	context "golang.org/x/net/context"
 
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/gooption/pb"
+	"os"
+	"testing"
+
+	"github.com/gogo/protobuf/jsonpb"
+	"github.com/gooption/gobs/pb"
+)
+
+var (
+	s = &server{}
 )
 
 {{range .Requests}}
@@ -24,12 +30,13 @@ func Test_{{.}}(t *testing.T) {
 		defer file.Close()
 		request := &pb.{{.}}Request{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			response := NewService().{{.}}(request)
-			if response.Error != "" {
+			if response, err := s.{{.}}(context.Background(), request); err != nil {
+				t.Log(response)
 				t.Error(err)
+				if response.Error != "" {
+					t.Error(response.Error)
+				}
 			}
-
-			t.Log(response)
 		} else {
 			t.Error(err)			
 		}
