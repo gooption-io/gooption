@@ -1,24 +1,29 @@
-/*
-faffy@faffypad:~/go/src/github.com/gooption/gobs$ protoc 
---proto_path=$GOPATH/src/github.com/gooption/pb 
---proto_path=$GOPATH/src/github.com/gooption/gobs/pb 
---gofast_out=plugins=grpc:pb 
-$GOPATH/src/github.com/gooption/gobs/pb
-/service.proto $GOPATH/src/github.com/gooption/pb/\*.proto
-
-protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --gofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto $GOPATH/src/github.com/gooption/pb/\*.proto
-*/
-
 syntax = "proto3"; 
 package pb; 
 
 import "contract.proto";
 import "marketdata.proto";
+import "google/api/annotations.proto";
 
 service GoBSServer {
-  rpc Price (PriceRequest) returns (PriceResponse) {}
-  rpc Greek (GreekRequest) returns (GreekResponse) {}
-  rpc ImpliedVol (ImpliedVolRequest) returns (ImpliedVolResponse) {}
+  rpc Price (PriceRequest) returns (PriceResponse) {
+    option (google.api.http) = {
+      post: "/v1/gobs/price"
+      body: "*"
+    };
+  }
+  rpc Greek (GreekRequest) returns (GreekResponse) {
+    option (google.api.http) = {
+      post: "/v1/gobs/greek"
+      body: "*"
+    };
+  }
+  rpc ImpliedVol (ImpliedVolRequest) returns (ImpliedVolResponse) {
+    option (google.api.http) = {
+      post: "/v1/gobs/impliedvol"
+      body: "*"
+    };
+  }
 }
 
 message PriceRequest { 
