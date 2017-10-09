@@ -58,8 +58,6 @@ func NewRequest(request string) (proto.Message, error) {
 }
 
 type priceRequestGenerator struct{}
-type greekRequestGenerator struct{}
-type impliedVolRequestGenerator struct{}
 
 func (g priceRequestGenerator) generate(ticker string) proto.Message {
 	return &pb.PriceRequest{
@@ -68,6 +66,8 @@ func (g priceRequestGenerator) generate(ticker string) proto.Message {
 		Marketdata:  mkt,
 	}
 }
+
+type greekRequestGenerator struct{}
 
 func (g greekRequestGenerator) generate(ticker string) proto.Message {
 
@@ -80,6 +80,8 @@ func (g greekRequestGenerator) generate(ticker string) proto.Message {
 		Greek: []string{"all"},
 	}
 }
+
+type impliedVolRequestGenerator struct{}
 
 func (g impliedVolRequestGenerator) bind(quotes []goyahoo.Quote, putcall pb.OptionType) []*pb.OptionQuote {
 	requestQuotes := make([]*pb.OptionQuote, len(quotes))
