@@ -20,31 +20,46 @@ import (
 	"github.com/gogo/protobuf/proto"
 )
 
-var (
-	samplePath = "./Sample_2015_October/"
-)
-
-func dial(service string) (*grpc.ClientConn, error) {
-	if service == "gobs" {
-		return grpc.Dial(":50051", grpc.WithInsecure())
-	} else if service == "dgraph" {
-		return grpc.Dial(":9080", grpc.WithInsecure())
-	} else {
-		return nil, errors.New("Unknown service")
-	}
+func main() {
 }
 
-func main() {
-	clientDir, err := ioutil.TempDir("", "client_")
+func dial(service string) *grpc.ClientConn {
+	var (
+		conn *grpc.ClientConn
+		err  error
+	)
+
+	if service == "gobs" {
+		conn, err = grpc.Dial(":50051", grpc.WithInsecure())
+	} else if service == "dgraph" {
+		conn, err = grpc.Dial(":9080", grpc.WithInsecure())
+	} else {
+		err = errors.New("Unknown service")
+	}
+
+	if err != nil {
+		log.Fatal(service)
+		log.Fatal(err)
+		panic(service + "\n" + err.Error())
+	}
+
+	return conn
+}
+
+func clientDir() string {
+	dir, err := ioutil.TempDir("", "client_")
 	if err != nil {
 		log.Fatal(err)
+		panic(err)
 	}
+	return dir
+}
+
+func priceRequest() {
+	clientDir := clientDir()
 	defer os.RemoveAll(clientDir)
 
-	conn1, err := dial("dgraph")
-	if err != nil {
-		log.Fatal(err)
-	}
+	conn1 := dial("dgraph")
 	defer conn1.Close()
 
 	dgraphClient := client.NewDgraphClient([]*grpc.ClientConn{conn1}, client.DefaultOptions, clientDir)
@@ -58,24 +73,27 @@ func main() {
 			  expiry
 			  putcall
 			}
-			marketdata(func: eq(timestamp, 1507072500)) {
+	
+			marketdata(func: eq(timestamp, 1508106600)) @cascade { 
 				spot {
-					index {
-						value
-					}
+					...indexInfo
 				}
-				vol {
-					index {
-						value
-					}
+				vol  {
+					...indexInfo
 				}
-				rate {
-					index {
-						value
-					}
+				rate  {
+					...indexInfo
 				}
+			} 
+		}
+			
+		fragment indexInfo {
+			index @filter(eq(ticker, "AAPL") or eq(ticker, "USD.FEDFUND")) {
+				timestamp
+				ticker
+				value
 			}
-		  }`)
+		}`)
 
 	resp, err := dgraphClient.Run(context.Background(), &req)
 	if err != nil {
@@ -96,10 +114,7 @@ func main() {
 	priceReq.Contract.Putcall = pb.OptionType_CALL
 	fmt.Printf("%+v\n", proto.MarshalTextString(priceReq))
 
-	conn2, err := dial("gobs")
-	if err != nil {
-		log.Fatal(err)
-	}
+	conn2 := dial("gobs")
 	defer conn2.Close()
 
 	gobsClient := pb.NewGoBSServerClient(conn2)
@@ -109,6 +124,84 @@ func main() {
 	}
 
 	fmt.Printf("price: %f\n", price.Price)
+}
+
+func ivRequest() {
+	clientDir := clientDir()
+	defer os.RemoveAll(clientDir)
+
+	conn1 := dial("dgraph")
+	defer conn1.Close()
+
+	dgraphClient := client.NewDgraphClient([]*grpc.ClientConn{conn1}, client.DefaultOptions, clientDir)
+	defer dgraphClient.Close()
+
+	req := client.Req{}
+	req.SetQuery(`
+		{
+			marketdata(func: eq(timestamp, 1508106600)) @cascade { 
+				spot {
+					...indexInfo
+				}
+				vol  {
+					...indexInfo
+				}
+				rate  {
+					...indexInfo
+				}
+			} 
+	
+			quotes(func: eq(timestamp, 1508106600)) @cascade { 
+			  expiry
+			  puts {
+					  ...quote
+			  }
+			  calls {
+				...quote
+			  }
+			} 
+		}
+		  
+		fragment quote {
+			strike
+			bid
+			ask
+			openinterest
+		}
+	
+		fragment indexInfo {
+			index @filter(eq(ticker, "AAPL") or eq(ticker, "USD.FEDFUND")) {
+				timestamp
+				ticker
+				value
+			}
+		}`)
+
+	resp, err := dgraphClient.Run(context.Background(), &req)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	printNode(0, resp.N[0])
+	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
+
+	ivReq := &pb.ImpliedVolRequest{}
+	err = client.Unmarshal(resp.N, ivReq)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Printf("%+v\n", proto.MarshalTextString(ivReq))
+
+	conn2 := dial("gobs")
+	defer conn2.Close()
+
+	gobsClient := pb.NewGoBSServerClient(conn2)
+	volSurf, err := gobsClient.ImpliedVol(context.Background(), ivReq)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%+v\n", proto.MarshalTextString(volSurf))
 }
 
 func printNode(depth int, node *protos.Node) {
@@ -175,10 +268,7 @@ func insertRequest(request interface{}) {
 	}
 	defer os.RemoveAll(clientDir)
 
-	conn1, err := dial("dgraph")
-	if err != nil {
-		log.Fatal(err)
-	}
+	conn1 := dial("dgraph")
 	defer conn1.Close()
 
 	dgraphClient := client.NewDgraphClient([]*grpc.ClientConn{conn1}, client.DefaultOptions, clientDir)
@@ -186,14 +276,10 @@ func insertRequest(request interface{}) {
 
 	req := client.Req{}
 	req.SetObject(request)
+	req.SetSchema(`
+		timestamp: float @index(float) .
+		ticker: string @index(exact, term) .`)
 	resp, err := dgraphClient.Run(context.Background(), &req)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
-
-	req.SetObject(request)
-	resp, err = dgraphClient.Run(context.Background(), &req)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

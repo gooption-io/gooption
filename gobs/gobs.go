@@ -5,11 +5,18 @@ import (
 	"math"
 
 	"github.com/ematvey/gostat"
+	"github.com/gooption/gobs/pb"
 )
 
 var (
 	phi  = stat.Normal_CDF(0, 1)
 	dphi = stat.Normal_PDF(0, 1)
+
+	allGreeks  = []string{"delta", "gamma", "vega", "theta", "rho"}
+	putCallMap = map[pb.OptionType]float64{
+		pb.OptionType_CALL: 1.0,
+		pb.OptionType_PUT:  -1.0,
+	}
 )
 
 /*

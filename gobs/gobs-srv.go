@@ -11,7 +11,6 @@ import (
 	context "golang.org/x/net/context"
 
 	"errors"
-	"log"
 	"net"
 	"sort"
 	"time"
@@ -25,12 +24,8 @@ import (
 )
 
 var (
-	port       = ":50051"
-	allGreeks  = []string{"delta", "gamma", "vega", "theta", "rho"}
-	putCallMap = map[pb.OptionType]float64{
-		pb.OptionType_CALL: 1.0,
-		pb.OptionType_PUT:  -1.0,
-	}
+	tcpPort      = ":50051"
+	httpPort     = ":8081"
 	gobsEndpoint = flag.String(
 		"gobs_endpoint",
 		"localhost:50051",
@@ -52,43 +47,38 @@ func servehttp() error {
 		return err
 	}
 
-	return http.ListenAndServe(":8080", mux)
+	glog.V(2).Infoln("server ready on port %%s", httpPort)
+	return http.ListenAndServe(httpPort, mux)
 }
 
 func servetcp() error {
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", tcpPort)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
 		return err
 	}
+
 	s := grpc.NewServer()
 	pb.RegisterGoBSServerServer(s, &server{})
-	// Register reflection service on gRPC server.
 	reflection.Register(s)
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-		return err
-	}
-	log.Printf("server ready on port %s", port)
-	return nil
+
+	glog.V(2).Infoln("server ready on port %s", tcpPort)
+	return s.Serve(lis)
 }
 
 func start(entrypoint func() error) {
 	defer glog.Flush()
-
 	if err := entrypoint(); err != nil {
 		glog.Fatal(err)
 	}
 }
 
 func main() {
+	flag.Parse()
+
 	var wg sync.WaitGroup
 	wg.Add(2)
-
-	flag.Parse()
 	go start(servetcp)
 	go start(servehttp)
-
 	wg.Wait()
 }
 

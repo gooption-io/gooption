@@ -32,6 +32,7 @@ var (
 		"gobs": []config{
 			{TemplateName: "service", FileName: "gobs-srv_test.go"},
 		},
+		"client": []config{}, //json only
 	}
 )
 

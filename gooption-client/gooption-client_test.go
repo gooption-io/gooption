@@ -1,34 +1,21 @@
 package main
 
 import (
-	"errors"
-	"reflect"
 	"testing"
 )
 
-func Test_readCSV(t *testing.T) {
-	type args struct {
-		filepath string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    [][]string
-		wantErr bool
-	}{
-		{"Sample Options", args{""}, nil, false},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := readCSV(tt.args.filepath)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("readCSV() error = %v, wantErr %v", err, tt.wantErr)
-				errors.New("")
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("readCSV() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+func Test_insertImpliedVolRequest(t *testing.T) {
+	insertImpliedVolRequest()
+}
+
+func Test_insertPriceRequest(t *testing.T) {
+	insertPriceRequest()
+}
+
+func Test_priceRequest(t *testing.T) {
+	priceRequest()
+}
+
+func Test_ivRequest(t *testing.T) {
+	ivRequest()
 }
