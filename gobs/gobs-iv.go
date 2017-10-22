@@ -1,6 +1,8 @@
 package main
 
 import (
+	"sync/atomic"
+
 	"github.com/gooption/gobs/pb"
 )
 
@@ -9,7 +11,7 @@ var (
 )
 
 type optionQuoteSliceIterator struct {
-	NbCalibratedSlice int
+	NbCalibratedSlice int32
 	Slice             *pb.OptionQuoteSlice
 	Market            *pb.OptionMarket
 	CalibratedSlice   *pb.ImpliedVolSlice
@@ -36,7 +38,7 @@ func newOptionQuoteSliceIterator(quotes *pb.OptionQuoteSlice, market *pb.OptionM
 	}
 }
 
-func (it optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *ivSolverResult) {
+func (it *optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *ivSolverResult) {
 	if res.Error == nil {
 		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = quote
 		it.CalibratedSlice.Vols[it.NbCalibratedSlice] = res.IV
@@ -44,13 +46,14 @@ func (it optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *ivSolverRe
 		it.CalibratedSlice.Nbsolveriteration[it.NbCalibratedSlice] = int64(res.NbSolverIteration)
 	} else {
 		it.CalibratedSlice.Iserror = true
+		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = quote
 		it.CalibratedSlice.Errors[it.NbCalibratedSlice] = res.Error.Error()
 	}
 
-	it.NbCalibratedSlice++
+	atomic.AddInt32(&it.NbCalibratedSlice, 1)
 }
 
-func (it optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSolverResult) *optionQuoteSliceIterator {
+func (it *optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSolverResult) *optionQuoteSliceIterator {
 	it.NbCalibratedSlice = 0
 	spot := it.Market.Spot.Index.Value
 
@@ -75,10 +78,10 @@ func (it optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSolv
 	it.CalibratedSlice.Strikes = it.CalibratedSlice.Strikes[0:it.NbCalibratedSlice]
 	it.CalibratedSlice.Quotes = it.CalibratedSlice.Quotes[0:it.NbCalibratedSlice]
 	it.CalibratedSlice.Errors = it.CalibratedSlice.Errors[0:it.NbCalibratedSlice]
-	return &it
+	return it
 }
 
-func (it optionQuoteSliceIterator) then(f func(calibratedSlice *pb.ImpliedVolSlice)) *optionQuoteSliceIterator {
+func (it *optionQuoteSliceIterator) then(f func(calibratedSlice *pb.ImpliedVolSlice)) *optionQuoteSliceIterator {
 	f(it.CalibratedSlice)
-	return &it
+	return it
 }

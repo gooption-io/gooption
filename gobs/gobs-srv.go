@@ -1,10 +1,11 @@
-// go:generate sh -c "protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto $GOPATH/src/github.com/gooption/pb/*.proto"
+// go:generate sh -c "protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto $GOPATH/src/github.com/gooption/pb/*.proto"
 // go:generate sh -c "protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto"
 // go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
 package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -18,6 +19,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"github.com/gogo/protobuf/proto"
 	"github.com/golang/glog"
 	"github.com/gooption/gobs/pb"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -35,14 +37,15 @@ var (
 // server is used to implement pb.ModerlServer.
 type server struct{}
 
-func servehttp() error {
+func httpServer() error {
+	flag.Parse()
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterGoBSServerHandlerFromEndpoint(ctx, mux, *gobsEndpoint, opts)
+	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, *gobsEndpoint, opts)
 	if err != nil {
 		return err
 	}
@@ -51,14 +54,14 @@ func servehttp() error {
 	return http.ListenAndServe(httpPort, mux)
 }
 
-func servetcp() error {
+func tcpServer() error {
 	lis, err := net.Listen("tcp", tcpPort)
 	if err != nil {
 		return err
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterGoBSServerServer(s, &server{})
+	pb.RegisterGobsServer(s, &server{})
 	reflection.Register(s)
 
 	glog.V(2).Infoln("server ready on port %s", tcpPort)
@@ -69,16 +72,15 @@ func start(entrypoint func() error) {
 	defer glog.Flush()
 	if err := entrypoint(); err != nil {
 		glog.Fatal(err)
+		panic(err)
 	}
 }
 
 func main() {
-	flag.Parse()
-
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go start(servetcp)
-	go start(servehttp)
+	go start(tcpServer)
+	go start(httpServer)
 	wg.Wait()
 }
 
@@ -176,6 +178,9 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 		Volsurface: make([]*pb.ImpliedVolSlice, len(in.Quotes)),
 	}
 
+	fmt.Printf("%+v\n", proto.MarshalTextString(in))
+
+	var wg sync.WaitGroup
 	for idx := 0; idx < len(in.Quotes); idx++ {
 		go func(index int) {
 			newOptionQuoteSliceIterator(in.Quotes[index], in.Marketdata).foreach(
@@ -184,82 +189,16 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 				}).then(
 				func(calibratedSlice *pb.ImpliedVolSlice) {
 					surf.Volsurface[index] = calibratedSlice
+					wg.Done()
 				})
 		}(idx)
+		wg.Add(1)
 	}
 
+	fmt.Printf("%+v\n", proto.MarshalTextString(surf))
+
+	wg.Wait()
 	return &pb.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil
 }
-
-// mutation {
-//   set {
-//     _:stockidx <timestamp> "1.5066922e+09" .
-//     _:stockidx <ticker> "AAPL" .
-//     _:stockidx <value> "100.0" .
-//     _:spot <index> _:stockidx .
-
-//     _:volidx <timestamp> "1.5066922e+09" .
-//     _:volidx <ticker> "AAPL" .
-//     _:volidx <value> "0.10" .
-//     _:vol <index> _:volidx .
-
-//     _:ois <timestamp> "1.5066922e+09" .
-//     _:ois <ticker> "USD.FEDFUND" .
-//     _:ois <value> "0.01" .
-//     _:rate <index> _:ois .
-
-//     _:option <ticker> "AAPL DEC2017 PUT" .
-// 		_:option <strike> "100.0" .
-// 		_:option <expiry> "1.5092878e+09" .
-//     _:option <putcall> "1" .
-
-// 	   _:mkt <timestamp> "1.5066922e+09" .
-//     _:mkt <spot> _:spot .
-//     _:mkt <vol> _:vol .
-//     _:mkt <rate> _:rate .
-
-//     _:req <pricingdate> "1.5066922e+09" .
-//     _:req <contract> _:option .
-//     _:req <marketdata> _:mkt .
-//   }
-// }
-//
-// {
-// 	"data": {
-// 	  "code": "Success",
-// 	  "message": "Done",
-// 	  "uids": {
-// 		"mkt": "0x7",
-// 		"ois": "0x4",
-// 		"option": "0x6",
-// 		"rate": "0x5",
-// 		"req": "0xa",
-// 		"spot": "0x9",
-// 		"stockidx": "0x8",
-// 		"vol": "0x3",
-// 		"volidx": "0x2"
-// 	  }
-// 	},
-// 	"extensions": {
-// 	  "server_latency": {
-// 		"json": "57ms",
-// 		"parsing": "252µs",
-// 		"processing": "0s",
-// 		"total": "57ms"
-// 	  }
-// 	}
-//   }
-
-// mutation{
-// 	schema{
-// 		  ticker: string @index(fulltext) .
-// 	}
-
-// 	set {
-// 	  _:contract <ticker> "AAPL DEC2017 CALL 1200" .
-// 		  _:contract <strike> "100" .
-// 		  _:contract <expiry> "1509287800" .
-// 	}
-//   }

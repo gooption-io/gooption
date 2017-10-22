@@ -22,7 +22,7 @@ var (
 	option      = &pb.European{
 		Timestamp: pricingDate,
 		Ticker:    "AAPL DEC2017 PUT",
-		Strike:    100.0,
+		Strike:    159.76,
 		Expiry:    float32(time.Now().AddDate(0, 1, 0).Unix()),
 		Putcall:   pb.OptionType_CALL,
 	}
@@ -32,7 +32,7 @@ var (
 			Index: &pb.Index{
 				Timestamp: pricingDate,
 				Ticker:    "AAPL",
-				Value:     100.0,
+				Value:     159.76,
 			},
 		},
 		Vol: &pb.FlatVol{

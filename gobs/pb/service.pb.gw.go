@@ -28,7 +28,7 @@ var _ status.Status
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-func request_GoBSServer_Price_0(ctx context.Context, marshaler runtime.Marshaler, client GoBSServerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Gobs_Price_0(ctx context.Context, marshaler runtime.Marshaler, client GobsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PriceRequest
 	var metadata runtime.ServerMetadata
 
@@ -41,7 +41,7 @@ func request_GoBSServer_Price_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-func request_GoBSServer_Greek_0(ctx context.Context, marshaler runtime.Marshaler, client GoBSServerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Gobs_Greek_0(ctx context.Context, marshaler runtime.Marshaler, client GobsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GreekRequest
 	var metadata runtime.ServerMetadata
 
@@ -54,7 +54,7 @@ func request_GoBSServer_Greek_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-func request_GoBSServer_ImpliedVol_0(ctx context.Context, marshaler runtime.Marshaler, client GoBSServerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Gobs_ImpliedVol_0(ctx context.Context, marshaler runtime.Marshaler, client GobsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ImpliedVolRequest
 	var metadata runtime.ServerMetadata
 
@@ -67,9 +67,9 @@ func request_GoBSServer_ImpliedVol_0(ctx context.Context, marshaler runtime.Mars
 
 }
 
-// RegisterGoBSServerHandlerFromEndpoint is same as RegisterGoBSServerHandler but
+// RegisterGobsHandlerFromEndpoint is same as RegisterGobsHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterGoBSServerHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterGobsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -89,23 +89,23 @@ func RegisterGoBSServerHandlerFromEndpoint(ctx context.Context, mux *runtime.Ser
 		}()
 	}()
 
-	return RegisterGoBSServerHandler(ctx, mux, conn)
+	return RegisterGobsHandler(ctx, mux, conn)
 }
 
-// RegisterGoBSServerHandler registers the http handlers for service GoBSServer to "mux".
+// RegisterGobsHandler registers the http handlers for service Gobs to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterGoBSServerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterGoBSServerHandlerClient(ctx, mux, NewGoBSServerClient(conn))
+func RegisterGobsHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterGobsHandlerClient(ctx, mux, NewGobsClient(conn))
 }
 
-// RegisterGoBSServerHandler registers the http handlers for service GoBSServer to "mux".
-// The handlers forward requests to the grpc endpoint over the given implementation of "GoBSServerClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "GoBSServerClient"
+// RegisterGobsHandler registers the http handlers for service Gobs to "mux".
+// The handlers forward requests to the grpc endpoint over the given implementation of "GobsClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "GobsClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "GoBSServerClient" to call the correct interceptors.
-func RegisterGoBSServerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client GoBSServerClient) error {
+// "GobsClient" to call the correct interceptors.
+func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, client GobsClient) error {
 
-	mux.Handle("POST", pattern_GoBSServer_Price_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Gobs_Price_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -123,18 +123,18 @@ func RegisterGoBSServerHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GoBSServer_Price_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Gobs_Price_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GoBSServer_Price_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Gobs_Price_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_GoBSServer_Greek_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Gobs_Greek_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -152,18 +152,18 @@ func RegisterGoBSServerHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GoBSServer_Greek_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Gobs_Greek_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GoBSServer_Greek_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Gobs_Greek_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_GoBSServer_ImpliedVol_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Gobs_ImpliedVol_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -181,14 +181,14 @@ func RegisterGoBSServerHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GoBSServer_ImpliedVol_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Gobs_ImpliedVol_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GoBSServer_ImpliedVol_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Gobs_ImpliedVol_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -196,17 +196,17 @@ func RegisterGoBSServerHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_GoBSServer_Price_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "price"}, ""))
+	pattern_Gobs_Price_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "price"}, ""))
 
-	pattern_GoBSServer_Greek_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "greek"}, ""))
+	pattern_Gobs_Greek_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "greek"}, ""))
 
-	pattern_GoBSServer_ImpliedVol_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "impliedvol"}, ""))
+	pattern_Gobs_ImpliedVol_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "impliedvol"}, ""))
 )
 
 var (
-	forward_GoBSServer_Price_0 = runtime.ForwardResponseMessage
+	forward_Gobs_Price_0 = runtime.ForwardResponseMessage
 
-	forward_GoBSServer_Greek_0 = runtime.ForwardResponseMessage
+	forward_Gobs_Greek_0 = runtime.ForwardResponseMessage
 
-	forward_GoBSServer_ImpliedVol_0 = runtime.ForwardResponseMessage
+	forward_Gobs_ImpliedVol_0 = runtime.ForwardResponseMessage
 )

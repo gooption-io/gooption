@@ -5,7 +5,7 @@ import "contract.proto";
 import "marketdata.proto";
 import "google/api/annotations.proto";
 
-service GoBSServer {
+service Gobs {
   rpc Price (PriceRequest) returns (PriceResponse) {
     option (google.api.http) = {
       post: "/v1/gobs/price"
