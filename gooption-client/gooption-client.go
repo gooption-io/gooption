@@ -117,7 +117,7 @@ func priceRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewGoBSServerClient(conn2)
+	gobsClient := pb.NewGobsClient(conn2)
 	price, err := gobsClient.Price(context.Background(), priceReq)
 	if err != nil {
 		log.Fatal(err)
@@ -196,7 +196,7 @@ func ivRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewGoBSServerClient(conn2)
+	gobsClient := pb.NewGobsClient(conn2)
 	volSurf, err := gobsClient.ImpliedVol(context.Background(), ivReq)
 	if err != nil {
 		log.Fatal(err)
