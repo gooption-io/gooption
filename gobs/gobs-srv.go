@@ -195,9 +195,8 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 		wg.Add(1)
 	}
 
-	fmt.Printf("%+v\n", proto.MarshalTextString(surf))
-
 	wg.Wait()
+	fmt.Printf("%+v\n", proto.MarshalTextString(surf))
 	return &pb.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil

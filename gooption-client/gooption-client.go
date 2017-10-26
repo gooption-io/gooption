@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	context "golang.org/x/net/context"
 
@@ -74,7 +75,7 @@ func priceRequest() {
 			  putcall
 			}
 	
-			marketdata(func: eq(timestamp, 1508106600)) @cascade { 
+			marketdata(func: eq(timestamp, 1508274400)) @cascade { 
 				spot {
 					...indexInfo
 				}
@@ -109,8 +110,7 @@ func priceRequest() {
 		fmt.Println(err.Error())
 		return
 	}
-	priceReq.Pricingdate = priceReq.Marketdata.Timestamp
-	priceReq.Contract.Expiry = 1509754500
+	priceReq.Pricingdate = float64(time.Now().Unix())
 	priceReq.Contract.Putcall = pb.OptionType_CALL
 	fmt.Printf("%+v\n", proto.MarshalTextString(priceReq))
 
@@ -139,7 +139,7 @@ func ivRequest() {
 	req := client.Req{}
 	req.SetQuery(`
 		{
-			marketdata(func: eq(timestamp, 1508106600)) @cascade { 
+			marketdata(func: eq(timestamp, 1508274400)) @cascade { 
 				spot {
 					...indexInfo
 				}
@@ -151,10 +151,10 @@ func ivRequest() {
 				}
 			} 
 	
-			quotes(func: eq(timestamp, 1508106600)) @cascade { 
+			quotes(func: eq(timestamp, 1508274400)) @cascade { 
 			  expiry
 			  puts {
-					  ...quote
+				...quote
 			  }
 			  calls {
 				...quote
@@ -191,6 +191,7 @@ func ivRequest() {
 		fmt.Println(err.Error())
 		return
 	}
+	ivReq.Pricingdate = float64(time.Now().Unix())
 	fmt.Printf("%+v\n", proto.MarshalTextString(ivReq))
 
 	conn2 := dial("gobs")
@@ -201,6 +202,7 @@ func ivRequest() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("***************gobsClient response***************")
 	fmt.Printf("%+v\n", proto.MarshalTextString(volSurf))
 }
 

@@ -15,10 +15,10 @@ var _ = fmt.Errorf
 var _ = math.Inf
 
 type European struct {
-	Timestamp float32    `protobuf:"fixed32,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Timestamp float64    `protobuf:"fixed64,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	Ticker    string     `protobuf:"bytes,2,opt,name=ticker,proto3" json:"ticker,omitempty"`
 	Strike    float64    `protobuf:"fixed64,3,opt,name=strike,proto3" json:"strike,omitempty"`
-	Expiry    float32    `protobuf:"fixed32,4,opt,name=expiry,proto3" json:"expiry,omitempty"`
+	Expiry    float64    `protobuf:"fixed64,4,opt,name=expiry,proto3" json:"expiry,omitempty"`
 	Putcall   OptionType `protobuf:"varint,5,opt,name=putcall,proto3,enum=pb.OptionType" json:"putcall,omitempty"`
 }
 
@@ -27,7 +27,7 @@ func (m *European) String() string            { return proto.CompactTextString(m
 func (*European) ProtoMessage()               {}
 func (*European) Descriptor() ([]byte, []int) { return fileDescriptorContract, []int{0} }
 
-func (m *European) GetTimestamp() float32 {
+func (m *European) GetTimestamp() float64 {
 	if m != nil {
 		return m.Timestamp
 	}
@@ -48,7 +48,7 @@ func (m *European) GetStrike() float64 {
 	return 0
 }
 
-func (m *European) GetExpiry() float32 {
+func (m *European) GetExpiry() float64 {
 	if m != nil {
 		return m.Expiry
 	}
@@ -81,9 +81,9 @@ func (m *European) MarshalTo(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if m.Timestamp != 0 {
-		dAtA[i] = 0xd
+		dAtA[i] = 0x9
 		i++
-		i = encodeFixed32Contract(dAtA, i, uint32(math.Float32bits(float32(m.Timestamp))))
+		i = encodeFixed64Contract(dAtA, i, uint64(math.Float64bits(float64(m.Timestamp))))
 	}
 	if len(m.Ticker) > 0 {
 		dAtA[i] = 0x12
@@ -97,9 +97,9 @@ func (m *European) MarshalTo(dAtA []byte) (int, error) {
 		i = encodeFixed64Contract(dAtA, i, uint64(math.Float64bits(float64(m.Strike))))
 	}
 	if m.Expiry != 0 {
-		dAtA[i] = 0x25
+		dAtA[i] = 0x21
 		i++
-		i = encodeFixed32Contract(dAtA, i, uint32(math.Float32bits(float32(m.Expiry))))
+		i = encodeFixed64Contract(dAtA, i, uint64(math.Float64bits(float64(m.Expiry))))
 	}
 	if m.Putcall != 0 {
 		dAtA[i] = 0x28
@@ -140,7 +140,7 @@ func (m *European) Size() (n int) {
 	var l int
 	_ = l
 	if m.Timestamp != 0 {
-		n += 5
+		n += 9
 	}
 	l = len(m.Ticker)
 	if l > 0 {
@@ -150,7 +150,7 @@ func (m *European) Size() (n int) {
 		n += 9
 	}
 	if m.Expiry != 0 {
-		n += 5
+		n += 9
 	}
 	if m.Putcall != 0 {
 		n += 1 + sovContract(uint64(m.Putcall))
@@ -201,19 +201,23 @@ func (m *European) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 5 {
+			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var v uint64
+			if (iNdEx + 8) > l {
 				return io.ErrUnexpectedEOF
 			}
-			iNdEx += 4
-			v = uint32(dAtA[iNdEx-4])
-			v |= uint32(dAtA[iNdEx-3]) << 8
-			v |= uint32(dAtA[iNdEx-2]) << 16
-			v |= uint32(dAtA[iNdEx-1]) << 24
-			m.Timestamp = float32(math.Float32frombits(v))
+			iNdEx += 8
+			v = uint64(dAtA[iNdEx-8])
+			v |= uint64(dAtA[iNdEx-7]) << 8
+			v |= uint64(dAtA[iNdEx-6]) << 16
+			v |= uint64(dAtA[iNdEx-5]) << 24
+			v |= uint64(dAtA[iNdEx-4]) << 32
+			v |= uint64(dAtA[iNdEx-3]) << 40
+			v |= uint64(dAtA[iNdEx-2]) << 48
+			v |= uint64(dAtA[iNdEx-1]) << 56
+			m.Timestamp = float64(math.Float64frombits(v))
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Ticker", wireType)
@@ -262,19 +266,23 @@ func (m *European) Unmarshal(dAtA []byte) error {
 			v |= uint64(dAtA[iNdEx-1]) << 56
 			m.Strike = float64(math.Float64frombits(v))
 		case 4:
-			if wireType != 5 {
+			if wireType != 1 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Expiry", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var v uint64
+			if (iNdEx + 8) > l {
 				return io.ErrUnexpectedEOF
 			}
-			iNdEx += 4
-			v = uint32(dAtA[iNdEx-4])
-			v |= uint32(dAtA[iNdEx-3]) << 8
-			v |= uint32(dAtA[iNdEx-2]) << 16
-			v |= uint32(dAtA[iNdEx-1]) << 24
-			m.Expiry = float32(math.Float32frombits(v))
+			iNdEx += 8
+			v = uint64(dAtA[iNdEx-8])
+			v |= uint64(dAtA[iNdEx-7]) << 8
+			v |= uint64(dAtA[iNdEx-6]) << 16
+			v |= uint64(dAtA[iNdEx-5]) << 24
+			v |= uint64(dAtA[iNdEx-4]) << 32
+			v |= uint64(dAtA[iNdEx-3]) << 40
+			v |= uint64(dAtA[iNdEx-2]) << 48
+			v |= uint64(dAtA[iNdEx-1]) << 56
+			m.Expiry = float64(math.Float64frombits(v))
 		case 5:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Putcall", wireType)
@@ -423,18 +431,17 @@ var (
 func init() { proto.RegisterFile("contract.proto", fileDescriptorContract) }
 
 var fileDescriptorContract = []byte{
-	// 194 bytes of a gzipped FileDescriptorProto
+	// 191 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4b, 0xce, 0xcf, 0x2b,
 	0x29, 0x4a, 0x4c, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x92, 0xe2,
 	0x49, 0xce, 0xcf, 0xcd, 0xcd, 0xcf, 0x83, 0x88, 0x28, 0xcd, 0x62, 0xe4, 0xe2, 0x70, 0x2d, 0x2d,
 	0xca, 0x2f, 0x48, 0x4d, 0xcc, 0x13, 0x92, 0xe1, 0xe2, 0x2c, 0xc9, 0xcc, 0x4d, 0x2d, 0x2e, 0x49,
-	0xcc, 0x2d, 0x90, 0x60, 0x54, 0x60, 0xd4, 0x60, 0x0a, 0x42, 0x08, 0x08, 0x89, 0x71, 0xb1, 0x95,
+	0xcc, 0x2d, 0x90, 0x60, 0x54, 0x60, 0xd4, 0x60, 0x0c, 0x42, 0x08, 0x08, 0x89, 0x71, 0xb1, 0x95,
 	0x64, 0x26, 0x67, 0xa7, 0x16, 0x49, 0x30, 0x29, 0x30, 0x6a, 0x70, 0x06, 0x41, 0x79, 0x20, 0xf1,
-	0xe2, 0x92, 0xa2, 0xcc, 0xec, 0x54, 0x09, 0x66, 0x05, 0x46, 0x0d, 0xc6, 0x20, 0x28, 0x0f, 0x24,
-	0x9e, 0x5a, 0x51, 0x90, 0x59, 0x54, 0x29, 0xc1, 0x02, 0x36, 0x0a, 0xca, 0x13, 0xd2, 0xe0, 0x62,
-	0x2f, 0x28, 0x2d, 0x49, 0x4e, 0xcc, 0xc9, 0x91, 0x60, 0x55, 0x60, 0xd4, 0xe0, 0x33, 0xe2, 0xd3,
-	0x2b, 0x48, 0xd2, 0xf3, 0x2f, 0x28, 0xc9, 0xcc, 0xcf, 0x0b, 0xa9, 0x2c, 0x48, 0x0d, 0x82, 0x49,
-	0x3b, 0xf1, 0x9c, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x49,
-	0x6c, 0x60, 0x17, 0x1b, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x72, 0x1b, 0x9e, 0xdf, 0xd5, 0x00,
-	0x00, 0x00,
+	0xe2, 0x92, 0xa2, 0xcc, 0xec, 0x54, 0x09, 0x66, 0xb0, 0x16, 0x28, 0x0f, 0x24, 0x9e, 0x5a, 0x51,
+	0x90, 0x59, 0x54, 0x29, 0xc1, 0x02, 0x11, 0x87, 0xf0, 0x84, 0x34, 0xb8, 0xd8, 0x0b, 0x4a, 0x4b,
+	0x92, 0x13, 0x73, 0x72, 0x24, 0x58, 0x15, 0x18, 0x35, 0xf8, 0x8c, 0xf8, 0xf4, 0x0a, 0x92, 0xf4,
+	0xfc, 0x0b, 0x4a, 0x32, 0xf3, 0xf3, 0x42, 0x2a, 0x0b, 0x52, 0x83, 0x60, 0xd2, 0x4e, 0x3c, 0x27,
+	0x1e, 0xc9, 0x31, 0x5e, 0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0x63, 0x12, 0x1b, 0xd8, 0xc5,
+	0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x8f, 0x54, 0xcd, 0x8b, 0xd5, 0x00, 0x00, 0x00,
 }

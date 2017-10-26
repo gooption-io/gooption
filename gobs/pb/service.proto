@@ -27,7 +27,7 @@ service Gobs {
 }
 
 message PriceRequest { 
-  float pricingdate = 1;
+  double pricingdate = 1;
   European contract = 2;
   OptionMarket marketdata = 3;  
 } 
@@ -53,7 +53,7 @@ message GreekResponse {
 }
 
 message ImpliedVolRequest { 
-  float pricingdate = 1;
+  double pricingdate = 1;
   OptionMarket marketdata = 2;
   repeated OptionQuoteSlice quotes = 3;
 } 
