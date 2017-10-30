@@ -1,0 +1,6 @@
+%module gooption
+%{
+    #include "european.hpp"
+%}
+
+%include "european.hpp"
