@@ -23,6 +23,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/gooption/gobs/pb"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/rs/cors"
 )
 
 var (
@@ -51,7 +52,7 @@ func httpServer() error {
 	}
 
 	glog.V(2).Infoln("server ready on port %%s", httpPort)
-	return http.ListenAndServe(httpPort, mux)
+	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }
 
 func tcpServer() error {
@@ -161,6 +162,8 @@ Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
+	fmt.Printf("%+v\n", proto.MarshalTextString(in))
+
 	var (
 		mult = func(q *pb.OptionQuote) float64 { return putCallMap[q.Putcall] }
 

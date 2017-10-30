@@ -67,6 +67,10 @@ func priceRequest() {
 	defer dgraphClient.Close()
 
 	req := client.Req{}
+	req.SetSchema(`
+		timestamp: float @index(float) .
+		ticker: string @index(exact, term) .
+		`)
 	req.SetQuery(`{
 			contract(func: eq(ticker, "AAPL DEC2017 PUT")){
 			  ticker
@@ -137,6 +141,10 @@ func ivRequest() {
 	defer dgraphClient.Close()
 
 	req := client.Req{}
+	req.SetSchema(`
+		timestamp: float @index(float) .
+		ticker: string @index(exact, term) .
+		`)
 	req.SetQuery(`
 		{
 			marketdata(func: eq(timestamp, 1508274400)) @cascade { 
