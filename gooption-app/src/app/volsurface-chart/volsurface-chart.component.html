@@ -1,0 +1,10 @@
+<div *ngFor="let d of data">
+    <div id="iv_{{ d.id }}" style="width:50%; float: left"
+        [chartData]="d.slice" 
+        [chartOptions] = "options" 
+        chartType="LineChart" GoogleChart></div>
+    <div id="bidask_{{ d.id }}"  style="width:50%; float: left"
+        [chartData]="d.bidask" 
+        [chartOptions] = "options" 
+        chartType="LineChart" GoogleChart></div>
+</div>

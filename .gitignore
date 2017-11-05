@@ -1,4 +1,4 @@
-vendors
+vendor
 *.csv
 debug.*
 Godeps
