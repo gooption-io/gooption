@@ -1,13 +1,15 @@
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto $GOPATH/src/github.com/gooption/gobs/pb/*.proto"
 package main
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"sort"
 	"time"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/gooption/gobs/pb"
+	"github.com/gooption/gooption-cli/pb"
 	"github.com/goyahoo"
 )
 
@@ -18,12 +20,12 @@ var (
 		"price":      priceRequestGenerator{},
 	}
 
-	pricingDate = float32(time.Now().Unix())
+	pricingDate = float64(time.Now().Unix())
 	option      = &pb.European{
 		Timestamp: pricingDate,
 		Ticker:    "AAPL DEC2017 PUT",
 		Strike:    159.76,
-		Expiry:    float32(time.Now().AddDate(0, 1, 0).Unix()),
+		Expiry:    float64(time.Now().AddDate(0, 1, 0).Unix()),
 		Putcall:   pb.OptionType_CALL,
 	}
 	mkt = &pb.OptionMarket{
@@ -98,7 +100,7 @@ func (g impliedVolRequestGenerator) bind(quotes []goyahoo.Quote, putcall pb.Opti
 			Strike:       quote.Strike,
 			Ask:          quote.Ask,
 			Bid:          quote.Bid,
-			Openinterest: float32(quote.OpenInterest),
+			Openinterest: quote.OpenInterest,
 			Putcall:      putcall,
 		}
 	}
@@ -112,19 +114,20 @@ func (g impliedVolRequestGenerator) generate(ticker string) (proto.Message, erro
 	}
 
 	request := &pb.ImpliedVolRequest{
-		Pricingdate: float32(time.Now().Unix()),
+		Pricingdate: pricingDate,
 		Marketdata:  mkt,
 		Quotes:      make([]*pb.OptionQuoteSlice, len(chain)),
 	}
 
 	for i, yahooQuote := range chain {
 		request.Quotes[i] = &pb.OptionQuoteSlice{
-			Timestamp: request.Pricingdate,
-			Expiry:    float32(yahooQuote.ExpirationDates[i]),
+			Timestamp: pricingDate,
+			Expiry:    float64(yahooQuote.ExpirationDates[i]),
 			Puts:      g.bind(yahooQuote.Options[0].Puts, pb.OptionType_PUT),
 			Calls:     g.bind(yahooQuote.Options[0].Calls, pb.OptionType_CALL),
 		}
 	}
 
+	fmt.Println(request)
 	return request, nil
 }

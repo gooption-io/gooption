@@ -44,18 +44,22 @@ message OptionMarket {
     RiskFreeRate rate = 4;
 } 
 
+message ImpliedVolQuote {
+    double timestamp = 1;    
+    OptionQuote input = 2;    
+    string error = 3;
+    double vol = 4;
+    int64 nbiteration = 5;
+}
+
 message ImpliedVolSlice {
     double timestamp = 1;
     bool iserror = 2; 
     double expiry = 3;
-    repeated string errors = 4;
-    repeated double strikes = 5;
-    repeated double vols = 6;
-    repeated int64 nbsolveriteration = 7;
-    repeated OptionQuote quotes = 8;
+    repeated ImpliedVolQuote quotes = 4;
 }
 
 message ImpliedVolSurface { 
     double timestamp = 1;
-    repeated ImpliedVolSlice volsurface = 2;
+    repeated ImpliedVolSlice slices = 2;
 } 

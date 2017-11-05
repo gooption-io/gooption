@@ -1,4 +1,4 @@
-//go:generate gooption-gen client ImpliedVol
+//go:generate gooption-cli -p client -r Price -r Greek -r ImpliedVol
 package main
 
 import (
@@ -262,12 +262,13 @@ func insertImpliedVolRequest() {
 		defer file.Close()
 		request := &pb.ImpliedVolRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
+			fmt.Printf("%+v\n", proto.MarshalTextString(request))
 			insertRequest(request)
 		} else {
-			fmt.Printf("%s", err.Error())
+			panic(err)
 		}
 	} else {
-		fmt.Printf("%s", err.Error())
+		panic(err)
 	}
 }
 

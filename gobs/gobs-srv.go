@@ -1,11 +1,10 @@
-// go:generate sh -c "protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto $GOPATH/src/github.com/gooption/pb/*.proto"
-// go:generate sh -c "protoc --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb $GOPATH/src/github.com/gooption/gobs/pb/service.proto"
-// go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto pb/*.proto"
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb pb/*.proto"
+//go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
 package main
 
 import (
 	"flag"
-	"fmt"
 	"net/http"
 	"sync"
 
@@ -162,8 +161,6 @@ Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
-	fmt.Printf("%+v\n", proto.MarshalTextString(in))
-
 	var (
 		mult = func(q *pb.OptionQuote) float64 { return putCallMap[q.Putcall] }
 
@@ -176,30 +173,30 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 		}
 	)
 
-	surf := &pb.ImpliedVolSurface{
-		Timestamp:  in.Marketdata.Timestamp,
-		Volsurface: make([]*pb.ImpliedVolSlice, len(in.Quotes)),
-	}
+	glog.V(2).Infof("%+v\n", proto.MarshalTextString(in))
 
-	fmt.Printf("%+v\n", proto.MarshalTextString(in))
+	surf := &pb.ImpliedVolSurface{
+		Timestamp: in.Marketdata.Timestamp,
+		Slices:    make([]*pb.ImpliedVolSlice, len(in.Quotes)),
+	}
 
 	var wg sync.WaitGroup
 	for idx := 0; idx < len(in.Quotes); idx++ {
+		defer wg.Add(1)
 		go func(index int) {
 			newOptionQuoteSliceIterator(in.Quotes[index], in.Marketdata).foreach(
 				func(quote *pb.OptionQuote) *ivSolverResult {
 					return ivRootSolver(p(quote), s, r, k(quote), t(in.Quotes[index]), mult(quote))
 				}).then(
 				func(calibratedSlice *pb.ImpliedVolSlice) {
-					surf.Volsurface[index] = calibratedSlice
-					wg.Done()
+					defer wg.Done()
+					surf.Slices[index] = calibratedSlice
 				})
 		}(idx)
-		wg.Add(1)
 	}
 
 	wg.Wait()
-	fmt.Printf("%+v\n", proto.MarshalTextString(surf))
+	glog.V(2).Infof("%+v\n", proto.MarshalTextString(surf))
 	return &pb.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil

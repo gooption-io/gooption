@@ -26,28 +26,27 @@ func newOptionQuoteSliceIterator(quotes *pb.OptionQuoteSlice, market *pb.OptionM
 		Slice:  quotes,
 		Market: market,
 		CalibratedSlice: &pb.ImpliedVolSlice{
-			Timestamp:         market.Timestamp,
-			Expiry:            quotes.Expiry,
-			Iserror:           false,
-			Vols:              make([]float64, n),
-			Strikes:           make([]float64, n),
-			Errors:            make([]string, n),
-			Quotes:            make([]*pb.OptionQuote, n),
-			Nbsolveriteration: make([]int64, n),
+			Timestamp: market.Timestamp,
+			Expiry:    quotes.Expiry,
+			Iserror:   false,
+			Quotes:    make([]*pb.ImpliedVolQuote, n),
 		},
 	}
 }
 
 func (it *optionQuoteSliceIterator) update(quote *pb.OptionQuote, res *ivSolverResult) {
 	if res.Error == nil {
-		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = quote
-		it.CalibratedSlice.Vols[it.NbCalibratedSlice] = res.IV
-		it.CalibratedSlice.Strikes[it.NbCalibratedSlice] = quote.Strike
-		it.CalibratedSlice.Nbsolveriteration[it.NbCalibratedSlice] = int64(res.NbSolverIteration)
+		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = &pb.ImpliedVolQuote{
+			Input:       quote,
+			Vol:         res.IV,
+			Nbiteration: int64(res.NbSolverIteration),
+		}
 	} else {
 		it.CalibratedSlice.Iserror = true
-		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = quote
-		it.CalibratedSlice.Errors[it.NbCalibratedSlice] = res.Error.Error()
+		it.CalibratedSlice.Quotes[it.NbCalibratedSlice] = &pb.ImpliedVolQuote{
+			Input: quote,
+			Error: res.Error.Error(),
+		}
 	}
 
 	atomic.AddInt32(&it.NbCalibratedSlice, 1)
@@ -73,11 +72,7 @@ func (it *optionQuoteSliceIterator) foreach(f func(quote *pb.OptionQuote) *ivSol
 		}
 	}
 
-	it.CalibratedSlice.Vols = it.CalibratedSlice.Vols[0:it.NbCalibratedSlice]
-	it.CalibratedSlice.Nbsolveriteration = it.CalibratedSlice.Nbsolveriteration[0:it.NbCalibratedSlice]
-	it.CalibratedSlice.Strikes = it.CalibratedSlice.Strikes[0:it.NbCalibratedSlice]
 	it.CalibratedSlice.Quotes = it.CalibratedSlice.Quotes[0:it.NbCalibratedSlice]
-	it.CalibratedSlice.Errors = it.CalibratedSlice.Errors[0:it.NbCalibratedSlice]
 	return it
 }
 

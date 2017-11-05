@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/golang/protobuf/jsonpb"
+	"github.com/gogo/protobuf/jsonpb"
 	"github.com/mkideal/cli"
 )
 
@@ -74,7 +74,7 @@ func generateTemplate(projectConfig []config, requests []string, newWriter func(
 }
 
 func generateJSON(requests []string, newWriter func(path string) (io.WriteCloser, error)) {
-	marshaler := jsonpb.Marshaler{EnumsAsInts: true}
+	marshaler := jsonpb.Marshaler{EnumsAsInts: true, EmitDefaults: true}
 	for _, requestArg := range requests {
 		request := strings.ToLower(requestArg)
 		if mockRequest, err := NewRequest(request); err == nil {
