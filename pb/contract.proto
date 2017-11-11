@@ -1,11 +1,18 @@
 syntax = "proto3"; 
 package pb; 
-import "common.proto";
+// import "common.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option (gogoproto.populate_all) = true;
+option (gogoproto.equal_all) = true;
+option (gogoproto.verbose_equal_all) = true;
+option (gogoproto.testgen_all) = true;
+option (gogoproto.benchgen_all) = true;
 
 message European {
   double timestamp = 1;
   string ticker = 2;
   double strike = 3;
   double expiry = 4;
-  OptionType putcall = 5;
+  string putcall = 5;
 }

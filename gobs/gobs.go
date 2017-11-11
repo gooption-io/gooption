@@ -5,7 +5,6 @@ import (
 	"math"
 
 	"github.com/ematvey/gostat"
-	"github.com/gooption/gobs/pb"
 )
 
 var (
@@ -13,9 +12,9 @@ var (
 	dphi = stat.Normal_PDF(0, 1)
 
 	allGreeks  = []string{"delta", "gamma", "vega", "theta", "rho"}
-	putCallMap = map[pb.OptionType]float64{
-		pb.OptionType_CALL: 1.0,
-		pb.OptionType_PUT:  -1.0,
+	putCallMap = map[string]float64{
+		"call": 1.0,
+		"put":  -1.0,
 	}
 )
 

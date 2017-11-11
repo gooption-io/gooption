@@ -79,7 +79,7 @@ func priceRequest() {
 			  putcall
 			}
 	
-			marketdata(func: eq(timestamp, 1508274400)) @cascade { 
+			marketdata(func: eq(timestamp, 1510354016)) @cascade { 
 				spot {
 					...indexInfo
 				}
@@ -102,8 +102,7 @@ func priceRequest() {
 
 	resp, err := dgraphClient.Run(context.Background(), &req)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		panic(err)
 	}
 	printNode(0, resp.N[0])
 	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
@@ -111,11 +110,10 @@ func priceRequest() {
 	priceReq := &pb.PriceRequest{}
 	err = client.Unmarshal(resp.N, priceReq)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		panic(err)
 	}
+
 	priceReq.Pricingdate = float64(time.Now().Unix())
-	priceReq.Contract.Putcall = pb.OptionType_CALL
 	fmt.Printf("%+v\n", proto.MarshalTextString(priceReq))
 
 	conn2 := dial("gobs")
@@ -147,43 +145,36 @@ func ivRequest() {
 		`)
 	req.SetQuery(`
 		{
-			marketdata(func: eq(timestamp, 1508274400)) @cascade { 
-				spot {
-					...indexInfo
-				}
-				vol  {
-					...indexInfo
-				}
-				rate  {
-					...indexInfo
-				}
+			marketdata(func: eq(timestamp, 1510354016)) @cascade { 
+			  spot {
+				...indexInfo
+			  }
+			  vol  {
+				...indexInfo
+			  }
+			  rate  {
+				...indexInfo
+			  }
 			} 
-	
-			quotes(func: eq(timestamp, 1508274400)) @cascade { 
+		
+			quotes(func: eq(timestamp, 1510354016)) @cascade { 
 			  expiry
-			  puts {
-				...quote
+			  puts (orderasc: strike){
+				expand(_all_)  
 			  }
-			  calls {
-				...quote
+			  calls (orderasc: strike) {
+				expand(_all_)  
 			  }
 			} 
-		}
-		  
-		fragment quote {
-			strike
-			bid
-			ask
-			openinterest
-		}
-	
-		fragment indexInfo {
+		  }
+		
+		  fragment indexInfo {
 			index @filter(eq(ticker, "AAPL") or eq(ticker, "USD.FEDFUND")) {
-				timestamp
-				ticker
-				value
+			  timestamp
+			  ticker
+			  value
 			}
-		}`)
+		  }`)
 
 	resp, err := dgraphClient.Run(context.Background(), &req)
 	if err != nil {

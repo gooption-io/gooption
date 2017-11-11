@@ -6,37 +6,30 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class GobsService {
   private query = `{
-    marketdata(func: eq(timestamp, 1509883055), first:1) @cascade { 
+    marketdata(func: eq(timestamp, 1510354016)) @cascade { 
       spot {
-        ...indexInfo
+      ...indexInfo
       }
       vol  {
-        ...indexInfo
+      ...indexInfo
       }
       rate  {
-        ...indexInfo
+      ...indexInfo
       }
     } 
-
-    quotes(func: eq(timestamp, 1509883055)) @cascade { 
+  
+    quotes(func: eq(timestamp, 1510354016)) @cascade { 
       expiry
-      puts {
-      ...quote (orderasc: strike) 
+      puts (orderasc: strike){
+      expand(_all_)  
       }
-      calls {
-      ...quote (orderasc: strike) 
+      calls (orderasc: strike) {
+      expand(_all_)  
       }
     } 
-  }
-    
-  fragment quote {
-    strike
-    bid
-    ask
-    openinterest
-  }
-
-  fragment indexInfo {
+    }
+  
+    fragment indexInfo {
     index @filter(eq(ticker, "AAPL") or eq(ticker, "USD.FEDFUND")) {
       timestamp
       ticker

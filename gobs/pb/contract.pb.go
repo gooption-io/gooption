@@ -6,6 +6,7 @@ package pb
 import proto "github.com/gogo/protobuf/proto"
 import fmt "fmt"
 import math "math"
+import _ "github.com/gogo/protobuf/gogoproto"
 
 import io "io"
 
@@ -15,11 +16,11 @@ var _ = fmt.Errorf
 var _ = math.Inf
 
 type European struct {
-	Timestamp float64    `protobuf:"fixed64,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Ticker    string     `protobuf:"bytes,2,opt,name=ticker,proto3" json:"ticker,omitempty"`
-	Strike    float64    `protobuf:"fixed64,3,opt,name=strike,proto3" json:"strike,omitempty"`
-	Expiry    float64    `protobuf:"fixed64,4,opt,name=expiry,proto3" json:"expiry,omitempty"`
-	Putcall   OptionType `protobuf:"varint,5,opt,name=putcall,proto3,enum=pb.OptionType" json:"putcall,omitempty"`
+	Timestamp float64 `protobuf:"fixed64,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Ticker    string  `protobuf:"bytes,2,opt,name=ticker,proto3" json:"ticker,omitempty"`
+	Strike    float64 `protobuf:"fixed64,3,opt,name=strike,proto3" json:"strike,omitempty"`
+	Expiry    float64 `protobuf:"fixed64,4,opt,name=expiry,proto3" json:"expiry,omitempty"`
+	Putcall   string  `protobuf:"bytes,5,opt,name=putcall,proto3" json:"putcall,omitempty"`
 }
 
 func (m *European) Reset()                    { *m = European{} }
@@ -55,15 +56,99 @@ func (m *European) GetExpiry() float64 {
 	return 0
 }
 
-func (m *European) GetPutcall() OptionType {
+func (m *European) GetPutcall() string {
 	if m != nil {
 		return m.Putcall
 	}
-	return OptionType_PUT
+	return ""
 }
 
 func init() {
 	proto.RegisterType((*European)(nil), "pb.European")
+}
+func (this *European) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*European)
+	if !ok {
+		that2, ok := that.(European)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *European")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *European but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *European but is not nil && this == nil")
+	}
+	if this.Timestamp != that1.Timestamp {
+		return fmt.Errorf("Timestamp this(%v) Not Equal that(%v)", this.Timestamp, that1.Timestamp)
+	}
+	if this.Ticker != that1.Ticker {
+		return fmt.Errorf("Ticker this(%v) Not Equal that(%v)", this.Ticker, that1.Ticker)
+	}
+	if this.Strike != that1.Strike {
+		return fmt.Errorf("Strike this(%v) Not Equal that(%v)", this.Strike, that1.Strike)
+	}
+	if this.Expiry != that1.Expiry {
+		return fmt.Errorf("Expiry this(%v) Not Equal that(%v)", this.Expiry, that1.Expiry)
+	}
+	if this.Putcall != that1.Putcall {
+		return fmt.Errorf("Putcall this(%v) Not Equal that(%v)", this.Putcall, that1.Putcall)
+	}
+	return nil
+}
+func (this *European) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	}
+
+	that1, ok := that.(*European)
+	if !ok {
+		that2, ok := that.(European)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.Timestamp != that1.Timestamp {
+		return false
+	}
+	if this.Ticker != that1.Ticker {
+		return false
+	}
+	if this.Strike != that1.Strike {
+		return false
+	}
+	if this.Expiry != that1.Expiry {
+		return false
+	}
+	if this.Putcall != that1.Putcall {
+		return false
+	}
+	return true
 }
 func (m *European) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
@@ -101,10 +186,11 @@ func (m *European) MarshalTo(dAtA []byte) (int, error) {
 		i++
 		i = encodeFixed64Contract(dAtA, i, uint64(math.Float64bits(float64(m.Expiry))))
 	}
-	if m.Putcall != 0 {
-		dAtA[i] = 0x28
+	if len(m.Putcall) > 0 {
+		dAtA[i] = 0x2a
 		i++
-		i = encodeVarintContract(dAtA, i, uint64(m.Putcall))
+		i = encodeVarintContract(dAtA, i, uint64(len(m.Putcall)))
+		i += copy(dAtA[i:], m.Putcall)
 	}
 	return i, nil
 }
@@ -136,6 +222,99 @@ func encodeVarintContract(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return offset + 1
 }
+func NewPopulatedEuropean(r randyContract, easy bool) *European {
+	this := &European{}
+	this.Timestamp = float64(r.Float64())
+	if r.Intn(2) == 0 {
+		this.Timestamp *= -1
+	}
+	this.Ticker = string(randStringContract(r))
+	this.Strike = float64(r.Float64())
+	if r.Intn(2) == 0 {
+		this.Strike *= -1
+	}
+	this.Expiry = float64(r.Float64())
+	if r.Intn(2) == 0 {
+		this.Expiry *= -1
+	}
+	this.Putcall = string(randStringContract(r))
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+type randyContract interface {
+	Float32() float32
+	Float64() float64
+	Int63() int64
+	Int31() int32
+	Uint32() uint32
+	Intn(n int) int
+}
+
+func randUTF8RuneContract(r randyContract) rune {
+	ru := r.Intn(62)
+	if ru < 10 {
+		return rune(ru + 48)
+	} else if ru < 36 {
+		return rune(ru + 55)
+	}
+	return rune(ru + 61)
+}
+func randStringContract(r randyContract) string {
+	v1 := r.Intn(100)
+	tmps := make([]rune, v1)
+	for i := 0; i < v1; i++ {
+		tmps[i] = randUTF8RuneContract(r)
+	}
+	return string(tmps)
+}
+func randUnrecognizedContract(r randyContract, maxFieldNumber int) (dAtA []byte) {
+	l := r.Intn(5)
+	for i := 0; i < l; i++ {
+		wire := r.Intn(4)
+		if wire == 3 {
+			wire = 5
+		}
+		fieldNumber := maxFieldNumber + r.Intn(100)
+		dAtA = randFieldContract(dAtA, r, fieldNumber, wire)
+	}
+	return dAtA
+}
+func randFieldContract(dAtA []byte, r randyContract, fieldNumber int, wire int) []byte {
+	key := uint32(fieldNumber)<<3 | uint32(wire)
+	switch wire {
+	case 0:
+		dAtA = encodeVarintPopulateContract(dAtA, uint64(key))
+		v2 := r.Int63()
+		if r.Intn(2) == 0 {
+			v2 *= -1
+		}
+		dAtA = encodeVarintPopulateContract(dAtA, uint64(v2))
+	case 1:
+		dAtA = encodeVarintPopulateContract(dAtA, uint64(key))
+		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	case 2:
+		dAtA = encodeVarintPopulateContract(dAtA, uint64(key))
+		ll := r.Intn(100)
+		dAtA = encodeVarintPopulateContract(dAtA, uint64(ll))
+		for j := 0; j < ll; j++ {
+			dAtA = append(dAtA, byte(r.Intn(256)))
+		}
+	default:
+		dAtA = encodeVarintPopulateContract(dAtA, uint64(key))
+		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	}
+	return dAtA
+}
+func encodeVarintPopulateContract(dAtA []byte, v uint64) []byte {
+	for v >= 1<<7 {
+		dAtA = append(dAtA, uint8(uint64(v)&0x7f|0x80))
+		v >>= 7
+	}
+	dAtA = append(dAtA, uint8(v))
+	return dAtA
+}
 func (m *European) Size() (n int) {
 	var l int
 	_ = l
@@ -152,8 +331,9 @@ func (m *European) Size() (n int) {
 	if m.Expiry != 0 {
 		n += 9
 	}
-	if m.Putcall != 0 {
-		n += 1 + sovContract(uint64(m.Putcall))
+	l = len(m.Putcall)
+	if l > 0 {
+		n += 1 + l + sovContract(uint64(l))
 	}
 	return n
 }
@@ -284,10 +464,10 @@ func (m *European) Unmarshal(dAtA []byte) error {
 			v |= uint64(dAtA[iNdEx-1]) << 56
 			m.Expiry = float64(math.Float64frombits(v))
 		case 5:
-			if wireType != 0 {
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Putcall", wireType)
 			}
-			m.Putcall = 0
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -297,11 +477,21 @@ func (m *European) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Putcall |= (OptionType(b) & 0x7F) << shift
+				stringLen |= (uint64(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthContract
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Putcall = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipContract(dAtA[iNdEx:])
@@ -431,17 +621,19 @@ var (
 func init() { proto.RegisterFile("contract.proto", fileDescriptorContract) }
 
 var fileDescriptorContract = []byte{
-	// 191 bytes of a gzipped FileDescriptorProto
+	// 213 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4b, 0xce, 0xcf, 0x2b,
-	0x29, 0x4a, 0x4c, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x92, 0xe2,
-	0x49, 0xce, 0xcf, 0xcd, 0xcd, 0xcf, 0x83, 0x88, 0x28, 0xcd, 0x62, 0xe4, 0xe2, 0x70, 0x2d, 0x2d,
-	0xca, 0x2f, 0x48, 0x4d, 0xcc, 0x13, 0x92, 0xe1, 0xe2, 0x2c, 0xc9, 0xcc, 0x4d, 0x2d, 0x2e, 0x49,
-	0xcc, 0x2d, 0x90, 0x60, 0x54, 0x60, 0xd4, 0x60, 0x0c, 0x42, 0x08, 0x08, 0x89, 0x71, 0xb1, 0x95,
-	0x64, 0x26, 0x67, 0xa7, 0x16, 0x49, 0x30, 0x29, 0x30, 0x6a, 0x70, 0x06, 0x41, 0x79, 0x20, 0xf1,
-	0xe2, 0x92, 0xa2, 0xcc, 0xec, 0x54, 0x09, 0x66, 0xb0, 0x16, 0x28, 0x0f, 0x24, 0x9e, 0x5a, 0x51,
-	0x90, 0x59, 0x54, 0x29, 0xc1, 0x02, 0x11, 0x87, 0xf0, 0x84, 0x34, 0xb8, 0xd8, 0x0b, 0x4a, 0x4b,
-	0x92, 0x13, 0x73, 0x72, 0x24, 0x58, 0x15, 0x18, 0x35, 0xf8, 0x8c, 0xf8, 0xf4, 0x0a, 0x92, 0xf4,
-	0xfc, 0x0b, 0x4a, 0x32, 0xf3, 0xf3, 0x42, 0x2a, 0x0b, 0x52, 0x83, 0x60, 0xd2, 0x4e, 0x3c, 0x27,
-	0x1e, 0xc9, 0x31, 0x5e, 0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0x63, 0x12, 0x1b, 0xd8, 0xc5,
-	0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x8f, 0x54, 0xcd, 0x8b, 0xd5, 0x00, 0x00, 0x00,
+	0x29, 0x4a, 0x4c, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x92, 0xd2,
+	0x4d, 0xcf, 0x2c, 0xc9, 0x28, 0x4d, 0xd2, 0x4b, 0xce, 0xcf, 0xd5, 0x4f, 0xcf, 0x4f, 0xcf, 0xd7,
+	0x07, 0x4b, 0x25, 0x95, 0xa6, 0x81, 0x79, 0x60, 0x0e, 0x98, 0x05, 0xd1, 0xa2, 0xd4, 0xc5, 0xc8,
+	0xc5, 0xe1, 0x5a, 0x5a, 0x94, 0x5f, 0x90, 0x9a, 0x98, 0x27, 0x24, 0xc3, 0xc5, 0x59, 0x92, 0x99,
+	0x9b, 0x5a, 0x5c, 0x92, 0x98, 0x5b, 0x20, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x18, 0x84, 0x10, 0x10,
+	0x12, 0xe3, 0x62, 0x2b, 0xc9, 0x4c, 0xce, 0x4e, 0x2d, 0x92, 0x60, 0x52, 0x60, 0xd4, 0xe0, 0x0c,
+	0x82, 0xf2, 0x40, 0xe2, 0xc5, 0x25, 0x45, 0x99, 0xd9, 0xa9, 0x12, 0xcc, 0x60, 0x2d, 0x50, 0x1e,
+	0x48, 0x3c, 0xb5, 0xa2, 0x20, 0xb3, 0xa8, 0x52, 0x82, 0x05, 0x22, 0x0e, 0xe1, 0x09, 0x49, 0x70,
+	0xb1, 0x17, 0x94, 0x96, 0x24, 0x27, 0xe6, 0xe4, 0x48, 0xb0, 0x82, 0x0d, 0x82, 0x71, 0x9d, 0x14,
+	0x1e, 0x3c, 0x94, 0x63, 0xfc, 0xf1, 0x50, 0x8e, 0x71, 0xc5, 0x23, 0x39, 0xc6, 0x1d, 0x8f, 0xe4,
+	0x18, 0x0f, 0x3c, 0x92, 0x63, 0x3c, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07, 0x8f,
+	0xe4, 0x18, 0x93, 0xd8, 0xc0, 0xae, 0x36, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x7d, 0x08, 0x57,
+	0xeb, 0xfa, 0x00, 0x00, 0x00,
 }

@@ -1,4 +1,4 @@
-//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/gooption/gobs/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto $GOPATH/src/github.com/gooption/gobs/pb/*.proto"
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto"
 package main
 
 import (
@@ -26,7 +26,7 @@ var (
 		Ticker:    "AAPL DEC2017 PUT",
 		Strike:    159.76,
 		Expiry:    float64(time.Now().AddDate(0, 1, 0).Unix()),
-		Putcall:   pb.OptionType_CALL,
+		Putcall:   "put",
 	}
 	mkt = &pb.OptionMarket{
 		Timestamp: pricingDate,
@@ -92,7 +92,7 @@ func (g greekRequestGenerator) generate(ticker string) (proto.Message, error) {
 
 type impliedVolRequestGenerator struct{}
 
-func (g impliedVolRequestGenerator) bind(quotes []goyahoo.Quote, putcall pb.OptionType) []*pb.OptionQuote {
+func (g impliedVolRequestGenerator) bind(quotes []goyahoo.Quote, putcall string) []*pb.OptionQuote {
 	requestQuotes := make([]*pb.OptionQuote, len(quotes))
 	for i, quote := range quotes {
 		requestQuotes[i] = &pb.OptionQuote{
@@ -123,8 +123,8 @@ func (g impliedVolRequestGenerator) generate(ticker string) (proto.Message, erro
 		request.Quotes[i] = &pb.OptionQuoteSlice{
 			Timestamp: pricingDate,
 			Expiry:    float64(yahooQuote.ExpirationDates[i]),
-			Puts:      g.bind(yahooQuote.Options[0].Puts, pb.OptionType_PUT),
-			Calls:     g.bind(yahooQuote.Options[0].Calls, pb.OptionType_CALL),
+			Puts:      g.bind(yahooQuote.Options[0].Puts, "put"),
+			Calls:     g.bind(yahooQuote.Options[0].Calls, "call"),
 		}
 	}
 

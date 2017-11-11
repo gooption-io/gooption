@@ -1,11 +1,12 @@
-//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto pb/*.proto"
-//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb pb/*.proto"
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto pb/*.proto"
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb pb/*.proto"
 //go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
 package main
 
 import (
 	"flag"
 	"net/http"
+	"strings"
 	"sync"
 
 	context "golang.org/x/net/context"
@@ -59,6 +60,7 @@ func tcpServer() error {
 	if err != nil {
 		return err
 	}
+	defer lis.Close()
 
 	s := grpc.NewServer()
 	pb.RegisterGobsServer(s, &server{})
@@ -91,7 +93,7 @@ Stock assumed to pay no dividends
 */
 func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
 	var (
-		mult = putCallMap[in.Contract.Putcall]
+		mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
 
 		s = in.Marketdata.Spot.Index.Value
 		v = in.Marketdata.Vol.Index.Value
@@ -115,7 +117,7 @@ Setting Request to "all" will compute all greeks
 */
 func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
 	var (
-		mult = putCallMap[in.Request.Contract.Putcall]
+		mult = putCallMap[strings.ToLower(in.Request.Contract.Putcall)]
 
 		s = in.Request.Marketdata.Spot.Index.Value
 		v = in.Request.Marketdata.Vol.Index.Value
@@ -162,7 +164,7 @@ The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
 	var (
-		mult = func(q *pb.OptionQuote) float64 { return putCallMap[q.Putcall] }
+		mult = func(q *pb.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }
 
 		s = in.Marketdata.Spot.Index.Value
 		r = in.Marketdata.Rate.Index.Value
@@ -182,7 +184,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 
 	var wg sync.WaitGroup
 	for idx := 0; idx < len(in.Quotes); idx++ {
-		defer wg.Add(1)
+		wg.Add(1)
 		go func(index int) {
 			newOptionQuoteSliceIterator(in.Quotes[index], in.Marketdata).foreach(
 				func(quote *pb.OptionQuote) *ivSolverResult {
