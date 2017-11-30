@@ -1,5 +1,5 @@
 # gooption
-Option Pricing library in golang
+Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing system.
 
 ### roadmap
 - [ ] Use case 1 : BS option pricer written in go
