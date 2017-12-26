@@ -22,8 +22,12 @@ import (
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/glog"
 	"github.com/gooption/gobs/pb"
+	"github.com/grpc-ecosystem/go-grpc-middleware"
+	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
+	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/rs/cors"
+	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -51,7 +55,7 @@ func httpServer() error {
 		return err
 	}
 
-	glog.V(2).Infoln("server ready on port %%s", httpPort)
+	logrus.Infoln("http server ready on port ", httpPort)
 	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }
 
@@ -62,18 +66,34 @@ func tcpServer() error {
 	}
 	defer lis.Close()
 
-	s := grpc.NewServer()
+	opts := []grpc_logrus.Option{
+		grpc_logrus.WithDecider(func(methodFullName string, err error) bool {
+			// will not log gRPC calls if it was a call to healthcheck and no error was raised
+			if err == nil && methodFullName == "main.server.healthcheck" {
+				return false
+			}
+
+			// by default you will log all calls
+			return true
+		}),
+	}
+
+	s := grpc.NewServer(
+		grpc_middleware.WithUnaryServerChain(
+			grpc_ctxtags.UnaryServerInterceptor(),
+			grpc_logrus.UnaryServerInterceptor(logrus.NewEntry(logrus.New()), opts...)),
+	)
 	pb.RegisterGobsServer(s, &server{})
 	reflection.Register(s)
 
-	glog.V(2).Infoln("server ready on port %s", tcpPort)
+	logrus.Infoln("grpc server ready on port ", tcpPort)
 	return s.Serve(lis)
 }
 
 func start(entrypoint func() error) {
 	defer glog.Flush()
 	if err := entrypoint(); err != nil {
-		glog.Fatal(err)
+		logrus.Fatal(err)
 		panic(err)
 	}
 }
@@ -175,7 +195,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 		}
 	)
 
-	glog.V(2).Infof("%+v\n", proto.MarshalTextString(in))
+	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 
 	surf := &pb.ImpliedVolSurface{
 		Timestamp: in.Marketdata.Timestamp,
@@ -198,7 +218,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 	}
 
 	wg.Wait()
-	glog.V(2).Infof("%+v\n", proto.MarshalTextString(surf))
+	logrus.Debugf("%+v\n", proto.MarshalTextString(surf))
 	return &pb.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil

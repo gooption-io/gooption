@@ -1,6 +1,5 @@
 syntax = "proto3"; 
 package pb; 
-// import "common.proto";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 option (gogoproto.populate_all) = true;
@@ -12,7 +11,8 @@ option (gogoproto.benchgen_all) = true;
 message European {
   double timestamp = 1;
   string ticker = 2;
-  double strike = 3;
-  double expiry = 4;
-  string putcall = 5;
+  string undticker = 3;
+  double strike = 4;
+  double expiry = 5;
+  string putcall = 6;
 }

@@ -70,16 +70,18 @@ func priceRequest() {
 	req.SetSchema(`
 		timestamp: float @index(float) .
 		ticker: string @index(exact, term) .
+		undticker: string @index(exact, term) .		
 		`)
 	req.SetQuery(`{
 			contract(func: eq(ticker, "AAPL DEC2017 PUT")){
-			  ticker
-			  strike
-			  expiry
-			  putcall
+				ticker
+				strike
+				und as undticker
+				expiry
+				putcall
 			}
-	
-			marketdata(func: eq(timestamp, 1510354016)) @cascade { 
+			
+			marketdata(func: eq(timestamp, 1513551151)) @cascade { 
 				spot {
 					...indexInfo
 				}
@@ -93,7 +95,7 @@ func priceRequest() {
 		}
 			
 		fragment indexInfo {
-			index @filter(eq(ticker, "AAPL") or eq(ticker, "USD.FEDFUND")) {
+			index @filter(eq(ticker, val(und)) or eq(ticker, "USD.FEDFUND")) {
 				timestamp
 				ticker
 				value
@@ -145,7 +147,7 @@ func ivRequest() {
 		`)
 	req.SetQuery(`
 		{
-			marketdata(func: eq(timestamp, 1510354016)) @cascade { 
+			marketdata(func: eq(timestamp, 1513551151)) @cascade { 
 			  spot {
 				...indexInfo
 			  }
@@ -157,7 +159,7 @@ func ivRequest() {
 			  }
 			} 
 		
-			quotes(func: eq(timestamp, 1510354016)) @cascade { 
+			quotes(func: eq(timestamp, 1513551151)) @cascade { 
 			  expiry
 			  puts (orderasc: strike){
 				expand(_all_)  

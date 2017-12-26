@@ -24,6 +24,7 @@ var (
 	option      = &pb.European{
 		Timestamp: pricingDate,
 		Ticker:    "AAPL DEC2017 PUT",
+		Undticker: "AAPL",
 		Strike:    159.76,
 		Expiry:    float64(time.Now().AddDate(0, 1, 0).Unix()),
 		Putcall:   "put",
