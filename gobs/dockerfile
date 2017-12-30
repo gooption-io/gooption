@@ -1,0 +1,5 @@
+FROM scratch
+EXPOSE 50051
+EXPOSE 8081
+COPY gobs /
+CMD ["/gobs"]
