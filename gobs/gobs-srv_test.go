@@ -20,7 +20,7 @@ import (
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
-	"github.com/gooption/gobs/pb"
+	"github.com/lehajam/gooption/gobs/pb"
 )
 
 var (

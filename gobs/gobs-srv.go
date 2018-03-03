@@ -1,5 +1,6 @@
-//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto pb/*.proto"
-//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb pb/*.proto"
+// -- //go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto pb/*.proto"
+// -- //go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb pb/*.proto"
+//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/lehajam/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb --grpc-gateway_out=logtostderr=true:pb $GOPATH/src/github.com/lehajam/gooption/pb/*.proto pb/*.proto"
 //go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
 package main
 
@@ -21,11 +22,13 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/glog"
-	"github.com/gooption/gobs/pb"
+
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
+
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/lehajam/gooption/gobs/pb"
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 )
@@ -42,6 +45,8 @@ var (
 // server is used to implement pb.ModerlServer.
 type server struct{}
 
+// methods takes server chain as argument so it remains configurable per service while not changing core logic
+// might be useful for dependency injection
 func httpServer() error {
 	flag.Parse()
 	ctx := context.Background()
@@ -59,6 +64,8 @@ func httpServer() error {
 	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }
 
+// methods takes server chain as argument so it remains configurable per service while not changing core logic
+// might be useful for dependency injection
 func tcpServer() error {
 	lis, err := net.Listen("tcp", tcpPort)
 	if err != nil {
@@ -81,8 +88,7 @@ func tcpServer() error {
 	s := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
 			grpc_ctxtags.UnaryServerInterceptor(),
-			grpc_logrus.UnaryServerInterceptor(logrus.NewEntry(logrus.New()), opts...)),
-	)
+			grpc_logrus.UnaryServerInterceptor(logrus.NewEntry(logrus.New()), opts...)))
 	pb.RegisterGobsServer(s, &server{})
 	reflection.Register(s)
 

@@ -1,4 +1,3 @@
 vendor
 *.csv
 debug.*
-Godeps

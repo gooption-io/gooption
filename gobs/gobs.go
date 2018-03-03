@@ -4,12 +4,12 @@ import (
 	"errors"
 	"math"
 
-	"github.com/ematvey/gostat"
+	"gonum.org/v1/gonum/stat/distuv"
 )
 
 var (
-	phi  = stat.Normal_CDF(0, 1)
-	dphi = stat.Normal_PDF(0, 1)
+	phi  = distuv.Normal{Mu: 0, Sigma: 1}.CDF
+	dphi = distuv.Normal{Mu: 0, Sigma: 1}.Prob
 
 	allGreeks  = []string{"delta", "gamma", "vega", "theta", "rho"}
 	putCallMap = map[string]float64{
@@ -25,6 +25,7 @@ Stock assumed to pay no dividends
 func bs(s, v, r, k, t, mult float64) float64 {
 	d1 := d1(s, k, t, v, r)
 	d2 := d2(d1, v, t)
+
 	return mult * (s*phi(mult*d1) - k*phi(mult*d2)*math.Exp(-r*t))
 }
 

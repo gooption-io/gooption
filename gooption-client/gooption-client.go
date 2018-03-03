@@ -14,7 +14,7 @@ import (
 
 	"github.com/dgraph-io/dgraph/client"
 	"github.com/dgraph-io/dgraph/protos"
-	"github.com/gooption/gobs/pb"
+	"github.com/lehajam/gooption/gobs/pb"
 	"google.golang.org/grpc"
 
 	"github.com/gogo/protobuf/jsonpb"
