@@ -24,6 +24,10 @@ Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing s
      - [ ] Logging
      - [ ] Data validation
      - [ ] Reverse proxy
+- [ ] QuantLib option pricer
+     - [ ] Service definition using protobuf
+     - [ ] goquantlib service (price, greeks and implied vol)
+     - [ ] Testing / Number validation 
 - [ ] Service discovery
      - [ ] Routing
      - [ ] Metadata for GUI discovery
