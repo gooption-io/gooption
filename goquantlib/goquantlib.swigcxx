@@ -1,4 +1,4 @@
-%module gooption
+%module main
 %{
     #include "european.hpp"
 %}
