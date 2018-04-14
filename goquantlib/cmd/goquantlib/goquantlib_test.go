@@ -6,10 +6,12 @@ import (
 	"testing"
 
 	"github.com/gogo/protobuf/jsonpb"
-	"github.com/lehajam/gooption/goquantlib/pb"
+	"github.com/lehajam/gooption/goquantlib"
+	"github.com/lehajam/gooption/goquantlib/cmd/goquantlib/pb"
 )
 
 var (
+	s      = &server{}
 	params = map[string]float64{
 		"S":       100,
 		"K":       100,
@@ -26,7 +28,7 @@ var (
 )
 
 func TestPrice(t *testing.T) {
-	call := EuropeanFlatVol(
+	call := goquantlib.EuropeanFlatVol(
 		params["S"],
 		params["R"],
 		params["Q"],
@@ -43,7 +45,7 @@ func Test_Price(t *testing.T) {
 		defer file.Close()
 		request := &pb.PriceRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
-			if response, err := s.Price(context.Background(), request); err != nil {
+			if response, err := s.Price(context.Background(), request); err == nil {
 				t.Log(response)
 				t.Error(err)
 				if response.Error != "" {

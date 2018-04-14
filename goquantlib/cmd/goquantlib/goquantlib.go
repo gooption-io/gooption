@@ -14,7 +14,6 @@ import (
 
 	"errors"
 	"net"
-	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -27,9 +26,11 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/lehajam/gooption/gobs/pb"
+	"github.com/lehajam/gooption/goquantlib/cmd/goquantlib/pb"
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
+
+	"github.com/lehajam/gooption/goquantlib"
 )
 
 var (
@@ -39,6 +40,10 @@ var (
 		"gobs_endpoint",
 		"localhost:50051",
 		"endpoint of YourService")
+	putCallMap = map[string]float64{
+		"call": 1.0,
+		"put":  -1.0,
+	}
 )
 
 // server is used to implement pb.ModerlServer.
@@ -118,23 +123,21 @@ Stock assumed to pay no dividends
 */
 func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
 	var (
-		mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
-
-		s = in.Marketdata.Spot.Index.Value
-		v = in.Marketdata.Vol.Index.Value
-		r = in.Marketdata.Rate.Index.Value
-		k = in.Contract.Strike
-		p = EuropeanFlatVol(
-			s, 
-			r, 
-			0, 
-			v, 
-			k, 
-			in.Pricingdate, 
-			in.Contract.Expiry, 
-			mult	
+		mult = int(putCallMap[strings.ToLower(in.Contract.Putcall)])
+		s    = in.Marketdata.Spot.Index.Value
+		v    = in.Marketdata.Vol.Index.Value
+		r    = in.Marketdata.Rate.Index.Value
+		k    = in.Contract.Strike
+		p    = goquantlib.EuropeanFlatVol(
+			s,
+			r,
+			0,
+			v,
+			k,
+			int(in.Pricingdate),
+			int(in.Contract.Expiry),
+			mult)
 	)
-
 
 	return &pb.PriceResponse{
 		Price: p,
@@ -148,19 +151,6 @@ Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
 func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
-	var (
-		mult = putCallMap[strings.ToLower(in.Request.Contract.Putcall)]
-
-		s = in.Request.Marketdata.Spot.Index.Value
-		v = in.Request.Marketdata.Vol.Index.Value
-		r = in.Request.Marketdata.Rate.Index.Value
-		k = in.Request.Contract.Strike
-		t = time.Unix(int64(in.Request.Contract.Expiry), 0).Sub(
-			time.Unix(int64(in.Request.Pricingdate), 0)).Hours() / 24.0 / 365.250
-		d1 = d1(s, k, t, v, r)
-		d2 = d2(d1, v, t)
-	)
-
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 	return &pb.GreekResponse{}, errors.New("Not Implemented")
 }
@@ -171,18 +161,6 @@ Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
-	var (
-		mult = func(q *pb.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }
-
-		s = in.Marketdata.Spot.Index.Value
-		r = in.Marketdata.Rate.Index.Value
-		k = func(q *pb.OptionQuote) float64 { return q.Strike }
-		p = func(q *pb.OptionQuote) float64 { return (q.Ask + q.Bid) / 2.0 }
-		t = func(q *pb.OptionQuoteSlice) float64 {
-			return time.Unix(int64(q.Expiry), 0).Sub(time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
-		}
-	)
-
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 	return &pb.ImpliedVolResponse{}, errors.New("Not Implemented")
 }
