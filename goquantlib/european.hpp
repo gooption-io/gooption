@@ -1,4 +1,4 @@
-double EuropeanFlatVol(
+extern double EuropeanFlatVol(
     double s, 
     double r, 
     double q, 

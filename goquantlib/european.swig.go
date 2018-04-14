@@ -1,4 +1,4 @@
-package gooption
+package main
 
-// #cgo LDFLAGS: -lQuantLib -lprotobuf
+// #cgo LDFLAGS: -lQuantLib
 import "C"
