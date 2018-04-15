@@ -19,6 +19,8 @@ import (
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
+
+	"github.com/lehajam/gooption/query"
 )
 
 func main() {
@@ -56,7 +58,7 @@ func clientDir() string {
 	return dir
 }
 
-func priceRequest() {
+func dgraphClient(query string) *protos.Response {
 	clientDir := clientDir()
 	defer os.RemoveAll(clientDir)
 
@@ -67,40 +69,7 @@ func priceRequest() {
 	defer dgraphClient.Close()
 
 	req := client.Req{}
-	req.SetSchema(`
-		timestamp: float @index(float) .
-		ticker: string @index(exact, term) .
-		undticker: string @index(exact, term) .		
-		`)
-	req.SetQuery(`{
-			contract(func: eq(ticker, "AAPL DEC2017 PUT")){
-				ticker
-				strike
-				und as undticker
-				expiry
-				putcall
-			}
-			
-			marketdata(func: eq(timestamp, 1513551151)) @cascade { 
-				spot {
-					...indexInfo
-				}
-				vol  {
-					...indexInfo
-				}
-				rate  {
-					...indexInfo
-				}
-			} 
-		}
-			
-		fragment indexInfo {
-			index @filter(eq(ticker, val(und)) or eq(ticker, "USD.FEDFUND")) {
-				timestamp
-				ticker
-				value
-			}
-		}`)
+	req.SetQuery(query)
 
 	resp, err := dgraphClient.Run(context.Background(), &req)
 	if err != nil {
@@ -109,8 +78,16 @@ func priceRequest() {
 	printNode(0, resp.N[0])
 	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
 
+	return resp
+}
+
+func priceRequest() {
+	resp := dgraphClient(
+		query.GetPriceRequestQuery("1513551151", "AAPL DEC2017 PUT", "USD.FEDFUND"),
+	)
+
 	priceReq := &pb.PriceRequest{}
-	err = client.Unmarshal(resp.N, priceReq)
+	err := client.Unmarshal(resp.N, priceReq)
 	if err != nil {
 		panic(err)
 	}
@@ -131,63 +108,12 @@ func priceRequest() {
 }
 
 func ivRequest() {
-	clientDir := clientDir()
-	defer os.RemoveAll(clientDir)
-
-	conn1 := dial("dgraph")
-	defer conn1.Close()
-
-	dgraphClient := client.NewDgraphClient([]*grpc.ClientConn{conn1}, client.DefaultOptions, clientDir)
-	defer dgraphClient.Close()
-
-	req := client.Req{}
-	req.SetSchema(`
-		timestamp: float @index(float) .
-		ticker: string @index(exact, term) .
-		`)
-	req.SetQuery(`
-		{
-			marketdata(func: eq(timestamp, 1513551151)) @cascade { 
-			  spot {
-				...indexInfo
-			  }
-			  vol  {
-				...indexInfo
-			  }
-			  rate  {
-				...indexInfo
-			  }
-			} 
-		
-			quotes(func: eq(timestamp, 1513551151)) @cascade { 
-			  expiry
-			  puts (orderasc: strike){
-				expand(_all_)  
-			  }
-			  calls (orderasc: strike) {
-				expand(_all_)  
-			  }
-			} 
-		  }
-		
-		  fragment indexInfo {
-			index @filter(eq(ticker, "AAPL") or eq(ticker, "USD.FEDFUND")) {
-			  timestamp
-			  ticker
-			  value
-			}
-		  }`)
-
-	resp, err := dgraphClient.Run(context.Background(), &req)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	printNode(0, resp.N[0])
-	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
+	resp := dgraphClient(
+		query.GetImpliedVolRequestQuery("1513551151", "AAPL", "USD.FEDFUND"),
+	)
 
 	ivReq := &pb.ImpliedVolRequest{}
-	err = client.Unmarshal(resp.N, ivReq)
+	err := client.Unmarshal(resp.N, ivReq)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -223,49 +149,68 @@ func printNode(depth int, node *protos.Node) {
 }
 
 func insertPriceRequest() {
-	if file, err := os.Open("./testdata/PriceRequest.json"); err == nil {
-		defer file.Close()
-		request := &pb.PriceRequest{}
-		if jsonpb.Unmarshal(file, request) == nil {
-			insertRequest(request)
-		} else {
-			fmt.Printf("%s", err.Error())
-		}
-	} else {
-		fmt.Printf("%s", err.Error())
+	file, err := os.Open("./testdata/PriceRequest.json")
+	if err != nil {
+		panic(err)
 	}
+	defer file.Close()
+
+	request := &pb.PriceRequest{}
+	err = jsonpb.Unmarshal(file, request)
+	if err != nil {
+		panic(err)
+	}
+
+	insertRequest(
+		request,
+		`timestamp: float @index(float) .
+		ticker: string @index(exact, term) .
+		undticker: string @index(exact, term) .`,
+	)
 }
 
 func insertGreekRequest() {
-	if file, err := os.Open("./testdata/GreekRequest.json"); err == nil {
-		defer file.Close()
-		request := &pb.GreekRequest{}
-		if jsonpb.Unmarshal(file, request) == nil {
-			insertRequest(request)
-		} else {
-			fmt.Printf("%s", err.Error())
-		}
-	} else {
-		fmt.Printf("%s", err.Error())
+	file, err := os.Open("./testdata/GreekRequest.json")
+	if err != nil {
+		panic(err)
 	}
+	defer file.Close()
+
+	request := &pb.GreekRequest{}
+	err = jsonpb.Unmarshal(file, request)
+	if err != nil {
+		panic(err)
+	}
+
+	insertRequest(
+		request,
+		`timestamp: float @index(float) .
+		ticker: string @index(exact, term) .
+		undticker: string @index(exact, term) .`,
+	)
 }
 
 func insertImpliedVolRequest() {
-	if file, err := os.Open("./testdata/ImpliedVolRequest.json"); err == nil {
-		defer file.Close()
-		request := &pb.ImpliedVolRequest{}
-		if jsonpb.Unmarshal(file, request) == nil {
-			fmt.Printf("%+v\n", proto.MarshalTextString(request))
-			insertRequest(request)
-		} else {
-			panic(err)
-		}
-	} else {
+	file, err := os.Open("./testdata/ImpliedVolRequest.json")
+	if err != nil {
 		panic(err)
 	}
+	defer file.Close()
+
+	request := &pb.ImpliedVolRequest{}
+	err = jsonpb.Unmarshal(file, request)
+	if err != nil {
+		panic(err)
+	}
+
+	insertRequest(
+		request,
+		`timestamp: float @index(float) .
+		ticker: string @index(exact, term) .`,
+	)
 }
 
-func insertRequest(request interface{}) {
+func insertRequest(request interface{}, schema string) {
 	clientDir, err := ioutil.TempDir("", "client_")
 	if err != nil {
 		log.Fatal(err)
@@ -279,10 +224,8 @@ func insertRequest(request interface{}) {
 	defer dgraphClient.Close()
 
 	req := client.Req{}
+	req.SetSchema(schema)
 	req.SetObject(request)
-	req.SetSchema(`
-		timestamp: float @index(float) .
-		ticker: string @index(exact, term) .`)
 	resp, err := dgraphClient.Run(context.Background(), &req)
 	if err != nil {
 		fmt.Println(err.Error())

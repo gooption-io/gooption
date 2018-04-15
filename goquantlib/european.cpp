@@ -44,36 +44,44 @@ double EuropeanFlatVol(
     int t, 
     int putcall) {
 
-    Calendar calendar = TARGET();
-    DayCounter dayCounter = Actual365Fixed();   
-    Date settlement = to_ql_date(t)+0; //0 day settlement0
-   
-    // bootstrap the yield/dividend/vol curves
-    Handle<Quote> underlyingH(boost::shared_ptr<Quote>(new SimpleQuote(s)));
-    Handle<YieldTermStructure> flatTermStructure(
-            boost::shared_ptr<YieldTermStructure>(
-            new FlatForward(settlement, r, dayCounter)));
+        Calendar calendar = TARGET();
+        DayCounter dayCounter = Actual365Fixed();   
+        Date settlement = to_ql_date(t0)+0; //0 day settlement
+        Settings::instance().evaluationDate() = to_ql_date(t0);  
 
-    Handle<YieldTermStructure> flatDividendTS(
-            boost::shared_ptr<YieldTermStructure>(
-            new FlatForward(settlement, q, dayCounter)));
+        // bootstrap the yield/dividend/vol curves
+        Handle<Quote> underlyingH(
+                boost::shared_ptr<Quote>(new SimpleQuote(s)));
 
-    Handle<BlackVolTermStructure> flatVolTS(
-            boost::shared_ptr<BlackVolTermStructure>(
-            new BlackConstantVol(settlement, calendar, v, dayCounter)));
+        Handle<YieldTermStructure> flatTermStructure(
+                boost::shared_ptr<YieldTermStructure>(
+                new FlatForward(settlement, r, dayCounter)));
 
-    boost::shared_ptr<BlackScholesMertonProcess> bsmProcess(
-            new BlackScholesMertonProcess(
+        Handle<YieldTermStructure> flatDividendTS(
+                boost::shared_ptr<YieldTermStructure>(
+                new FlatForward(settlement, q, dayCounter)));
+
+        Handle<BlackVolTermStructure> flatVolTS(
+                boost::shared_ptr<BlackVolTermStructure>(
+                new BlackConstantVol(settlement, calendar, v, dayCounter)));
+
+        boost::shared_ptr<BlackScholesMertonProcess> bsmProcess(
+                new BlackScholesMertonProcess(
                 underlyingH, 
                 flatDividendTS,
                 flatTermStructure, 
                 flatVolTS));
 
-    boost::shared_ptr<Exercise> europeanExercise(new EuropeanExercise(to_ql_date(t)));                    
-    boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(static_cast<Option::Type>(putcall),k));
-    VanillaOption europeanOption(payoff, europeanExercise);
-    europeanOption.setPricingEngine(boost::shared_ptr<PricingEngine>(new AnalyticEuropeanEngine(bsmProcess)));
+        boost::shared_ptr<Exercise> europeanExercise(
+                new EuropeanExercise(to_ql_date(t)));                    
 
-    Settings::instance().evaluationDate() = to_ql_date(t0);  
-    return europeanOption.NPV();
+        boost::shared_ptr<StrikedTypePayoff> payoff(
+                new PlainVanillaPayoff(static_cast<Option::Type>(putcall),k));
+
+        VanillaOption europeanOption(payoff, europeanExercise);
+        europeanOption.setPricingEngine(
+                boost::shared_ptr<PricingEngine>(
+                        new AnalyticEuropeanEngine(bsmProcess)));
+
+        return europeanOption.NPV();
 }
