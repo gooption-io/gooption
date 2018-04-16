@@ -5,10 +5,11 @@
 package main
 
 import (
-	"flag"
 	"net/http"
 	"strings"
 	"sync"
+
+	"github.com/namsral/flag"
 
 	context "golang.org/x/net/context"
 
@@ -20,6 +21,8 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/glog"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
@@ -34,16 +37,31 @@ import (
 )
 
 var (
-	tcpPort      = ":50051"
-	httpPort     = ":8081"
-	gobsEndpoint = flag.String(
-		"gobs_endpoint",
-		"localhost:50051",
-		"endpoint of YourService")
+	config       = flag.String(flag.DefaultConfigFlagname, "", "The Path to config file")
+	tcpPort      = flag.String("tcp-listen-address", ":50051", "The Port to listen on for TCP requests")
+	httpPort     = flag.String("http-listen-address", ":8081", "The Port to listen on for HTTP requests")
+	promhttpPort = flag.String("prom-listen-address", ":8080", "The Port to listen on for Promhttp requests")
+
 	putCallMap = map[string]float64{
 		"call": 1.0,
 		"put":  -1.0,
 	}
+
+	httpReqs = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "http_requests_total",
+			Help: "How many HTTP requests processed, partitioned by status code and HTTP method.",
+		},
+		[]string{"code", "method"},
+	)
+
+	tcpReqs = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "tcp_requests_total",
+			Help: "How many TCP requests processed, partitioned by return status",
+		},
+		[]string{"code"},
+	)
 )
 
 // server is used to implement pb.ModerlServer.
@@ -52,26 +70,25 @@ type server struct{}
 // methods takes server chain as argument so it remains configurable per service while not changing core logic
 // might be useful for dependency injection
 func httpServer() error {
-	flag.Parse()
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, *gobsEndpoint, opts)
+	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, *tcpPort, opts)
 	if err != nil {
 		return err
 	}
 
-	logrus.Infoln("http server ready on port ", httpPort)
-	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
+	logrus.Infoln("http server ready on port ", *httpPort)
+	return http.ListenAndServe(*httpPort, cors.Default().Handler(mux))
 }
 
 // methods takes server chain as argument so it remains configurable per service while not changing core logic
 // might be useful for dependency injection
 func tcpServer() error {
-	lis, err := net.Listen("tcp", tcpPort)
+	lis, err := net.Listen("tcp", *tcpPort)
 	if err != nil {
 		return err
 	}
@@ -96,8 +113,25 @@ func tcpServer() error {
 	pb.RegisterGobsServer(s, &server{})
 	reflection.Register(s)
 
-	logrus.Infoln("grpc server ready on port ", tcpPort)
+	logrus.Infoln("grpc server ready on port ", *tcpPort)
 	return s.Serve(lis)
+}
+
+func promhttpServer() error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, *tcpPort, opts)
+	if err != nil {
+		return err
+	}
+
+	logrus.Infoln("promhttp server ready on port ", *promhttpPort)
+	http.Handle("/metrics", promhttp.Handler())
+	return http.ListenAndServe(*promhttpPort, nil)
 }
 
 func start(entrypoint func() error) {
@@ -108,11 +142,30 @@ func start(entrypoint func() error) {
 	}
 }
 
+func init() {
+	prometheus.MustRegister(httpReqs)
+	prometheus.MustRegister(tcpReqs)
+}
+
+func ExampleCounterVec() {
+	// A implementer dans l'appel du service HTTP
+	httpReqs.WithLabelValues("404", "POST").Add(54)
+	httpReqs.WithLabelValues("200", "POST").Add(450003)
+	// A implémenter dans l'appel du servive GRPC
+	tcpReqs.WithLabelValues("OK").Add(150)
+	tcpReqs.WithLabelValues("KO").Add(12)
+}
+
 func main() {
+	flag.Parse()
+
+	ExampleCounterVec()
+
 	var wg sync.WaitGroup
-	wg.Add(2)
+	wg.Add(3)
 	go start(tcpServer)
 	go start(httpServer)
+	go start(promhttpServer)
 	wg.Wait()
 }
 
