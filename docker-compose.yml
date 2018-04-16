@@ -1,0 +1,83 @@
+version: '3.6'
+services:
+  gobs:
+    build: gobs
+    image: gooption/gobs
+    command: /gobs -config=/etc/gobs/gobs.yml
+    volumes:
+      - "./gobs/gobs.yml:/etc/gobs/gobs.yml"
+    ports:
+     - 8080:8080
+     - 8081:8081
+     - 50051:50051
+    networks:
+      - back-end
+  
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - prometheus-data:/prometheus
+    ports:
+      - 9090:9090
+    networks: 
+      - front-end
+      - back-end
+  
+  exporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+    networks: 
+      - back-end
+  
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    networks: 
+      - front-end
+      - back-end
+
+  zero:
+    image: dgraph/dgraph
+    volumes:
+      - /dgraph-data:/dgraph
+    ports:
+      - 5080:5080
+      - 6080:6080
+    networks: 
+      - front-end
+    restart: on-failure
+    command: dgraph zero --my=zero:5080
+  
+  server:
+    image: dgraph/dgraph
+    volumes:
+      - /dgraph-data:/dgraph
+    ports:
+      - 8082:8082
+      - 9080:9080
+    networks: 
+      - front-end
+    restart: on-failure
+    command: dgraph server --port_offset=2 --my=server:7080 --memory_mb=1024 --zero=zero:5080
+
+  ratel:
+    image: dgraph/dgraph
+    ports:
+      - 8000:8000
+    networks: 
+      - front-end
+    command: dgraph-ratel
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  dgraph-data:
+  
+networks:
+  front-end: 
+  back-end: 
