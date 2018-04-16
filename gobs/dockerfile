@@ -1,5 +1,7 @@
 FROM scratch
 EXPOSE 50051
 EXPOSE 8081
+EXPOSE 8080
 COPY gobs /
+COPY gobs.yml /etc/gobs/gobs.yml
 CMD ["/gobs"]
