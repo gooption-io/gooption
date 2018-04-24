@@ -24,16 +24,19 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/lehajam/gooption/goquantlib/cmd/goquantlib/pb"
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/lehajam/gooption/goquantlib"
+	"github.com/lehajam/gooption/goquantlib/pb"
+	"github.com/lehajam/gooption/goquantlib/quantlib"
 )
 
 var (
@@ -159,6 +162,7 @@ func ExampleCounterVec() {
 func main() {
 	flag.Parse()
 
+	// A supprimer une fois les compteurs implementés
 	ExampleCounterVec()
 
 	var wg sync.WaitGroup
@@ -181,7 +185,7 @@ func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceRes
 		v    = in.Marketdata.Vol.Index.Value
 		r    = in.Marketdata.Rate.Index.Value
 		k    = in.Contract.Strike
-		p    = goquantlib.EuropeanFlatVol(
+		p    = quantlib.EuropeanFlatVol(
 			s,
 			r,
 			0,
