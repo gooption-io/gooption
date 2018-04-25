@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: goquantlib-configmap
 data:
-  gobs.yml: |-
+  goquantlib.yml: |-
     # my global config
     tcp-listen-address :50051
     http-listen-address :8081
@@ -41,7 +41,7 @@ spec:
         - name: goquantlib-config
           mountPath: /etc/goquantlib
       volumes:
-        - name: gobs-goquantlib
+        - name: goquantlib-config
           configMap:
             name: goquantlib-configmap
       restartPolicy: Always
