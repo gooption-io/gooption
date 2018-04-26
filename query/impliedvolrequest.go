@@ -1,15 +1,11 @@
 package query
 
-import (
-	"github.com/valyala/fasttemplate"
-)
-
 var (
 
-	// Query with optional tags goes here
-	impliedvolrequest = `
+	// ImpliedvolRequest represents a dgraph query returning data for a price request
+	ImpliedvolRequest = `
 {
-	marketdata(func: eq(timestamp, {{timestamp}})) @cascade { 
+	marketdata(func: eq(timestamp, $timestamp}})) @cascade { 
 		spot {
 			...indexInfo
 		}
@@ -21,7 +17,7 @@ var (
 		}
 	} 
 
-	quotes(func: eq(timestamp, {{timestamp}})) @cascade { 
+	quotes(func: eq(timestamp, $timestamp)) @cascade { 
 		expiry
 		puts (orderasc: strike){
 			expand(_all_)  
@@ -33,24 +29,10 @@ var (
 }
 
 fragment indexInfo {
-	index @filter(eq(ticker, "{{undTicker}}") or eq(ticker, "{{rateTicker}}")) {
+	index @filter(eq(ticker, "$undTicker") or eq(ticker, "$rateTicker")) {
 		timestamp
 		ticker
 		value
 	}
 }`
-
-	impliedvolrequestTemplate = fasttemplate.New(impliedvolrequest, startTag, endTag)
 )
-
-func init() {
-	// For template reflection
-	AllTemplates["impliedvolrequest"] = impliedvolrequestTemplate
-}
-
-func GetImpliedVolRequestQuery(timestamp, undTicker, rateTicker string) string {
-
-	return impliedvolrequestTemplate.ExecuteString(map[string]interface{}{
-		"timestamp": timestamp, "undTicker": undTicker, "rateTicker": rateTicker,
-	})
-}

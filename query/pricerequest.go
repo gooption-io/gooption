@@ -1,15 +1,11 @@
 package query
 
-import (
-	"github.com/valyala/fasttemplate"
-)
-
 var (
 
-	// Query with optional tags goes here
-	pricerequest = `
+	// PriceRequest represents a dgraph query returning data for a price request
+	PriceRequest = `
 {
-	contract(func: eq(ticker, "{{optionTicker}}")){
+	contract(func: eq(ticker, "$optionTicker")){
 		ticker
 		strike
 		und as undticker
@@ -17,7 +13,7 @@ var (
 		putcall
 	}
 
-	marketdata(func: eq(timestamp, {{timestamp}})) @cascade {
+	marketdata(func: eq(timestamp, $timestamp)) @cascade {
 		spot {
 			...indexInfo
 		}
@@ -31,24 +27,10 @@ var (
 }
 
 fragment indexInfo {
-	index @filter(eq(ticker, val(und)) or eq(ticker, "{{rateTicker}}")) {
+	index @filter(eq(ticker, val(und)) or eq(ticker, "$rateTicker")) {
 		timestamp
 		ticker
 		value
 	}
 }`
-
-	pricerequestTemplate = fasttemplate.New(pricerequest, startTag, endTag)
 )
-
-func init() {
-	// For template reflection
-	AllTemplates["pricerequest"] = pricerequestTemplate
-}
-
-func GetPriceRequestQuery(timestamp, optionTicker, rateTicker string) string {
-
-	return pricerequestTemplate.ExecuteString(map[string]interface{}{
-		"timestamp": timestamp, "optionTicker": optionTicker, "rateTicker": rateTicker,
-	})
-}
