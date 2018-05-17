@@ -1,4 +1,4 @@
-%module goquantlib
+%module quantlib
 %{
     #include "european.hpp"
 %}
