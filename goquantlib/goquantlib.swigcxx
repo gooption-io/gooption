@@ -1,6 +1,0 @@
-%module goquantlib
-%{
-    #include "european.hpp"
-%}
-
-%include "european.hpp"

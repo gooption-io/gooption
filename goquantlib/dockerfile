@@ -1,23 +1,14 @@
-# Start from a Debian image with the latest version of Go installed
-# and a workspace (GOPATH) configured at /go.
-FROM golang:1.7
-RUN apt-get update
-RUN apt-get install -y libquantlib0-dev
+FROM golang:1.10 as builder
+RUN apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
+ADD . /go/src/github.com/lehajam/gooption/goquantlib
+WORKDIR /go/src/github.com/lehajam/gooption/goquantlib
+RUN go get -v
+RUN CGO_ENABLED=1 GOOS=linux go build --ldflags '-w -extldflags "-static"'
 
-COPY goquantlib.yml /etc/goquantlib/goquantlib.yml
-
-# Copy the local package files to the container's workspace.
-ADD . /go/src/github.com/goquantlib
-
-# Build the outyet command inside the container.
-# (You may fetch or manage dependencies here,
-# either manually or with a tool like "godep".)
-RUN go install --ldflags '-extldflags "-static"' github.com/gooption/goquantlib/...
-
-# Run the outyet command by default when the container starts.
-ENTRYPOINT goquantlib
-
-# Document that the service listens on port 8080.
-EXPOSE 50051
-EXPOSE 8081
+FROM scratch
 EXPOSE 8080
+EXPOSE 8081
+EXPOSE 50051
+COPY --from=builder /go/src/github.com/lehajam/gooption/goquantlib/goquantlib /
+COPY goquantlib.yml /etc/goquantlib/goquantlib.yml
+CMD ["/goquantlib"]

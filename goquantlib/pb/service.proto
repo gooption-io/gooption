@@ -1,0 +1,64 @@
+syntax = "proto3"; 
+package pb; 
+
+import "contract.proto";
+import "marketdata.proto";
+import "google/api/annotations.proto";
+
+service Gobs {
+  rpc Price (PriceRequest) returns (PriceResponse) {
+    option (google.api.http) = {
+      post: "/v1/gobs/price"
+      body: "*"
+    };
+  }
+  rpc Greek (GreekRequest) returns (GreekResponse) {
+    option (google.api.http) = {
+      post: "/v1/gobs/greek"
+      body: "*"
+    };
+  }
+  rpc ImpliedVol (ImpliedVolRequest) returns (ImpliedVolResponse) {
+    option (google.api.http) = {
+      post: "/v1/gobs/impliedvol"
+      body: "*"
+    };
+  }
+}
+
+message PriceRequest { 
+  double pricingdate = 1;
+  European contract = 2;
+  OptionMarket marketdata = 3;  
+} 
+
+message PriceResponse { 
+  double price = 2; 
+  string error = 3; 
+} 
+
+message GreekRequest { 
+  PriceRequest request = 1;
+  repeated string greek = 2;
+}
+
+message GreekResponse { 
+  message Greek { 
+    string label = 1; 
+    double value = 2; 
+    string error = 3; 
+  }
+  repeated Greek greeks = 1;
+  string error = 2;
+}
+
+message ImpliedVolRequest { 
+  double pricingdate = 1;
+  OptionMarket marketdata = 2;
+  repeated OptionQuoteSlice quotes = 3;
+} 
+
+message ImpliedVolResponse { 
+  ImpliedVolSurface volsurface = 1;
+  string error = 2;
+} 
