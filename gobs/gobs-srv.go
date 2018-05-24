@@ -42,18 +42,10 @@ var (
 	httpPort     = flag.String("http-listen-address", ":8081", "The Port to listen on for HTTP requests")
 	promhttpPort = flag.String("prom-listen-address", ":8080", "The Port to listen on for Promhttp requests")
 
-	httpReqs = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "http_requests_total",
-			Help: "How many HTTP requests processed, partitioned by status code and HTTP method.",
-		},
-		[]string{"code", "method"},
-	)
-
 	tcpReqs = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tcp_requests_total",
-			Help: "How many TCP requests processed, partitioned by return status",
+			Help: "How many TCP requests processed, partitioned by request type",
 		},
 		[]string{"code"},
 	)
@@ -140,24 +132,14 @@ func start(entrypoint func() error) {
 }
 
 func init() {
-	prometheus.MustRegister(httpReqs)
 	prometheus.MustRegister(tcpReqs)
 }
 
-func ExampleCounterVec() {
-	// A implementer dans l'appel du service HTTP
-	httpReqs.WithLabelValues("404", "POST").Add(54)
-	httpReqs.WithLabelValues("200", "POST").Add(450003)
-	// A implémenter dans l'appel du servive GRPC
-	tcpReqs.WithLabelValues("OK").Add(150)
-	tcpReqs.WithLabelValues("KO").Add(12)
-}
-
 func main() {
+	// Parsing arguments
 	flag.Parse()
 
-	ExampleCounterVec()
-
+	//Launching Tcp-GRPC Server,Http Server and PromHttp Server
 	var wg sync.WaitGroup
 	wg.Add(3)
 
@@ -174,6 +156,8 @@ Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_mode
 Stock assumed to pay no dividends
 */
 func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
+	tcpReqs.WithLabelValues("PriceRequest").Add(1)
+
 	var (
 		mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
 
@@ -198,6 +182,8 @@ Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
 func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
+	tcpReqs.WithLabelValues("GreekRequest").Add(1)
+
 	var (
 		mult = putCallMap[strings.ToLower(in.Request.Contract.Putcall)]
 
@@ -245,6 +231,8 @@ Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
+	tcpReqs.WithLabelValues("ImpliedVolRequest").Add(1)
+
 	var (
 		mult = func(q *pb.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }
 
