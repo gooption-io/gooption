@@ -47,18 +47,10 @@ var (
 		"put":  -1.0,
 	}
 
-	httpReqs = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "http_requests_total",
-			Help: "How many HTTP requests processed, partitioned by status code and HTTP method.",
-		},
-		[]string{"code", "method"},
-	)
-
 	tcpReqs = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tcp_requests_total",
-			Help: "How many TCP requests processed, partitioned by return status",
+			Help: "How many TCP requests processed, partitioned by Request type",
 		},
 		[]string{"code"},
 	)
@@ -143,28 +135,14 @@ func start(entrypoint func() error) {
 }
 
 func init() {
-	prometheus.MustRegister(httpReqs)
 	prometheus.MustRegister(tcpReqs)
 }
 
-func ExampleCounterVec() {
-	// A implementer dans l'appel du service HTTP
-	httpReqs.WithLabelValues("404", "POST").Add(54)
-	httpReqs.WithLabelValues("200", "POST").Add(450003)
-	// A implémenter dans l'appel du servive GRPC
-	tcpReqs.WithLabelValues("OK").Add(150)
-	tcpReqs.WithLabelValues("KO").Add(12)
-}
-
 func main() {
+	// Parsing arguments
 	flag.Parse()
 
-<<<<<<< HEAD:goquantlib/cmd/goquantlib/goquantlib.go
-=======
-	// A supprimer une fois les compteurs implementés
->>>>>>> 8f5e327c21a1d9413f9d250edba721d6964a7093:goquantlib/goquantlib.go
-	ExampleCounterVec()
-
+	//Launching Tcp-GRPC Server,Http Server and PromHttp Server
 	var wg sync.WaitGroup
 	wg.Add(3)
 	go start(tcpServer)
@@ -179,6 +157,8 @@ Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_mode
 Stock assumed to pay no dividends
 */
 func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
+	tcpReqs.WithLabelValues("PriceRequest").Add(1)
+
 	var (
 		mult = int(putCallMap[strings.ToLower(in.Contract.Putcall)])
 		s    = in.Marketdata.Spot.Index.Value
@@ -195,7 +175,6 @@ func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceRes
 			int(in.Contract.Expiry),
 			mult)
 	)
-
 	return &pb.PriceResponse{
 		Price: p,
 	}, nil
@@ -208,6 +187,8 @@ Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
 func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
+	tcpReqs.WithLabelValues("GreekRequest").Add(1)
+
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 	return &pb.GreekResponse{}, errors.New("Not Implemented")
 }
@@ -218,6 +199,8 @@ Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
+	tcpReqs.WithLabelValues("ImpliedVolRequest").Add(1)
+
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 	return &pb.ImpliedVolResponse{}, errors.New("Not Implemented")
 }
