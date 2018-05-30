@@ -11,8 +11,8 @@ import (
 
 	context "golang.org/x/net/context"
 
-	"github.com/dgraph-io/dgo/protos/api"
 	"github.com/lehajam/dgo"
+	"github.com/lehajam/dgo/protos/api"
 
 	"github.com/lehajam/gooption/gobs/pb"
 	"google.golang.org/grpc"

@@ -86,10 +86,6 @@ func Test_contractRequestJsonpb(t *testing.T) {
 		})
 
 	priceReq := &pb.PriceRequest{}
-	// resolver := funcResolver(func(turl string) (proto.Message, error) {
-	// 	logrus.Info(turl)
-	// 	return nil, nil
-	// })
 	unmarshaler := jsonpb.Unmarshaler{}
 	err := unmarshaler.Unmarshal(bytes.NewReader(resp.GetJson()), priceReq)
 	if err != nil {
@@ -132,11 +128,14 @@ func extractFile(gz []byte) (*descriptor.FileDescriptorProto, error) {
 
 func Test_describeProto(t *testing.T) {
 	// msg := &descriptor.FileDescriptorProto{}
-	fd, err := extractFile(proto.FileDescriptor("/home/lehajam/go/src/github.com/lehajam/gooption/pb/contract.proto"))
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
+	// fd, err := extractFile(proto.FileDescriptor("/home/lehajam/go/src/github.com/lehajam/gooption/pb/contract.proto"))
+	// if err != nil {
+	// 	logrus.Error(err)
+	// 	panic(err)
+	// }
+
+	var fd []byte
+	proto.RegisterFile("/home/lehajam/go/src/github.com/lehajam/gooption/pb/contract.proto", fd)
 
 	// err = proto.Unmarshal(fd, msg)
 	// if err != nil {
