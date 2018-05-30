@@ -1,8 +1,7 @@
 version: '3.6'
 services:
   gobs:
-    build: gobs
-    image: gooption/gobs
+    image: gooption/gobs:0.1
     command: /gobs -config=/etc/gobs/gobs.yml
     volumes:
       - "./gobs/gobs.yml:/etc/gobs/gobs.yml"
@@ -42,9 +41,13 @@ services:
       - back-end
 
   zero:
-    image: dgraph/dgraph
+    image: dgraph/dgraph:v1.0.5
     volumes:
-      - /dgraph-data:/dgraph
+      - type: volume
+        source: dgraph-data
+        target: /dgraph
+        volume:
+          nocopy: true
     ports:
       - 5080:5080
       - 6080:6080
@@ -54,19 +57,29 @@ services:
     command: dgraph zero --my=zero:5080
   
   server:
-    image: dgraph/dgraph
+    image: dgraph/dgraph:v1.0.5
     volumes:
-      - /dgraph-data:/dgraph
+      - type: volume
+        source: dgraph-data
+        target: /dgraph
+        volume:
+          nocopy: true
     ports:
       - 8082:8082
-      - 9080:9080
+      - 9082:9082
     networks: 
       - front-end
     restart: on-failure
-    command: dgraph server --port_offset=2 --my=server:7080 --memory_mb=1024 --zero=zero:5080
+    command: dgraph server --port_offset=2 --my=server:7080 --lru_mb=2048 --zero=zero:5080
 
   ratel:
-    image: dgraph/dgraph
+    image: dgraph/dgraph:v1.0.5
+    volumes:
+      - type: volume
+        source: dgraph-data
+        target: /dgraph
+        volume:
+          nocopy: true
     ports:
       - 8000:8000
     networks: 

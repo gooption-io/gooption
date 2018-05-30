@@ -8,12 +8,12 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"time"
 
 	context "golang.org/x/net/context"
 
-	"github.com/dgraph-io/dgo"
 	"github.com/dgraph-io/dgo/protos/api"
+	"github.com/lehajam/dgo"
+
 	"github.com/lehajam/gooption/gobs/pb"
 	"google.golang.org/grpc"
 
@@ -21,6 +21,7 @@ import (
 	"github.com/gogo/protobuf/proto"
 
 	q "github.com/lehajam/gooption/query"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -35,7 +36,7 @@ func dial(service string) *grpc.ClientConn {
 	if service == "gobs" {
 		conn, err = grpc.Dial(":50051", grpc.WithInsecure())
 	} else if service == "dgraph" {
-		conn, err = grpc.Dial(":9080", grpc.WithInsecure())
+		conn, err = grpc.Dial(":9082", grpc.WithInsecure())
 	} else {
 		err = errors.New("Unknown service")
 	}
@@ -71,9 +72,11 @@ func query(queryString string, variables map[string]string) *api.Response {
 	ctx := context.Background()
 	resp, err := dg.NewTxn().QueryWithVars(ctx, queryString, variables)
 	if err != nil {
+		logrus.Errorln(err)
 		panic(err)
 	}
 
+	logrus.Info(resp)
 	return resp
 }
 
@@ -81,18 +84,18 @@ func priceRequest() {
 	resp := query(
 		q.PriceRequest,
 		map[string]string{
-			"$timestamp":    "1513551151",
+			"$timestamp":    "1514162664",
 			"$optionTicker": "AAPL DEC2017 PUT",
 			"$rateTicker":   "USD.FEDFUND",
 		})
 
 	priceReq := &pb.PriceRequest{}
-	err := json.Unmarshal(resp.Json, priceReq)
+	err := dgo.Unmarshal(resp.GetJson(), priceReq)
 	if err != nil {
 		panic(err)
 	}
 
-	priceReq.Pricingdate = float64(time.Now().Unix())
+	priceReq.Pricingdate = float64(1514162664)
 	fmt.Printf("%+v\n", proto.MarshalTextString(priceReq))
 
 	conn2 := dial("gobs")
@@ -109,7 +112,7 @@ func priceRequest() {
 
 func ivRequest() {
 	resp := query(
-		q.PriceRequest,
+		q.ImpliedvolRequest,
 		map[string]string{
 			"$timestamp":  "1513551151",
 			"$undTicker":  "AAPL",
@@ -117,12 +120,11 @@ func ivRequest() {
 		})
 
 	ivReq := &pb.ImpliedVolRequest{}
-	err := json.Unmarshal(resp.Json, ivReq)
+	err := dgo.Unmarshal(resp.GetJson(), ivReq)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		panic(err)
 	}
-	ivReq.Pricingdate = float64(time.Now().Unix())
+	ivReq.Pricingdate = float64(1513551151)
 	fmt.Printf("%+v\n", proto.MarshalTextString(ivReq))
 
 	conn2 := dial("gobs")
@@ -153,6 +155,7 @@ func insert(request interface{}, schema string) *api.Assigned {
 	}
 	err := dg.Alter(ctx, op)
 	if err != nil {
+		logrus.Errorln(err)
 		panic(err)
 	}
 
@@ -161,12 +164,14 @@ func insert(request interface{}, schema string) *api.Assigned {
 	}
 	pb, err := json.Marshal(request)
 	if err != nil {
+		logrus.Errorln(err)
 		panic(err)
 	}
 
 	mu.SetJson = pb
 	assigned, err := dg.NewTxn().Mutate(ctx, mu)
 	if err != nil {
+		logrus.Errorln(err)
 		panic(err)
 	}
 

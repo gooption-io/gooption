@@ -1,11 +1,10 @@
 package query
 
 var (
-
 	// PriceRequest represents a dgraph query returning data for a price request
 	PriceRequest = `
-{
-	contract(func: eq(ticker, "$optionTicker")){
+query PriceRequest($timestamp: float, $optionTicker: string, $rateTicker: string){
+	contract(func: eq(ticker, $optionTicker)){
 		ticker
 		strike
 		und as undticker
@@ -15,22 +14,26 @@ var (
 
 	marketdata(func: eq(timestamp, $timestamp)) @cascade {
 		spot {
-			...indexInfo
+			index @filter(eq(ticker, val(und))) {
+				timestamp
+				ticker
+				value
+			}
 		}
 		vol  {
-			...indexInfo
+			index @filter(eq(ticker, val(und))) {
+				timestamp
+				ticker
+				value
+			}
 		}
 		rate  {
-			...indexInfo
+			index @filter(eq(ticker, $rateTicker)) {
+				timestamp
+				ticker
+				value
+			}
 		}
-	}
-}
-
-fragment indexInfo {
-	index @filter(eq(ticker, val(und)) or eq(ticker, "$rateTicker")) {
-		timestamp
-		ticker
-		value
 	}
 }`
 )

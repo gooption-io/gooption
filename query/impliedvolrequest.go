@@ -4,18 +4,24 @@ var (
 
 	// ImpliedvolRequest represents a dgraph query returning data for a price request
 	ImpliedvolRequest = `
-{
-	marketdata(func: eq(timestamp, $timestamp}})) @cascade { 
+query ImpliedVolRequest($timestamp: float, $undTicker: string, $rateTicker: string){
+	marketdata(func: eq(timestamp, $timestamp)) @cascade {
 		spot {
-			...indexInfo
+			index @filter(eq(ticker, $undTicker)) {
+				expand(_all_)  
+			}
 		}
 		vol  {
-			...indexInfo
+			index @filter(eq(ticker, $undTicker)) {
+				expand(_all_)  
+			}
 		}
 		rate  {
-			...indexInfo
+			index @filter(eq(ticker, $rateTicker)) {
+				expand(_all_)  
+			}
 		}
-	} 
+	}
 
 	quotes(func: eq(timestamp, $timestamp)) @cascade { 
 		expiry
@@ -26,13 +32,5 @@ var (
 			expand(_all_)  
 		}
 	} 
-}
-
-fragment indexInfo {
-	index @filter(eq(ticker, "$undTicker") or eq(ticker, "$rateTicker")) {
-		timestamp
-		ticker
-		value
-	}
 }`
 )
