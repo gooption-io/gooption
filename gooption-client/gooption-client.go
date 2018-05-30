@@ -2,25 +2,26 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
-	"time"
 
 	context "golang.org/x/net/context"
 
-	"github.com/dgraph-io/dgraph/client"
-	"github.com/dgraph-io/dgraph/protos"
+	"github.com/lehajam/dgo"
+	"github.com/lehajam/dgo/protos/api"
+
 	"github.com/lehajam/gooption/gobs/pb"
 	"google.golang.org/grpc"
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 
-	"github.com/lehajam/gooption/query"
+	q "github.com/lehajam/gooption/query"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -35,7 +36,7 @@ func dial(service string) *grpc.ClientConn {
 	if service == "gobs" {
 		conn, err = grpc.Dial(":50051", grpc.WithInsecure())
 	} else if service == "dgraph" {
-		conn, err = grpc.Dial(":9080", grpc.WithInsecure())
+		conn, err = grpc.Dial(":9082", grpc.WithInsecure())
 	} else {
 		err = errors.New("Unknown service")
 	}
@@ -58,41 +59,43 @@ func clientDir() string {
 	return dir
 }
 
-func dgraphClient(query string) *protos.Response {
+func query(queryString string, variables map[string]string) *api.Response {
 	clientDir := clientDir()
 	defer os.RemoveAll(clientDir)
 
-	conn1 := dial("dgraph")
-	defer conn1.Close()
+	conn := dial("dgraph")
+	defer conn.Close()
 
-	dgraphClient := client.NewDgraphClient([]*grpc.ClientConn{conn1}, client.DefaultOptions, clientDir)
-	defer dgraphClient.Close()
+	dc := api.NewDgraphClient(conn)
+	dg := dgo.NewDgraphClient(dc)
 
-	req := client.Req{}
-	req.SetQuery(query)
-
-	resp, err := dgraphClient.Run(context.Background(), &req)
+	ctx := context.Background()
+	resp, err := dg.NewTxn().QueryWithVars(ctx, queryString, variables)
 	if err != nil {
+		logrus.Errorln(err)
 		panic(err)
 	}
-	printNode(0, resp.N[0])
-	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
 
+	logrus.Info(resp)
 	return resp
 }
 
 func priceRequest() {
-	resp := dgraphClient(
-		query.GetPriceRequestQuery("1513551151", "AAPL DEC2017 PUT", "USD.FEDFUND"),
-	)
+	resp := query(
+		q.PriceRequest,
+		map[string]string{
+			"$timestamp":    "1514162664",
+			"$optionTicker": "AAPL DEC2017 PUT",
+			"$rateTicker":   "USD.FEDFUND",
+		})
 
 	priceReq := &pb.PriceRequest{}
-	err := client.Unmarshal(resp.N, priceReq)
+	err := dgo.Unmarshal(resp.GetJson(), priceReq)
 	if err != nil {
 		panic(err)
 	}
 
-	priceReq.Pricingdate = float64(time.Now().Unix())
+	priceReq.Pricingdate = float64(1514162664)
 	fmt.Printf("%+v\n", proto.MarshalTextString(priceReq))
 
 	conn2 := dial("gobs")
@@ -108,17 +111,20 @@ func priceRequest() {
 }
 
 func ivRequest() {
-	resp := dgraphClient(
-		query.GetImpliedVolRequestQuery("1513551151", "AAPL", "USD.FEDFUND"),
-	)
+	resp := query(
+		q.ImpliedvolRequest,
+		map[string]string{
+			"$timestamp":  "1513551151",
+			"$undTicker":  "AAPL",
+			"$rateTicker": "USD.FEDFUND",
+		})
 
 	ivReq := &pb.ImpliedVolRequest{}
-	err := client.Unmarshal(resp.N, ivReq)
+	err := dgo.Unmarshal(resp.GetJson(), ivReq)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		panic(err)
 	}
-	ivReq.Pricingdate = float64(time.Now().Unix())
+	ivReq.Pricingdate = float64(1513551151)
 	fmt.Printf("%+v\n", proto.MarshalTextString(ivReq))
 
 	conn2 := dial("gobs")
@@ -133,19 +139,43 @@ func ivRequest() {
 	fmt.Printf("%+v\n", proto.MarshalTextString(volSurf))
 }
 
-func printNode(depth int, node *protos.Node) {
+func insert(request interface{}, schema string) *api.Assigned {
+	clientDir := clientDir()
+	defer os.RemoveAll(clientDir)
 
-	fmt.Println(strings.Repeat(" ", depth), "Atrribute : ", node.Attribute)
+	conn := dial("dgraph")
+	defer conn.Close()
 
-	// the values at this level
-	for _, prop := range node.GetProperties() {
-		fmt.Println(strings.Repeat(" ", depth), "Prop : ", prop.Prop, " Value : ", prop.Value, " Type : %T", prop.Value)
+	dc := api.NewDgraphClient(conn)
+	dg := dgo.NewDgraphClient(dc)
+	ctx := context.Background()
+
+	op := &api.Operation{
+		Schema: schema,
+	}
+	err := dg.Alter(ctx, op)
+	if err != nil {
+		logrus.Errorln(err)
+		panic(err)
 	}
 
-	for _, child := range node.Children {
-		fmt.Println(strings.Repeat(" ", depth), "+")
-		printNode(depth+1, child)
+	mu := &api.Mutation{
+		CommitNow: true,
 	}
+	pb, err := json.Marshal(request)
+	if err != nil {
+		logrus.Errorln(err)
+		panic(err)
+	}
+
+	mu.SetJson = pb
+	assigned, err := dg.NewTxn().Mutate(ctx, mu)
+	if err != nil {
+		logrus.Errorln(err)
+		panic(err)
+	}
+
+	return assigned
 }
 
 func insertPriceRequest() {
@@ -161,7 +191,7 @@ func insertPriceRequest() {
 		panic(err)
 	}
 
-	insertRequest(
+	insert(
 		request,
 		`timestamp: float @index(float) .
 		ticker: string @index(exact, term) .
@@ -182,7 +212,7 @@ func insertGreekRequest() {
 		panic(err)
 	}
 
-	insertRequest(
+	insert(
 		request,
 		`timestamp: float @index(float) .
 		ticker: string @index(exact, term) .
@@ -203,32 +233,9 @@ func insertImpliedVolRequest() {
 		panic(err)
 	}
 
-	insertRequest(
+	insert(
 		request,
 		`timestamp: float @index(float) .
 		ticker: string @index(exact, term) .`,
 	)
-}
-
-func insertRequest(request interface{}, schema string) {
-	clientDir, err := ioutil.TempDir("", "client_")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer os.RemoveAll(clientDir)
-
-	conn1 := dial("dgraph")
-	defer conn1.Close()
-
-	dgraphClient := client.NewDgraphClient([]*grpc.ClientConn{conn1}, client.DefaultOptions, clientDir)
-	defer dgraphClient.Close()
-
-	req := client.Req{}
-	req.SetSchema(schema)
-	req.SetObject(request)
-	resp, err := dgraphClient.Run(context.Background(), &req)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Printf("%+v\n", proto.MarshalTextString(resp))
 }

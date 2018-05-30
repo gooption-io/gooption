@@ -46,19 +46,25 @@ Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing s
 Download latest protobuf compiler stable version eg. protobuf-all-3.5.1.tar.gz from https://github.com/google/protobuf/releases/tag/v3.5.1 
 Extract content, cd in the folder then : 
 
+```
 ./configure  
 make  
 make check  
 sudo make install  
 protoc --version
+```
 
 #### gogo compiler 
 
+```
 cd ~/go/src/github.com/gogo/protobuf  
 make
+```
 
 #### grpc gateway
 
+```
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway  
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger  
 go get -u github.com/golang/protobuf/protoc-gen-go  
+```
