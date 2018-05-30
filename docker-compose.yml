@@ -1,7 +1,8 @@
 version: '3.6'
 services:
   gobs:
-    image: gooption/gobs:0.1
+    build: gobs
+    image: gooption/gobs
     command: /gobs -config=/etc/gobs/gobs.yml
     volumes:
       - "./gobs/gobs.yml:/etc/gobs/gobs.yml"
