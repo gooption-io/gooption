@@ -1,12 +1,12 @@
 workspace:
   base: /go
-  path: src/github.com/lehajam/gooption
+  path: src/github.com/gooption-io/gooption
 
 pipeline:
   build-gobs:
     image: golang
     commands:
-      - cd /go/src/github.com/lehajam/gooption/gobs
+      - cd /go/src/github.com/gooption-io/gooption/gobs
       - go get -u
       - go build
 
@@ -24,7 +24,7 @@ pipeline:
   build-goquantlib:
     image: golang
     commands:
-      - cd /go/src/github.com/lehajam/gooption/goquantlib
+      - cd /go/src/github.com/gooption-io/gooption/goquantlib
       - go get -u
       - go build
       
