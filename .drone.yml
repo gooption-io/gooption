@@ -2,6 +2,7 @@ workspace:
   base: /go
   path: src/github.com/lehajam/gooption
 
+
 pipeline:
   build-gobs:
     image: golang
