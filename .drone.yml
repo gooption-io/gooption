@@ -1,0 +1,40 @@
+workspace:
+  base: /go
+  path: src/github.com/gooption-io/gooption
+
+pipeline:
+  build-gobs:
+    image: golang
+    commands:
+      - cd /go/src/github.com/gooption-io/gooption/gobs
+      - go get -u
+      - go build
+
+  docker-gobs:
+    image: plugins/docker:1.12
+    username: ${DOCKER_USERNAME}
+    password: ${DOCKER_PASSWORD}
+    email: ${DOCKER_EMAIL}
+    repo: gooption/gobs
+    tags:
+      - v0
+    dockerfile: ./dockerfile
+    context: ./
+  
+  build-goquantlib:
+    image: golang
+    commands:
+      - cd /go/src/github.com/gooption-io/gooption/goquantlib
+      - go get -u
+      - go build
+      
+  docker-goquantlib:
+    image: plugins/docker:1.12
+    username: ${DOCKER_USERNAME}
+    password: ${DOCKER_PASSWORD}
+    email: ${DOCKER_EMAIL}
+    repo: gooption/goquantlib
+    tags:
+      - v0
+    dockerfile: ./dockerfile
+    context: ./
