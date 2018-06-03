@@ -7,7 +7,7 @@ pipeline:
     image: golang
     commands:
       - cd /go/src/github.com/gooption-io/gooption/gobs
-      - go get -u
+      - go get -u -v
       - go build
 
   docker-gobs:
