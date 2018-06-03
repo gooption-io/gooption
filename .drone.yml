@@ -7,7 +7,7 @@ pipeline:
     image: golang:1.10
     commands:
       - cd gobs
-      - go get
+      - go get -v
       - go build
       - go test
 
@@ -19,7 +19,7 @@ pipeline:
     repo: gooption/gobs
     tags:
       - v0
-    dockerfile: ./dockerfile
+    dockerfile: ./gobs/dockerfile
     context: ./gobs
   
   build-goquantlib:
