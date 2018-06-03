@@ -9,6 +9,7 @@ pipeline:
       - cd /go/src/github.com/gooption-io/gooption/gobs
       - go get -u -v
       - go build
+      - go test
 
   docker-gobs:
     image: plugins/docker:1.12
