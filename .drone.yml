@@ -25,9 +25,10 @@ pipeline:
   build-goquantlib:
     image: golang:1.10
     commands:
-      - cd /go/src/github.com/gooption-io/gooption/goquantlib
-      - go get -u
+      - cd goquantlib
+      - go get
       - go build
+      - go test
       
   docker-goquantlib:
     image: plugins/docker:1.12
