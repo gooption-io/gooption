@@ -7,7 +7,7 @@ pipeline:
     image: golang:1.10
     commands:
       - cd /go/src/github.com/gooption-io/gooption/gobs
-      - sleep 5
+      - git pull
       - go get -u -v
       - go build
       - go test
