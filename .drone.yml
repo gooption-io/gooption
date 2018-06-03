@@ -6,6 +6,7 @@ pipeline:
   build-gobs:
     image: golang:1.10
     commands:
+      - cd gobs
       - go get
       - go build
       - go test
