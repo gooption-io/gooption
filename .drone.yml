@@ -24,17 +24,15 @@ pipeline:
     image: golang:1.10
     commands:
       - cd goquantlib
-      - go get
+      - go get -v
       - go build
       - go test
       
   docker-goquantlib:
-    image: plugins/docker:1.12
-    username: ${DOCKER_USERNAME}
-    password: ${DOCKER_PASSWORD}
-    email: ${DOCKER_EMAIL}
+    image: plugins/docker:latest
     repo: gooption/goquantlib
     tags:
       - v0
-    dockerfile: ./dockerfile
+    dockerfile: ./goquantlib/dockerfile
     context: ./goquantlib
+    secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
