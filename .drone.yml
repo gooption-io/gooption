@@ -6,10 +6,7 @@ pipeline:
   build-gobs:
     image: golang:1.10
     commands:
-      - cd /go/src/github.com/gooption-io/gooption
-      - go get -u -v
-      - cd gobs
-      - go get -u -v
+      - go get
       - go build
       - go test
 
