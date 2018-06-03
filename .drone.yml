@@ -19,6 +19,7 @@ pipeline:
     dockerfile: ./gobs/dockerfile
     context: ./gobs
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD, DOCKER_EMAIL]
+    
   
   build-goquantlib:
     image: golang:1.10
