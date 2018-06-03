@@ -13,14 +13,12 @@ pipeline:
 
   docker-gobs:
     image: plugins/docker:latest
-    username: ${DOCKER_USERNAME}
-    password: ${DOCKER_PASSWORD}
-    email: ${DOCKER_EMAIL}
     repo: gooption/gobs
     tags:
       - v0
     dockerfile: ./gobs/dockerfile
     context: ./gobs
+    secrets: [DOCKER_USERNAME, DOCKER_PASSWORD, DOCKER_EMAIL]
   
   build-goquantlib:
     image: golang:1.10
