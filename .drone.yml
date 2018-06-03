@@ -4,7 +4,7 @@ workspace:
 
 pipeline:
   build-gobs:
-    image: golang
+    image: golang:1.10
     commands:
       - cd /go/src/github.com/gooption-io/gooption/gobs
       - go get -u -v
@@ -22,7 +22,7 @@ pipeline:
     context: ./
   
   build-goquantlib:
-    image: golang
+    image: golang:1.10
     commands:
       - cd /go/src/github.com/gooption-io/gooption/goquantlib
       - go get -u
