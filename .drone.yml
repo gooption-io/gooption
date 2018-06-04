@@ -16,7 +16,7 @@ pipeline:
   docker-compose-up:
     image: appleboy/drone-ssh:latest
     host: gooption.io
-    commands:
+    script:
       - /usr/local/bin/docker-compose up -f /home/gooption/docker-compose.yml
     secrets: [SSH_USERNAME, SSH_PASSWORD]
     
