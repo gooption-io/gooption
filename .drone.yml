@@ -20,6 +20,13 @@ pipeline:
     context: ./gobs
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
   
+  docker-compose:
+    image: plugins/docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker-compose up
+    
   build-goquantlib:
     image: golang:1.10
     commands:
