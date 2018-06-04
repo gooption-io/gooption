@@ -23,6 +23,7 @@ pipeline:
   build-goquantlib:
     image: golang:1.10
     commands:
+      - apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
       - cd goquantlib
       - go get -v
       - go build
