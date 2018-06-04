@@ -9,7 +9,7 @@ pipeline:
     image: appleboy/drone-scp:latest
     host: gooption.io
     target: /home/gooption
-    source: gooption
+    source: /go/src/github.com/gooption-io/gooption
     secrets: [SSH_USERNAME, SSH_PASSWORD]
     
   
