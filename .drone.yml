@@ -3,6 +3,23 @@ workspace:
   path: src/github.com/gooption-io/gooption
 
 pipeline:
+
+  
+  docker-compose-copy:
+    image: appleboy/drone-scp:latest
+    host: gooption.io
+    target: /home/gooption
+    source: gooption
+    secrets: [SSH_USERNAME, SSH_PASSWORD]
+    
+  
+  docker-compose-up:
+    image: appleboy/drone-ssh:latest
+    host: gooption.io
+    commands:
+      - /usr/local/bin/docker-compose up -f /home/gooption/docker-compose.yml
+    secrets: [SSH_USERNAME, SSH_PASSWORD]
+    
   build-gobs:
     image: golang:1.10
     commands:
@@ -20,13 +37,6 @@ pipeline:
     context: ./gobs
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
   
-  docker-compose-copy:
-    image: appleboy/drone-scp:latest
-    host: gooption.io
-    target: /home/gooption
-    source: gooption
-    secrets: [SSH_USERNAME, SSH_PASSWORD]
-    
   build-goquantlib:
     image: golang:1.10
     commands:
