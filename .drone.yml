@@ -19,7 +19,13 @@ pipeline:
     dockerfile: ./gobs/dockerfile
     context: ./gobs
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
- 
+  
+  docker-compose-copy:
+    image: appleboy/drone-scp:latest
+    host: gooption.io
+    target: /home/gooption
+    source: gooption
+    secrets: [SSH_USERNAME, SSH_PASSWORD]
     
   build-goquantlib:
     image: golang:1.10
