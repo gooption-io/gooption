@@ -9,6 +9,7 @@ pipeline:
     image: appleboy/drone-scp:latest
     host: gooption.io
     username: root
+    port: 22
     target: /home/gooption
     source: /go/src/github.com/gooption-io/gooption
     secrets: [SSH_KEY]
