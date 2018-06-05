@@ -10,7 +10,7 @@ pipeline:
     host: gooption.io
     username: root
     volumes:
-      - /etc/drone/drone_rsa:/root/ssh/drone_rsa
+      - /root/drone_rsa:/root/ssh/drone_rsa
     key_path: /root/ssh/drone_rsa
     target: /home/gooption
     source: /go/src/github.com/gooption-io/gooption
