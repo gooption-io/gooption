@@ -110,6 +110,43 @@ func priceRequest() {
 	fmt.Printf("price: %f\n", price.Price)
 }
 
+func greekRequest() {
+	resp := query(
+		q.PriceRequest,
+		map[string]string{
+			"$timestamp":    "1513551151",
+			"$optionTicker": "AAPL DEC2017 PUT",
+			"$rateTicker":   "USD.FEDFUND",
+		})
+
+	priceReq := &pb.PriceRequest{}
+	err := dgo.Unmarshal(resp.GetJson(), priceReq)
+	if err != nil {
+		panic(err)
+	}
+
+	priceReq.Pricingdate = float64(1514162664)
+	fmt.Printf("%+v\n", proto.MarshalTextString(priceReq))
+
+	conn2 := dial("gobs")
+	defer conn2.Close()
+
+	gobsClient := pb.NewGobsClient(conn2)
+	greek, err := gobsClient.Greek(
+		context.Background(),
+		&pb.GreekRequest{
+			Request: priceReq,
+			Greek:   []string{"all"},
+		})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, res := range greek.Greeks {
+		fmt.Printf(res.Label+": %f\n", res.Value)
+	}
+}
+
 func ivRequest() {
 	resp := query(
 		q.ImpliedvolRequest,
