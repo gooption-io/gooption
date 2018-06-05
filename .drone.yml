@@ -12,7 +12,7 @@ pipeline:
     port: 22
     target: /home/gooption
     source: /go/src/github.com/gooption-io/gooption
-    secrets: [SSH_USERNAME, SSH_KEY]
+    secrets: [SSH_KEY]
     
   
   docker-compose-up:
