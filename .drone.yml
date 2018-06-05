@@ -7,9 +7,11 @@ pipeline:
   docker-compose-copy:
     image: appleboy/drone-scp:latest
     pull: true
-    host: ${SSH_HOST}
-    user: ${SSH_USERNAME}
-    key: ${SSH_KEY}
+    host: gooption.io
+    username: root
+    volumes:
+      - /etc/drone/drone_rsa:/root/ssh/drone_rsa
+    key_path: /root/ssh/drone_rsa
     target: /home/gooption
     source: /go/src/github.com/gooption-io/gooption
   
