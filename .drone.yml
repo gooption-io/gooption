@@ -11,7 +11,7 @@ pipeline:
     username: root
     target: /home/gooption
     source: /go/src/github.com/gooption-io/gooption
-    secrets: [SSH_USERNAME, SSH_PASSWORD]
+    secrets: [SSH_USERNAME, SSH_PASSWORD, SSH_KEY]
     
   
   docker-compose-up:
