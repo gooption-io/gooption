@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/gogo/protobuf/jsonpb"
-	"github.com/lehajam/gooption/goquantlib/pb"
-	"github.com/lehajam/gooption/goquantlib/quantlib"
+	"github.com/gooption-io/gooption/goquantlib/pb"
+	"github.com/gooption-io/gooption/goquantlib/quantlib"
 )
 
 var (

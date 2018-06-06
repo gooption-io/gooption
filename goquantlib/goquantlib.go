@@ -32,8 +32,8 @@ import (
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/lehajam/gooption/goquantlib/pb"
-	"github.com/lehajam/gooption/goquantlib/quantlib"
+	"github.com/gooption-io/gooption/goquantlib/pb"
+	"github.com/gooption-io/gooption/goquantlib/quantlib"
 )
 
 var (
