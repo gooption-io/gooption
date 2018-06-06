@@ -4,6 +4,43 @@ workspace:
 
 pipeline:
 
+  build-gobs:
+    image: golang:1.10
+    commands:
+      - cd gobs
+      - go get -v
+      - go build
+      - go test
+
+  docker-gobs:
+    image: plugins/docker:latest
+    repo: gooption/gobs
+    tags:
+      - v0
+      - dev
+    dockerfile: ./gobs/dockerfile
+    context: ./gobs
+    secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
+  
+  build-goquantlib:
+    image: golang:1.10
+    commands:
+      - apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
+      - cd goquantlib
+      - go get -v
+      - go build
+      - go test
+      
+  docker-goquantlib:
+    image: plugins/docker:latest
+    repo: gooption/goquantlib
+    tags:
+      - v0
+      - dev
+    dockerfile: ./goquantlib/dockerfile
+    context: ./goquantlib
+    secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
+    
   scp-copy:
     image: appleboy/drone-scp:latest
     pull: true
@@ -24,39 +61,5 @@ pipeline:
       - /root/drone_rsa:/root/ssh/drone_rsa
     key_path: /root/ssh/drone_rsa
     script:
-      - /usr/local/bin/docker-compose up -f /go/src/github.com/gooption-io/gooption/docker-compose.yml
-    
-  build-gobs:
-    image: golang:1.10
-    commands:
-      - cd gobs
-      - go get -v
-      - go build
-      - go test
+      - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose.yml up
 
-  docker-gobs:
-    image: plugins/docker:latest
-    repo: gooption/gobs
-    tags:
-      - v0
-    dockerfile: ./gobs/dockerfile
-    context: ./gobs
-    secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
-  
-  build-goquantlib:
-    image: golang:1.10
-    commands:
-      - apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
-      - cd goquantlib
-      - go get -v
-      - go build
-      - go test
-      
-  docker-goquantlib:
-    image: plugins/docker:latest
-    repo: gooption/goquantlib
-    tags:
-      - v0
-    dockerfile: ./goquantlib/dockerfile
-    context: ./goquantlib
-    secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
