@@ -61,5 +61,5 @@ pipeline:
       - /root/drone_rsa:/root/ssh/drone_rsa
     key_path: /root/ssh/drone_rsa
     script:
-      - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose.yml up
+      - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose-dev.yml up -d
 
