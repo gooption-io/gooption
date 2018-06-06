@@ -4,7 +4,7 @@ workspace:
 
 pipeline:
 
-  docker-compose-copy:
+  scp-copy:
     image: appleboy/drone-scp:latest
     pull: true
     host: gooption.io
@@ -12,15 +12,19 @@ pipeline:
     volumes:
       - /root/drone_rsa:/root/ssh/drone_rsa
     key_path: /root/ssh/drone_rsa
-    target: /home/gooption
+    target: /
     source: /go/src/github.com/gooption-io/gooption
   
-  docker-compose-up:
+  ssh-docker-compose-up:
     image: appleboy/drone-ssh:latest
+    pull: true
     host: gooption.io
+    username: root
+    volumes:
+      - /root/drone_rsa:/root/ssh/drone_rsa
+    key_path: /root/ssh/drone_rsa
     script:
-      - /usr/local/bin/docker-compose up -f /home/gooption/docker-compose.yml
-    secrets: [SSH_USERNAME, SSH_PASSWORD]
+      - /usr/local/bin/docker-compose up -f /go/src/github.com/gooption-io/gooption/docker-compose.yml
     
   build-gobs:
     image: golang:1.10
