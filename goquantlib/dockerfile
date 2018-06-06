@@ -1,7 +1,7 @@
 FROM golang:1.10 as builder
 RUN apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
-ADD . /go/src/github.com/lehajam/gooption/goquantlib
-WORKDIR /go/src/github.com/lehajam/gooption/goquantlib
+ADD . /go/src/github.com/gooption-io/gooption/goquantlib
+WORKDIR /go/src/github.com/gooption-io/gooption/goquantlib
 RUN go get -v
 RUN CGO_ENABLED=1 GOOS=linux go build --ldflags '-w -extldflags "-static"'
 
@@ -9,6 +9,6 @@ FROM scratch
 EXPOSE 8080
 EXPOSE 8081
 EXPOSE 50051
-COPY --from=builder /go/src/github.com/lehajam/gooption/goquantlib/goquantlib /
+COPY --from=builder /go/src/github.com/gooption-io/gooption/goquantlib/goquantlib /
 COPY goquantlib.yml /etc/goquantlib/goquantlib.yml
 CMD ["/goquantlib"]
