@@ -2,7 +2,7 @@ FROM golang:1.10 as builder
 RUN apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
 ADD . /go/src/github.com/gooption-io/gooption/goquantlib
 WORKDIR /go/src/github.com/gooption-io/gooption/goquantlib
-RUN go get -v
+RUN CGO_ENABLED=1 go get -v
 RUN CGO_ENABLED=1 GOOS=linux go build --ldflags '-w -extldflags "-static"'
 
 FROM scratch
