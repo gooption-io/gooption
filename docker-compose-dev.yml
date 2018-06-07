@@ -6,7 +6,7 @@ services:
     volumes:
       - "./gobs/gobs.yml:/etc/gobs/gobs.yml"
     ports:
-     - 127.0.0.1:8080:8080
+     - 8080:8080
      - 8081:8081
      - 50051:50051
     networks:
@@ -35,7 +35,7 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     ports:
-      - 127.0.0.1:3000:3000
+      - 3000:3000
     networks: 
       - front-end
       - back-end
