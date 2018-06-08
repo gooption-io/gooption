@@ -6,19 +6,10 @@ services:
     volumes:
       - "./gobs/gobs.yml:/etc/gobs/gobs.yml"
     ports:
-<<<<<<< HEAD
      - 18080:8080
      - 18081:8081
      - 18082:50051
 
-=======
-     - 8080:8080
-     - 8081:8081
-     - 50051:50051
-    networks:
-      - back-end
-  
->>>>>>> 94b72e67ab82cf9bde7a6a121cde4dfb0c3d25d8
   prometheus:
     image: prom/prometheus:v2.3.0
     volumes:
@@ -39,13 +30,6 @@ services:
     user: 'root'
     ports:
       - 3000:3000
-<<<<<<< HEAD
-=======
-    networks: 
-      - front-end
-      - back-end
-
->>>>>>> 94b72e67ab82cf9bde7a6a121cde4dfb0c3d25d8
   zero:
     image: dgraph/dgraph:v1.0.5
     volumes:
