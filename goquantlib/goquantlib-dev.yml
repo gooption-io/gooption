@@ -1,0 +1,3 @@
+tcp-listen-address :1013
+http-listen-address :1012
+prom-listen-address :1011
