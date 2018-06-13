@@ -61,5 +61,8 @@ pipeline:
       - /root/drone_rsa:/root/ssh/drone_rsa
     key_path: /root/ssh/drone_rsa
     script:
+      - docker pull gooption/gobs:dev
+      - docker pull gooption/goquantlib:dev
+      - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose-dev.yml down
       - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose-dev.yml up -d
 
