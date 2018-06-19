@@ -3,7 +3,7 @@ package main
 import (
 	"sync/atomic"
 
-	"github.com/lehajam/gooption/gobs/pb"
+	"github.com/gooption-io/gooption/gobs/pb"
 )
 
 var (

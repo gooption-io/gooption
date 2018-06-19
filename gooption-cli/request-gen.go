@@ -1,5 +1,5 @@
 // -- //go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto"
-// go:generate "protoc.exe --proto_path=pb --proto_path=%GOPATH%\\src\\github.com\\lehajam\\gooption\\pb --proto_path=%GOPATH%\\src --proto_path=%GOPATH%\\src\\github.com\\grpc-ecosystem\\grpc-gateway\\third_party\\googleapis --gogofast_out=plugins=grpc:pb %GOPATH%\\src\\github.com\\gooption\\lehajam\\pb\\*.proto"
+// go:generate "protoc.exe --proto_path=pb --proto_path=%GOPATH%\\src\\github.com\\gooption-io\\gooption\\pb --proto_path=%GOPATH%\\src --proto_path=%GOPATH%\\src\\github.com\\grpc-ecosystem\\grpc-gateway\\third_party\\googleapis --gogofast_out=plugins=grpc:pb %GOPATH%\\src\\github.com\\gooption\\lehajam\\pb\\*.proto"
 package main
 
 import (
@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/lehajam/gooption/gooption-cli/pb"
+	"github.com/gooption-io/gooption/gooption-cli/pb"
 	"github.com/lehajam/goyahoo"
 )
 

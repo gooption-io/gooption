@@ -30,8 +30,8 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 
+	"github.com/gooption-io/gooption/gobs/pb"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/lehajam/gooption/gobs/pb"
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 )
