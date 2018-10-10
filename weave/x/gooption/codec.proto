@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package gooption;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "github.com/lehajam/protoc-gen-weave/x/bucket/bucket.proto";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+
+message Valuation {
+    // address of the sender / sig or multisig
+    bytes sender = 1;
+    // (IOV) domain name of the publisher
+    // maybe this can be worked out from the sender address
+    bytes publisher = 2 [(bucket.index) = {name: "publisher"}];
+    // the contract id although we also store the contract
+    // we want to be able to index this field and not have to
+    // unshah the contract to read it
+    bytes contract_id = 3 [(bucket.index) = {name: "contract"}];
+    // UTC timestamp at which valuation occured
+    // stored as a string
+    bytes timestamp = 4;
+    // hash of the computation request
+    bytes request = 5;
+    // hash of the computation response
+    bytes response = 6;
+}
+
+message CreateValuationMsg {
+    // address of the sender / sig or multisig
+    bytes sender = 1;
+    // (IOV) domain name of the publisher
+    // maybe this can be worked out from the sender address
+    bytes publisher = 2;
+    // the contract id although we also store the contract
+    // we want to be able to index this field and not have to
+    // unshah the contract to read it
+    bytes contract_id = 3;
+    // UTC timestamp at which valuation occured
+    // stored as a string
+    bytes timestamp = 4;
+    // hash of the computation request
+    bytes request = 5;
+    // hash of the computation response
+    bytes response = 6;
+}
