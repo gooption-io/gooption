@@ -3,8 +3,8 @@
 BUILD_VERSION ?= manual
 BUILD_FLAGS := -ldflags "-X github.com/iov-one/weave.Version=${BUILD_VERSION}"
 DOCKER_BUILD_FLAGS := -a -installsuffix cgo
-BUILDOUT ?= bcpd
-IMAGE_NAME = "iov1/bcpd:${BUILD_VERSION}"
+BUILDOUT ?= gooptiond
+IMAGE_NAME = "gooption/gooptiond:${BUILD_VERSION}"
 
 all: dist
 

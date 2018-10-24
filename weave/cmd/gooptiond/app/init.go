@@ -71,12 +71,12 @@ func GenerateApp(home string, logger log.Logger, debug bool) (abci.Application, 
 	// db goes in a subdir, but "" -> "" for memdb
 	var dbPath string
 	if home != "" {
-		dbPath = filepath.Join(home, "bov.db")
+		dbPath = filepath.Join(home, "gooption.db")
 	}
 
 	// TODO: anyone can make a token????
 	stack := Stack(x.Coin{}, nil)
-	app, err := Application("mycoin", stack, TxDecoder, dbPath, debug)
+	app, err := Application("gooptiond", stack, TxDecoder, dbPath, debug)
 	if err != nil {
 		return nil, err
 	}

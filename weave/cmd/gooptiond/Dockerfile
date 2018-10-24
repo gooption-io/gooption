@@ -1,4 +1,4 @@
 FROM scratch
-ADD bcpd /
-ENTRYPOINT ["/bcpd"]
+ADD gooptiond /
+ENTRYPOINT ["/gooptiond"]
 CMD [""]

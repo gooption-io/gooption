@@ -22,6 +22,8 @@ import (
 	"github.com/iov-one/weave/x/sigs"
 	"github.com/iov-one/weave/x/utils"
 	"github.com/iov-one/weave/x/validators"
+
+	"github.com/gooption-io/gooption/weave/x/gooption"
 )
 
 // Authenticator returns the typical authentication,
@@ -60,6 +62,7 @@ func Router(authFn x.Authenticator, issuer weave.Address) app.Router {
 	escrow.RegisterRoutes(r, authFn, namecoin.NewController())
 	multisig.RegisterRoutes(r, authFn)
 	validators.RegisterRoutes(r, authFn, validators.NewController())
+	gooption.RegisterRoutes(r, authFn)
 	return r
 }
 
@@ -74,6 +77,7 @@ func QueryRouter() weave.QueryRouter {
 		orm.RegisterQuery,
 		multisig.RegisterQuery,
 		validators.RegisterQuery,
+		gooption.RegisterQuery,
 	)
 	return r
 }
