@@ -3,8 +3,8 @@ package gooption
 import (
 	fmt "fmt"
 
-	"github.com/confio/weave"
 	proto "github.com/gogo/protobuf/proto"
+	"github.com/iov-one/weave"
 
 	math "math"
 
