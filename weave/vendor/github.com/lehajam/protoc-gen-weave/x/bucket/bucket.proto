@@ -1,0 +1,14 @@
+syntax = "proto2";
+package bucket;
+
+import "google/protobuf/descriptor.proto";
+option go_package = "bucket";
+
+extend google.protobuf.FieldOptions {
+  optional FieldIndex index = 65021;
+}
+
+message FieldIndex {
+  optional string name = 1;
+  optional bool unique = 2;
+}
