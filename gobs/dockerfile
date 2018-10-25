@@ -1,6 +1,6 @@
 FROM golang:1.10 as builder
-ADD . /go/src/github.com/lehajam/gooption/gobs
-WORKDIR /go/src/github.com/lehajam/gooption/gobs
+ADD . /go/src/github.com/gooption-io/gooption/gobs
+WORKDIR /go/src/github.com/gooption-io/gooption/gobs
 RUN go get -v
 RUN CGO_ENABLED=0 GOOS=linux go build
 
@@ -8,6 +8,6 @@ FROM scratch
 EXPOSE 8080
 EXPOSE 8081
 EXPOSE 50051
-COPY --from=builder /go/src/github.com/lehajam/gooption/gobs/gobs /
+COPY --from=builder /go/src/github.com/gooption-io/gooption/gobs/gobs /
 COPY gobs.yml /etc/gobs/gobs.yml
 CMD ["/gobs"]
