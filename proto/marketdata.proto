@@ -1,5 +1,5 @@
-syntax = "proto3"; 
-package pb; 
+syntax = "proto3";
+package proto;
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 option (gogoproto.populate_all) = true;
@@ -40,19 +40,19 @@ message OptionQuoteSlice {
     double timestamp = 1;
     double expiry = 2;
     repeated OptionQuote puts = 3;
-    repeated OptionQuote calls = 4;    
+    repeated OptionQuote calls = 4;
 }
 
-message OptionMarket { 
+message OptionMarket {
     double timestamp = 1;
     Spot spot = 2;
     FlatVol vol = 3;
     RiskFreeRate rate = 4;
-} 
+}
 
 message ImpliedVolQuote {
-    double timestamp = 1;    
-    OptionQuote input = 2;    
+    double timestamp = 1;
+    OptionQuote input = 2;
     string error = 3;
     double vol = 4;
     int64 nbiteration = 5;
@@ -60,12 +60,12 @@ message ImpliedVolQuote {
 
 message ImpliedVolSlice {
     double timestamp = 1;
-    bool iserror = 2; 
+    bool iserror = 2;
     double expiry = 3;
     repeated ImpliedVolQuote quotes = 4;
 }
 
-message ImpliedVolSurface { 
+message ImpliedVolSurface {
     double timestamp = 1;
     repeated ImpliedVolSlice slices = 2;
-} 
+}

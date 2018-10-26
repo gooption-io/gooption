@@ -1,5 +1,5 @@
-syntax = "proto3"; 
-package pb; 
+syntax = "proto3";
+package proto;
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 option (gogoproto.populate_all) = true;

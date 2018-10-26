@@ -1,4 +1,3 @@
-//go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/lehajam/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb --grpc-gateway_out=logtostderr=true:pb $GOPATH/src/github.com/lehajam/gooption/pb/*.proto pb/*.proto"
 //go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
 package main
 
@@ -15,7 +14,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 
-	"github.com/gooption-io/gooption/gobs/pb"
+	goption_proto "github.com/gooption-io/gooption/proto"
 	"github.com/gooption-io/gooption/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -56,7 +55,7 @@ func main() {
 	NewService(&server{}, utils.NewServiceConfig(*env)).Serve()
 }
 
-// server is used to implement pb.ModerlServer.
+// server is used to implement goption_proto.ModerlServer.
 type server struct{}
 
 /*
@@ -64,10 +63,10 @@ Price computes the fair value of a european stock option according to Black Scho
 Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
 Stock assumed to pay no dividends
 */
-func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
+func (srv *server) Price(ctx context.Context, in *goption_proto.PriceRequest) (*goption_proto.PriceResponse, error) {
 	tcpReqs.WithLabelValues("PriceRequest").Add(1)
 
-	return &pb.PriceResponse{
+	return &goption_proto.PriceResponse{
 		Price: bs(in.Pricingdate, in.Contract, in.Marketdata),
 	}, nil
 }
@@ -78,7 +77,7 @@ Black Scholes Greeks : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model
 Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
-func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
+func (srv *server) Greek(ctx context.Context, in *goption_proto.GreekRequest) (*goption_proto.GreekResponse, error) {
 	tcpReqs.WithLabelValues("GreekRequest").Add(1)
 
 	if len(in.Greek) == 0 {
@@ -90,7 +89,7 @@ func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekRes
 		in.Greek = allGreeks
 	}
 
-	return &pb.GreekResponse{
+	return &goption_proto.GreekResponse{
 		Greeks: bsGreek(in),
 	}, nil
 }
@@ -100,16 +99,16 @@ ImpliedVol computes volatility matching the option quote passed as Quote using N
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
-func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
+func (srv *server) ImpliedVol(ctx context.Context, in *goption_proto.ImpliedVolRequest) (*goption_proto.ImpliedVolResponse, error) {
 	tcpReqs.WithLabelValues("ImpliedVolRequest").Add(1)
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 
-	surf := &pb.ImpliedVolSurface{
+	surf := &goption_proto.ImpliedVolSurface{
 		Timestamp: in.Marketdata.Timestamp,
-		Slices:    make([]*pb.ImpliedVolSlice, len(in.Quotes)),
+		Slices:    make([]*goption_proto.ImpliedVolSlice, len(in.Quotes)),
 	}
 
-	out := make(chan pb.ImpliedVolSlice, len(in.Quotes))
+	out := make(chan goption_proto.ImpliedVolSlice, len(in.Quotes))
 	defer close(out)
 
 	for idx := 0; idx < len(in.Quotes); idx++ {
@@ -122,7 +121,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 	}
 
 	logrus.Debugf("%+v\n", proto.MarshalTextString(surf))
-	return &pb.ImpliedVolResponse{
+	return &goption_proto.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil
 }

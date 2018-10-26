@@ -1,5 +1,5 @@
-syntax = "proto3"; 
-package pb; 
+syntax = "proto3";
+package proto;
 
 import "contract.proto";
 import "marketdata.proto";
@@ -26,39 +26,39 @@ service Gobs {
   }
 }
 
-message PriceRequest { 
+message PriceRequest {
   double pricingdate = 1;
   European contract = 2;
-  OptionMarket marketdata = 3;  
-} 
+  OptionMarket marketdata = 3;
+}
 
-message PriceResponse { 
-  double price = 2; 
-  string error = 3; 
-} 
+message PriceResponse {
+  double price = 2;
+  string error = 3;
+}
 
-message GreekRequest { 
+message GreekRequest {
   PriceRequest request = 1;
   repeated string greek = 2;
 }
 
-message GreekResponse { 
-  message Greek { 
-    string label = 1; 
-    double value = 2; 
-    string error = 3; 
+message GreekResponse {
+  message Greek {
+    string label = 1;
+    double value = 2;
+    string error = 3;
   }
   repeated Greek greeks = 1;
   string error = 2;
 }
 
-message ImpliedVolRequest { 
+message ImpliedVolRequest {
   double pricingdate = 1;
   OptionMarket marketdata = 2;
   repeated OptionQuoteSlice quotes = 3;
-} 
+}
 
-message ImpliedVolResponse { 
+message ImpliedVolResponse {
   ImpliedVolSurface volsurface = 1;
   string error = 2;
-} 
+}

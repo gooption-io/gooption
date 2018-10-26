@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gooption-io/gooption/gobs/pb"
+	"github.com/gooption-io/gooption/proto"
 	"gonum.org/v1/gonum/stat/distuv"
 )
 
@@ -30,7 +30,7 @@ var (
 Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
 Stock assumed to pay no dividends
 */
-func bs(pricingDate float64, contract *pb.European, mkt *pb.OptionMarket) float64 {
+func bs(pricingDate float64, contract *proto.European, mkt *proto.OptionMarket) float64 {
 	var (
 		mult = putCallMap[strings.ToLower(contract.Putcall)]
 
@@ -48,7 +48,7 @@ func bs(pricingDate float64, contract *pb.European, mkt *pb.OptionMarket) float6
 	return mult * (s*phi(mult*d1) - k*phi(mult*d2)*math.Exp(-r*t))
 }
 
-func bsGreek(in *pb.GreekRequest) []*pb.GreekResponse_Greek {
+func bsGreek(in *proto.GreekRequest) []*proto.GreekResponse_Greek {
 	var (
 		mult = putCallMap[strings.ToLower(in.Request.Contract.Putcall)]
 
@@ -63,9 +63,9 @@ func bsGreek(in *pb.GreekRequest) []*pb.GreekResponse_Greek {
 		d2 = d2(d1, v, t)
 	)
 
-	greeks := make([]*pb.GreekResponse_Greek, len(in.Greek))
+	greeks := make([]*proto.GreekResponse_Greek, len(in.Greek))
 	for index, greek := range in.Greek {
-		greekResponse := &pb.GreekResponse_Greek{
+		greekResponse := &proto.GreekResponse_Greek{
 			Label: greek,
 		}
 
@@ -90,20 +90,20 @@ func bsGreek(in *pb.GreekRequest) []*pb.GreekResponse_Greek {
 	return greeks
 }
 
-func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
+func bsImpliedVol(index int, in *proto.ImpliedVolRequest, out chan<- proto.ImpliedVolSlice) {
 	var (
-		t = func(q *pb.OptionQuoteSlice) float64 {
+		t = func(q *proto.OptionQuoteSlice) float64 {
 			return time.Unix(int64(q.Expiry), 0).Sub(time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
 		}
 	)
 
 	slice := in.Quotes[index]
 	spot := in.Marketdata.Spot.Index.Value
-	calibratedSlice := pb.ImpliedVolSlice{
+	calibratedSlice := proto.ImpliedVolSlice{
 		Timestamp: in.Marketdata.Timestamp,
 		Expiry:    slice.Expiry,
 		Iserror:   false,
-		Quotes:    make([]*pb.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
+		Quotes:    make([]*proto.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
 	}
 
 	calibIndex := 0
@@ -134,7 +134,7 @@ func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolS
 /*
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 */
-func ivRootSolver(pricingDate, expiry float64, quote *pb.OptionQuote, mkt *pb.OptionMarket) *pb.ImpliedVolQuote {
+func ivRootSolver(pricingDate, expiry float64, quote *proto.OptionQuote, mkt *proto.OptionMarket) *proto.ImpliedVolQuote {
 	k := quote.Strike
 	s := mkt.Spot.Index.Value
 	r := mkt.Rate.Index.Value
@@ -143,12 +143,12 @@ func ivRootSolver(pricingDate, expiry float64, quote *pb.OptionQuote, mkt *pb.Op
 
 	iv := ivSeed
 	mktPrice := (quote.Ask + quote.Bid) / 2.0
-	contract := &pb.European{Strike: k, Putcall: quote.Putcall, Expiry: expiry}
+	contract := &proto.European{Strike: k, Putcall: quote.Putcall, Expiry: expiry}
 	for index := 0; index < maxIter; index++ {
 		bsPrice := bs(pricingDate, contract, mkt)
 		iv := iv - (bsPrice-mktPrice)/vega(s, t, d1(s, k, t, iv, r))
 		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
-			return &pb.ImpliedVolQuote{
+			return &proto.ImpliedVolQuote{
 				Input:       quote,
 				Vol:         iv,
 				Nbiteration: int64(index),
@@ -156,7 +156,7 @@ func ivRootSolver(pricingDate, expiry float64, quote *pb.OptionQuote, mkt *pb.Op
 		}
 	}
 
-	return &pb.ImpliedVolQuote{
+	return &proto.ImpliedVolQuote{
 		Input:       quote,
 		Error:       "Did not converge to required interval",
 		Nbiteration: maxIter,

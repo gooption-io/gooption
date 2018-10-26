@@ -2,11 +2,11 @@
 // source: service.proto
 
 /*
-Package pb is a reverse proxy.
+Package proto is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package pb
+package proto
 
 import (
 	"io"
@@ -32,7 +32,7 @@ func request_Gobs_Price_0(ctx context.Context, marshaler runtime.Marshaler, clie
 	var protoReq PriceRequest
 	var metadata runtime.ServerMetadata
 
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -45,7 +45,7 @@ func request_Gobs_Greek_0(ctx context.Context, marshaler runtime.Marshaler, clie
 	var protoReq GreekRequest
 	var metadata runtime.ServerMetadata
 
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -58,7 +58,7 @@ func request_Gobs_ImpliedVol_0(ctx context.Context, marshaler runtime.Marshaler,
 	var protoReq ImpliedVolRequest
 	var metadata runtime.ServerMetadata
 
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -77,14 +77,14 @@ func RegisterGobsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux,
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Printf("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Printf("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
@@ -98,15 +98,15 @@ func RegisterGobsHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 	return RegisterGobsHandlerClient(ctx, mux, NewGobsClient(conn))
 }
 
-// RegisterGobsHandler registers the http handlers for service Gobs to "mux".
-// The handlers forward requests to the grpc endpoint over the given implementation of "GobsClient".
+// RegisterGobsHandlerClient registers the http handlers for service Gobs
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "GobsClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "GobsClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "GobsClient" to call the correct interceptors.
 func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, client GobsClient) error {
 
 	mux.Handle("POST", pattern_Gobs_Price_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(ctx)
+		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
 			go func(done <-chan struct{}, closed <-chan bool) {
@@ -135,7 +135,7 @@ func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 	})
 
 	mux.Handle("POST", pattern_Gobs_Greek_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(ctx)
+		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
 			go func(done <-chan struct{}, closed <-chan bool) {
@@ -164,7 +164,7 @@ func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 	})
 
 	mux.Handle("POST", pattern_Gobs_ImpliedVol_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(ctx)
+		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
 			go func(done <-chan struct{}, closed <-chan bool) {
