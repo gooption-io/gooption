@@ -9,7 +9,11 @@ import (
 	"gonum.org/v1/gonum/stat/distuv"
 )
 
-const putLBound = 0.20
+const (
+	ivSeed    = 0.1 // solver starting point
+	maxIter   = 1000
+	putLBound = 0.20
+)
 
 var (
 	phi  = distuv.Normal{Mu: 0, Sigma: 1}.CDF
@@ -131,20 +135,18 @@ func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolS
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 */
 func ivRootSolver(pricingDate, expiry float64, quote *pb.OptionQuote, mkt *pb.OptionMarket) *pb.ImpliedVolQuote {
-	const (
-		iv      = 0.1
-		maxIter = 1000
-	)
-
 	k := quote.Strike
 	s := mkt.Spot.Index.Value
 	r := mkt.Rate.Index.Value
+	t := time.Unix(int64(expiry), 0).Sub(
+		time.Unix(int64(pricingDate), 0)).Hours() / 24.0 / 365.250
+
+	iv := ivSeed
 	mktPrice := (quote.Ask + quote.Bid) / 2.0
 	contract := &pb.European{Strike: k, Putcall: quote.Putcall, Expiry: expiry}
-
 	for index := 0; index < maxIter; index++ {
 		bsPrice := bs(pricingDate, contract, mkt)
-		iv := iv - (bsPrice-mktPrice)/vega(s, expiry, d1(s, k, expiry, iv, r))
+		iv := iv - (bsPrice-mktPrice)/vega(s, t, d1(s, k, t, iv, r))
 		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
 			return &pb.ImpliedVolQuote{
 				Input:       quote,
