@@ -1,33 +1,59 @@
-// -- //go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb $GOPATH/src/github.com/gooption/pb/*.proto pb/*.proto"
-// -- //go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:pb pb/*.proto"
 //go:generate sh -c "protoc --proto_path=pb --proto_path=$GOPATH/src/github.com/lehajam/gooption/pb --proto_path=$GOPATH/src --proto_path=$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gogofast_out=plugins=grpc:pb --grpc-gateway_out=logtostderr=true:pb $GOPATH/src/github.com/lehajam/gooption/pb/*.proto pb/*.proto"
 //go:generate gooption-cli -p gobs -r Price -r Greek -r ImpliedVol
 package main
 
 import (
-	"github.com/namsral/flag"
+	"flag"
+
+	"github.com/prometheus/client_golang/prometheus"
 
 	context "golang.org/x/net/context"
 
-	"errors"
 	"sort"
+
+	"github.com/pkg/errors"
 
 	"github.com/gogo/protobuf/proto"
 
 	"github.com/gooption-io/gooption/gobs/pb"
+	"github.com/gooption-io/gooption/utils"
 	"github.com/sirupsen/logrus"
 )
 
-const putLBound = 0.20
+var (
+	env     = flag.String("env", "prod", "dev/prod config for ports")
+	tcpReqs = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "tcp_requests_total",
+			Help: "How many TCP requests processed, partitioned by request type",
+		},
+		[]string{"code"},
+	)
+)
 
-var config = flag.String(flag.DefaultConfigFlagname, "", "The Path to config file")
+// server panic recovery
+// for example if we fail to load config
+func recoverServer() {
+	if r := recover(); r != nil {
+		logrus.WithField("error", r).Errorln("panic recovered")
+	}
+}
 
 func main() {
-	// Parsing arguments
+	// recovery
+	defer recoverServer()
+
+	// flag
 	flag.Parse()
 
-	// start grpc / http / prometheus endpoints
-	NewService(&server{}).Serve()
+	// prom
+	prometheus.MustRegister(tcpReqs)
+
+	// config
+	utils.InitViperConfig("gobs", ".")
+
+	// serve
+	NewService(&server{}, utils.NewServiceConfig(*env)).Serve()
 }
 
 // server is used to implement pb.ModerlServer.
@@ -95,7 +121,6 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 		surf.Slices[idx] = &slice
 	}
 
-	// wg.Wait()
 	logrus.Debugf("%+v\n", proto.MarshalTextString(surf))
 	return &pb.ImpliedVolResponse{
 		Volsurface: surf,

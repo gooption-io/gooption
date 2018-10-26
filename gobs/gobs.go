@@ -9,6 +9,8 @@ import (
 	"gonum.org/v1/gonum/stat/distuv"
 )
 
+const putLBound = 0.20
+
 var (
 	phi  = distuv.Normal{Mu: 0, Sigma: 1}.CDF
 	dphi = distuv.Normal{Mu: 0, Sigma: 1}.Prob

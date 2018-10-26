@@ -6,9 +6,8 @@ import (
 	"net/http"
 
 	"github.com/gooption-io/gooption/gobs/pb"
+	"github.com/gooption-io/gooption/utils"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/namsral/flag"
-	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
@@ -20,30 +19,15 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 )
 
-var tcpPort, httpPort, promhttpPort string
-var tcpReqs *prometheus.CounterVec
-
-func init() {
-	tcpPort = *flag.String("tcp-listen-address", ":50051", "The Port to listen on for TCP requests")
-	httpPort = *flag.String("http-listen-address", ":8081", "The Port to listen on for HTTP requests")
-	promhttpPort = *flag.String("prom-listen-address", ":8080", "The Port to listen on for Promhttp requests")
-	tcpReqs = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "tcp_requests_total",
-			Help: "How many TCP requests processed, partitioned by request type",
-		},
-		[]string{"code"},
-	)
-
-	prometheus.MustRegister(tcpReqs)
-}
-
 type service struct {
+	config     utils.ServiceConfig
 	serverImpl pb.GobsServer
 }
 
-func NewService(impl pb.GobsServer) *service {
+func NewService(impl pb.GobsServer, conf utils.ServiceConfig) *service {
+	logrus.Infoln(conf)
 	return &service{
+		config:     conf,
 		serverImpl: impl,
 	}
 }
@@ -57,19 +41,19 @@ func (s *service) ServeHTTP(errCh chan error) {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, tcpPort, opts)
+	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, s.config.TCP, opts)
 	if err != nil {
 		errCh <- err
 	}
 
-	logrus.Infoln("http server ready on port ", httpPort)
-	errCh <- http.ListenAndServe(httpPort, cors.Default().Handler(mux))
+	logrus.Infoln("http server ready on port ", s.config.HTTP)
+	errCh <- http.ListenAndServe(s.config.HTTP, cors.Default().Handler(mux))
 }
 
 // methods takes server chain as argument so it remains configurable per service while not changing core logic
 // might be useful for dependency injection
 func (s *service) ServeTCP(errCh chan error) {
-	lis, err := net.Listen("tcp", tcpPort)
+	lis, err := net.Listen("tcp", s.config.TCP)
 	if err != nil {
 		errCh <- err
 	}
@@ -94,16 +78,16 @@ func (s *service) ServeTCP(errCh chan error) {
 	pb.RegisterGobsServer(grpcSrv, s.serverImpl)
 	reflection.Register(grpcSrv)
 
-	logrus.Infoln("grpc server ready on port ", tcpPort)
+	logrus.Infoln("grpc server ready on port ", s.config.TCP)
 	errCh <- grpcSrv.Serve(lis)
 }
 
 // methods takes server chain as argument so it remains configurable per service while not changing core logic
 // might be useful for dependency injection
 func (s *service) ServePromHTTP(errCh chan error) {
-	logrus.Infoln("promhttp server ready on port ", promhttpPort)
+	logrus.Infoln("promhttp server ready on port ", s.config.PromHTTP)
 	http.Handle("/metrics", promhttp.Handler())
-	errCh <- http.ListenAndServe(promhttpPort, nil)
+	errCh <- http.ListenAndServe(s.config.PromHTTP, nil)
 }
 
 func (s *service) Serve() {
@@ -111,7 +95,7 @@ func (s *service) Serve() {
 	defer close(errCh)
 
 	go s.ServeTCP(errCh)
-	go s.ServeTCP(errCh)
+	go s.ServeHTTP(errCh)
 	go s.ServePromHTTP(errCh)
 
 	for i := 0; i < 3; i++ {
