@@ -230,7 +230,6 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 type ivSolverResult struct {
 	IV                float64
 	NbSolverIteration int
-	Error             error
 }
 
 func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
@@ -254,27 +253,37 @@ func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolS
 		Quotes:    make([]*pb.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
 	}
 
+	calibrate := func(quote *pb.OptionQuote) *pb.ImpliedVolQuote {
+		res, err := ivRootSolver(p(quote), s, r, k(quote), t(slice), mult(quote))
+		if err != nil {
+			calibratedSlice.Iserror = true
+			return &pb.ImpliedVolQuote{
+				Timestamp:   quote.Timestamp,
+				Input:       quote,
+				Error:       err.Error(),
+				Nbiteration: int64(res.NbSolverIteration),
+			}
+		}
+
+		return &pb.ImpliedVolQuote{
+			Timestamp:   quote.Timestamp,
+			Input:       quote,
+			Vol:         res.IV,
+			Nbiteration: int64(res.NbSolverIteration),
+		}
+	}
+
 	calibIndex := 0
 	for _, put := range slice.Puts {
 		if put.Strike/s > putLBound && put.Strike/s <= 1.0 {
-			res := ivRootSolver(p(put), s, r, k(put), t(slice), mult(put))
-			calibratedSlice.Quotes[calibIndex] = newImpliedVolQuote(res, put)
-			if res.Error != nil {
-				calibratedSlice.Iserror = true
-			}
-
+			calibratedSlice.Quotes[calibIndex] = calibrate(put)
 			calibIndex++
 		}
 	}
 
 	for _, call := range slice.Calls {
 		if call.Strike/s > 1.0 {
-			res := ivRootSolver(p(call), s, r, k(call), t(slice), mult(call))
-			calibratedSlice.Quotes[calibIndex] = newImpliedVolQuote(res, call)
-			if res.Error != nil {
-				calibratedSlice.Iserror = true
-			}
-
+			calibratedSlice.Quotes[calibIndex] = calibrate(call)
 			calibIndex++
 		}
 	}
@@ -283,25 +292,10 @@ func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolS
 	out <- calibratedSlice
 }
 
-func newImpliedVolQuote(res *ivSolverResult, quote *pb.OptionQuote) *pb.ImpliedVolQuote {
-	iv := &pb.ImpliedVolQuote{
-		Timestamp:   quote.Timestamp,
-		Input:       quote,
-		Vol:         res.IV,
-		Nbiteration: int64(res.NbSolverIteration),
-	}
-
-	if res.Error != nil {
-		iv.Error = res.Error.Error()
-	}
-
-	return iv
-}
-
 /*
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 */
-func ivRootSolver(mktPrice, s, r, k, t, mult float64) *ivSolverResult {
+func ivRootSolver(mktPrice, s, r, k, t, mult float64) (*ivSolverResult, error) {
 	var (
 		iv      = 0.1
 		maxIter = 1000
@@ -311,8 +305,8 @@ func ivRootSolver(mktPrice, s, r, k, t, mult float64) *ivSolverResult {
 		bsPrice := bs(s, iv, r, k, t, mult)
 		iv = iv - (bsPrice-mktPrice)/vega(s, t, d1(s, k, t, iv, r))
 		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
-			return &ivSolverResult{iv, index, nil}
+			return &ivSolverResult{iv, index}, nil
 		}
 	}
-	return &ivSolverResult{iv, maxIter, errors.New("Did not converge to required interval")}
+	return &ivSolverResult{iv, maxIter}, errors.New("Did not converge to required interval")
 }
