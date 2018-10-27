@@ -1,9 +1,0 @@
-dev:
-  tcp: :1003
-  http: :1002
-  promhttp: :1001
-
-prod:
-  tcp: :50051
-  http: :8081
-  promhttp: :8080

@@ -10,11 +10,14 @@
 #include <ql/time/calendars/target.hpp>
 #include <ql/utilities/dataparsers.hpp>
 #include <ql/instruments/vanillaoption.hpp>
-#include "boost/date_time/posix_time/posix_time.hpp"
 #include <ql/pricingengines/vanilla/analyticeuropeanengine.hpp>
+
+#include "boost/program_options.hpp"
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 using namespace std;
 using namespace QuantLib;
+namespace po = boost::program_options;
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -100,24 +103,37 @@ class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Servic
         }
 };
 
-void RunServer() {
-  std::string server_address("0.0.0.0:50051");
-  EuropeanOptionPricerServerImpl service;
-  ServerBuilder builder;
-  // Listen on the given address without any authentication mechanism.
-  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-  // Register "service" as the instance through which we'll communicate with
-  // clients. In this case it corresponds to an *synchronous* service.
-  builder.RegisterService(&service);
-  // Finally assemble the server.
-  std::unique_ptr<Server> server(builder.BuildAndStart());
-  std::cout << "Server listening on " << server_address << std::endl;
-  // Wait for the server to shutdown. Note that some other thread must be
-  // responsible for shutting down the server for this call to ever return.
-  server->Wait();
+std::string withServerAddress(int argc, char** argv)  {
+        po::options_description desc("Allowed options");
+        desc.add_options()("tcp-listen-address", po::value<string>(), "tcp port");
+
+        po::variables_map vm;
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
+
+        if (!(vm.count("tcp-listen-address"))) {
+                return ":50051";
+        }
+
+        return vm["tcp-listen-address"].as<std::string>();
 }
 
 int main(int argc, char** argv) {
-  RunServer();
-  return 0;
+        ServerBuilder builder;
+        EuropeanOptionPricerServerImpl service;
+
+        // Listen on the given address without any authentication mechanism.
+        std::string server_address = withServerAddress(argc, argv);
+        builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+        // Register "service" as the instance through which we'll communicate with
+        // clients. In this case it corresponds to an *synchronous* service.
+        builder.RegisterService(&service);
+        // Finally assemble the server.
+        std::unique_ptr<Server> server(builder.BuildAndStart());
+        std::cout << "Server listening on " << server_address << std::endl;
+        // Wait for the server to shutdown. Note that some other thread must be
+        // responsible for shutting down the server for this call to ever return.
+        server->Wait();
+
+        return 0;
 }

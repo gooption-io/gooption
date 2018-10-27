@@ -3,15 +3,14 @@ package main
 import (
 	"flag"
 	"math"
+	"os"
 	"sort"
 	"strings"
 	"time"
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/gooption-io/gooption/proto/go/pb"
-	"github.com/gooption-io/gooption/utils"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 	context "golang.org/x/net/context"
 	"gonum.org/v1/gonum/stat/distuv"
@@ -24,48 +23,22 @@ const (
 )
 
 var (
-	phi  = distuv.Normal{Mu: 0, Sigma: 1}.CDF
-	dphi = distuv.Normal{Mu: 0, Sigma: 1}.Prob
+	tcp      = flag.String("tcp-listen-address", ":50051", "tcp port")
+	promhttp = flag.String("prom-listen-address", ":8080", "prometheud http port")
 
+	phi        = distuv.Normal{Mu: 0, Sigma: 1}.CDF
+	dphi       = distuv.Normal{Mu: 0, Sigma: 1}.Prob
+	putCallMap = map[string]float64{"call": 1.0, "put": -1.0}
 	allGreeks  = []string{"delta", "gamma", "vega", "theta", "rho"}
-	putCallMap = map[string]float64{
-		"call": 1.0,
-		"put":  -1.0,
-	}
-
-	env     = flag.String("env", "prod", "dev/prod config for ports")
-	tcpReqs = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "tcp_requests_total",
-			Help: "How many TCP requests processed, partitioned by request type",
-		},
-		[]string{"code"},
-	)
 )
 
-// server panic recovery
-// for example if we fail to load config
-func recoverServer() {
-	if r := recover(); r != nil {
-		logrus.WithField("error", r).Errorln("panic recovered")
-	}
-}
-
 func main() {
-	// recovery
-	defer recoverServer()
-
-	// flag
 	flag.Parse()
-
-	// // prom
-	prometheus.MustRegister(tcpReqs)
-
-	// config
-	utils.InitViperConfig("gobs", ".")
-
-	// serve
-	NewService(&server{}, utils.NewServiceConfig(*env)).Serve()
+	err := pb.RunGobsServer(*tcp, *promhttp, &server{})
+	if err != nil {
+		logrus.Errorln(err)
+		os.Exit(1)
+	}
 }
 
 // server is used to implement pb.ModerlServer.
@@ -77,8 +50,6 @@ Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_mode
 Stock assumed to pay no dividends
 */
 func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
-	tcpReqs.WithLabelValues("PriceRequest").Add(1)
-
 	var (
 		mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
 
@@ -121,8 +92,6 @@ Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
 func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
-	tcpReqs.WithLabelValues("GreekRequest").Add(1)
-
 	if len(in.Greek) == 0 {
 		return nil, errors.New("No greeks requested")
 	}
@@ -201,7 +170,6 @@ Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
 func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
-	tcpReqs.WithLabelValues("ImpliedVolRequest").Add(1)
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 
 	surf := &pb.ImpliedVolSurface{
