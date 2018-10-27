@@ -18,7 +18,7 @@ import (
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
-	goption_proto "github.com/gooption-io/gooption/proto"
+	"github.com/gooption-io/gooption/proto/go/pb"
 )
 
 var (
@@ -28,7 +28,7 @@ var (
 func Test_Price(t *testing.T) {
 	if file, err := os.Open("./testdata/PriceRequest.json"); err == nil {
 		defer file.Close()
-		request := &goption_proto.PriceRequest{}
+		request := &pb.PriceRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
 			if response, err := s.Price(context.Background(), request); err != nil {
 				t.Log(response)
@@ -79,7 +79,7 @@ func Test_Price(t *testing.T) {
 func Test_Greek(t *testing.T) {
 	if file, err := os.Open("./testdata/GreekRequest.json"); err == nil {
 		defer file.Close()
-		request := &goption_proto.GreekRequest{}
+		request := &pb.GreekRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
 			if response, err := s.Greek(context.Background(), request); err != nil {
 				t.Log(response)
@@ -104,8 +104,8 @@ func Test_Greek(t *testing.T) {
 // 	go start(tcpServer)
 // 	if file, err := os.Open("./testdata/GreekRequest.json"); err == nil {
 // 		defer file.Close()
-// 		request := &goption_proto.GreekRequest{}
-// 		if jsongoption_proto.Unmarshal(file, request) == nil {
+// 		request := &pb.GreekRequest{}
+// 		if jsonpb.Unmarshal(file, request) == nil {
 // 			conn, err := grpc.Dial(":50051", grpc.WithInsecure())
 // 			if err != nil {
 // 				t.Error(err)
@@ -130,7 +130,7 @@ func Test_Greek(t *testing.T) {
 func Test_ImpliedVol(t *testing.T) {
 	if file, err := os.Open("./testdata/ImpliedVolRequest.json"); err == nil {
 		defer file.Close()
-		request := &goption_proto.ImpliedVolRequest{}
+		request := &pb.ImpliedVolRequest{}
 		if jsonpb.Unmarshal(file, request) == nil {
 			if response, err := s.ImpliedVol(context.Background(), request); err != nil {
 				t.Log(response)
@@ -179,7 +179,7 @@ func Test_ImpliedVol(t *testing.T) {
 // }
 
 func Test_DgraphImpliedVol(t *testing.T) {
-	request := &goption_proto.ImpliedVolRequest{}
+	request := &pb.ImpliedVolRequest{}
 	if err := proto.UnmarshalText(dgrahIVRequest, request); err == nil {
 		if response, err := s.ImpliedVol(context.Background(), request); err != nil {
 			t.Log(response)

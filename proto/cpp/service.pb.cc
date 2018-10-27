@@ -282,37 +282,33 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\rservice.proto\022\005proto\032\016contract.proto\032\020"
-      "marketdata.proto\032\034google/api/annotations"
-      ".proto\"o\n\014PriceRequest\022\023\n\013pricingdate\030\001 "
-      "\001(\001\022!\n\010contract\030\002 \001(\0132\017.proto.European\022\'"
-      "\n\nmarketdata\030\003 \001(\0132\023.proto.OptionMarket\""
-      "-\n\rPriceResponse\022\r\n\005price\030\002 \001(\001\022\r\n\005error"
-      "\030\003 \001(\t\"C\n\014GreekRequest\022$\n\007request\030\001 \001(\0132"
-      "\023.proto.PriceRequest\022\r\n\005greek\030\002 \003(\t\"\200\001\n\r"
-      "GreekResponse\022*\n\006greeks\030\001 \003(\0132\032.proto.Gr"
-      "eekResponse.Greek\022\r\n\005error\030\002 \001(\t\0324\n\005Gree"
-      "k\022\r\n\005label\030\001 \001(\t\022\r\n\005value\030\002 \001(\001\022\r\n\005error"
-      "\030\003 \001(\t\"z\n\021ImpliedVolRequest\022\023\n\013pricingda"
-      "te\030\001 \001(\001\022\'\n\nmarketdata\030\002 \001(\0132\023.proto.Opt"
-      "ionMarket\022\'\n\006quotes\030\003 \003(\0132\027.proto.Option"
-      "QuoteSlice\"Q\n\022ImpliedVolResponse\022,\n\nvols"
-      "urface\030\001 \001(\0132\030.proto.ImpliedVolSurface\022\r"
-      "\n\005error\030\002 \001(\t2\207\002\n\004Gobs\022M\n\005Price\022\023.proto."
-      "PriceRequest\032\024.proto.PriceResponse\"\031\202\323\344\223"
-      "\002\023\"\016/v1/gobs/price:\001*\022M\n\005Greek\022\023.proto.G"
-      "reekRequest\032\024.proto.GreekResponse\"\031\202\323\344\223\002"
-      "\023\"\016/v1/gobs/greek:\001*\022a\n\nImpliedVol\022\030.pro"
-      "to.ImpliedVolRequest\032\031.proto.ImpliedVolR"
-      "esponse\"\036\202\323\344\223\002\030\"\023/v1/gobs/impliedvol:\001*b"
-      "\006proto3"
+      "marketdata.proto\"o\n\014PriceRequest\022\023\n\013pric"
+      "ingdate\030\001 \001(\001\022!\n\010contract\030\002 \001(\0132\017.proto."
+      "European\022\'\n\nmarketdata\030\003 \001(\0132\023.proto.Opt"
+      "ionMarket\"-\n\rPriceResponse\022\r\n\005price\030\002 \001("
+      "\001\022\r\n\005error\030\003 \001(\t\"C\n\014GreekRequest\022$\n\007requ"
+      "est\030\001 \001(\0132\023.proto.PriceRequest\022\r\n\005greek\030"
+      "\002 \003(\t\"\200\001\n\rGreekResponse\022*\n\006greeks\030\001 \003(\0132"
+      "\032.proto.GreekResponse.Greek\022\r\n\005error\030\002 \001"
+      "(\t\0324\n\005Greek\022\r\n\005label\030\001 \001(\t\022\r\n\005value\030\002 \001("
+      "\001\022\r\n\005error\030\003 \001(\t\"z\n\021ImpliedVolRequest\022\023\n"
+      "\013pricingdate\030\001 \001(\001\022\'\n\nmarketdata\030\002 \001(\0132\023"
+      ".proto.OptionMarket\022\'\n\006quotes\030\003 \003(\0132\027.pr"
+      "oto.OptionQuoteSlice\"Q\n\022ImpliedVolRespon"
+      "se\022,\n\nvolsurface\030\001 \001(\0132\030.proto.ImpliedVo"
+      "lSurface\022\r\n\005error\030\002 \001(\t2\307\001\n\024EuropeanOpti"
+      "onPricer\0224\n\005Price\022\023.proto.PriceRequest\032\024"
+      ".proto.PriceResponse\"\000\0224\n\005Greek\022\023.proto."
+      "GreekRequest\032\024.proto.GreekResponse\"\000\022C\n\n"
+      "ImpliedVol\022\030.proto.ImpliedVolRequest\032\031.p"
+      "roto.ImpliedVolResponse\"\000b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 927);
+      descriptor, 833);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "service.proto", &protobuf_RegisterTypes);
   ::protobuf_contract_2eproto::AddDescriptors();
   ::protobuf_marketdata_2eproto::AddDescriptors();
-  ::protobuf_google_2fapi_2fannotations_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {

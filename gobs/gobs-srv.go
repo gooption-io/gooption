@@ -5,7 +5,7 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/gooption-io/gooption/proto"
+	"github.com/gooption-io/gooption/proto/go/pb"
 	"github.com/gooption-io/gooption/utils"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -21,10 +21,10 @@ import (
 
 type service struct {
 	config     utils.ServiceConfig
-	serverImpl proto.GobsServer
+	serverImpl pb.GobsServer
 }
 
-func NewService(impl proto.GobsServer, conf utils.ServiceConfig) *service {
+func NewService(impl pb.GobsServer, conf utils.ServiceConfig) *service {
 	logrus.Infoln(conf)
 	return &service{
 		config:     conf,
@@ -41,7 +41,7 @@ func (s *service) ServeHTTP(errCh chan error) {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := proto.RegisterGobsHandlerFromEndpoint(ctx, mux, s.config.TCP, opts)
+	err := pb.RegisterGobsHandlerFromEndpoint(ctx, mux, s.config.TCP, opts)
 	if err != nil {
 		errCh <- err
 	}
@@ -75,7 +75,7 @@ func (s *service) ServeTCP(errCh chan error) {
 		grpc_middleware.WithUnaryServerChain(
 			grpc_ctxtags.UnaryServerInterceptor(),
 			grpc_logrus.UnaryServerInterceptor(logrus.NewEntry(logrus.New()), opts...)))
-	proto.RegisterGobsServer(grpcSrv, s.serverImpl)
+	pb.RegisterGobsServer(grpcSrv, s.serverImpl)
 	reflection.Register(grpcSrv)
 
 	logrus.Infoln("grpc server ready on port ", s.config.TCP)
@@ -91,8 +91,15 @@ func (s *service) ServePromHTTP(errCh chan error) {
 }
 
 func (s *service) Serve() {
+	// var errCh chan error
 	errCh := make(chan error, 3)
 	defer close(errCh)
+
+	// go s.ServeTCP(errCh)
+	// err := <-errCh
+	// if err != nil {
+	// 	logrus.Error(err)
+	// }
 
 	go s.ServeTCP(errCh)
 	go s.ServeHTTP(errCh)

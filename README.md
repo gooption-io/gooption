@@ -2,14 +2,14 @@
 
 ![Image of gopher option trader](gopher-gooption.png)
 
-Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing system.  
+Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing system.
 
 ### Road map
 
-- [ ] grpc option pricer 
+- [ ] grpc option pricer
      - [ ] Service definition using protobuf
      - [ ] gobs service (price, greeks and implied vol)
-     - [ ] Testing / Number validation 
+     - [ ] Testing / Number validation
 - [ ] Monitoring
      - [ ] Prometheus integration including healthchecks
      - [ ] Grafana dashboard for memory and performance statistics
@@ -29,42 +29,42 @@ Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing s
      - [ ] Reverse proxy
 - [ ] QuantLib option pricer
      - [ ] Service definition using protobuf
-     - [ ] goquantlib service (price, greeks and implied vol)
-     - [ ] Testing / Number validation 
+     - [ ] goql service (price, greeks and implied vol)
+     - [ ] Testing / Number validation
 - [ ] Service discovery
      - [ ] Routing
      - [ ] Metadata for GUI discovery
 - [ ] Front End
      - [ ] Angular front end to consume gobs service
      - [ ] Integration with dgraph
-     - [ ] Integration with goquantlib
-     
+     - [ ] Integration with goql
+
 ### Setup
 
-#### proto compiler 
+#### proto compiler
 
-Download latest protobuf compiler stable version eg. protobuf-all-3.5.1.tar.gz from https://github.com/google/protobuf/releases/tag/v3.5.1 
-Extract content, cd in the folder then : 
+Download latest protobuf compiler stable version eg. protobuf-all-3.5.1.tar.gz from https://github.com/google/protobuf/releases/tag/v3.5.1
+Extract content, cd in the folder then :
 
 ```
-./configure  
-make  
-make check  
-sudo make install  
+./configure
+make
+make check
+sudo make install
 protoc --version
 ```
 
-#### gogo compiler 
+#### gogo compiler
 
 ```
-cd ~/go/src/github.com/gogo/protobuf  
+cd ~/go/src/github.com/gogo/protobuf
 make
 ```
 
 #### grpc gateway
 
 ```
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway  
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger  
-go get -u github.com/golang/protobuf/protoc-gen-go  
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+go get -u github.com/golang/protobuf/protoc-gen-go
 ```

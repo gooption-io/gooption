@@ -14,7 +14,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 
-	goption_proto "github.com/gooption-io/gooption/proto"
+	"github.com/gooption-io/gooption/proto/go/pb"
 	"github.com/gooption-io/gooption/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -55,7 +55,7 @@ func main() {
 	NewService(&server{}, utils.NewServiceConfig(*env)).Serve()
 }
 
-// server is used to implement goption_proto.ModerlServer.
+// server is used to implement pb.ModerlServer.
 type server struct{}
 
 /*
@@ -63,10 +63,10 @@ Price computes the fair value of a european stock option according to Black Scho
 Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
 Stock assumed to pay no dividends
 */
-func (srv *server) Price(ctx context.Context, in *goption_proto.PriceRequest) (*goption_proto.PriceResponse, error) {
+func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
 	tcpReqs.WithLabelValues("PriceRequest").Add(1)
 
-	return &goption_proto.PriceResponse{
+	return &pb.PriceResponse{
 		Price: bs(in.Pricingdate, in.Contract, in.Marketdata),
 	}, nil
 }
@@ -77,7 +77,7 @@ Black Scholes Greeks : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model
 Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
-func (srv *server) Greek(ctx context.Context, in *goption_proto.GreekRequest) (*goption_proto.GreekResponse, error) {
+func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
 	tcpReqs.WithLabelValues("GreekRequest").Add(1)
 
 	if len(in.Greek) == 0 {
@@ -89,7 +89,7 @@ func (srv *server) Greek(ctx context.Context, in *goption_proto.GreekRequest) (*
 		in.Greek = allGreeks
 	}
 
-	return &goption_proto.GreekResponse{
+	return &pb.GreekResponse{
 		Greeks: bsGreek(in),
 	}, nil
 }
@@ -99,16 +99,16 @@ ImpliedVol computes volatility matching the option quote passed as Quote using N
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
-func (srv *server) ImpliedVol(ctx context.Context, in *goption_proto.ImpliedVolRequest) (*goption_proto.ImpliedVolResponse, error) {
+func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
 	tcpReqs.WithLabelValues("ImpliedVolRequest").Add(1)
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 
-	surf := &goption_proto.ImpliedVolSurface{
+	surf := &pb.ImpliedVolSurface{
 		Timestamp: in.Marketdata.Timestamp,
-		Slices:    make([]*goption_proto.ImpliedVolSlice, len(in.Quotes)),
+		Slices:    make([]*pb.ImpliedVolSlice, len(in.Quotes)),
 	}
 
-	out := make(chan goption_proto.ImpliedVolSlice, len(in.Quotes))
+	out := make(chan pb.ImpliedVolSlice, len(in.Quotes))
 	defer close(out)
 
 	for idx := 0; idx < len(in.Quotes); idx++ {
@@ -121,7 +121,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *goption_proto.ImpliedVolR
 	}
 
 	logrus.Debugf("%+v\n", proto.MarshalTextString(surf))
-	return &goption_proto.ImpliedVolResponse{
+	return &pb.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil
 }

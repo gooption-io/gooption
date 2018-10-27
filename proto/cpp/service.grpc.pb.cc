@@ -15,96 +15,96 @@
 #include <grpcpp/impl/codegen/sync_stream.h>
 namespace proto {
 
-static const char* Gobs_method_names[] = {
-  "/proto.Gobs/Price",
-  "/proto.Gobs/Greek",
-  "/proto.Gobs/ImpliedVol",
+static const char* EuropeanOptionPricer_method_names[] = {
+  "/proto.EuropeanOptionPricer/Price",
+  "/proto.EuropeanOptionPricer/Greek",
+  "/proto.EuropeanOptionPricer/ImpliedVol",
 };
 
-std::unique_ptr< Gobs::Stub> Gobs::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+std::unique_ptr< EuropeanOptionPricer::Stub> EuropeanOptionPricer::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
   (void)options;
-  std::unique_ptr< Gobs::Stub> stub(new Gobs::Stub(channel));
+  std::unique_ptr< EuropeanOptionPricer::Stub> stub(new EuropeanOptionPricer::Stub(channel));
   return stub;
 }
 
-Gobs::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
-  : channel_(channel), rpcmethod_Price_(Gobs_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Greek_(Gobs_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ImpliedVol_(Gobs_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+EuropeanOptionPricer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
+  : channel_(channel), rpcmethod_Price_(EuropeanOptionPricer_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Greek_(EuropeanOptionPricer_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ImpliedVol_(EuropeanOptionPricer_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status Gobs::Stub::Price(::grpc::ClientContext* context, const ::proto::PriceRequest& request, ::proto::PriceResponse* response) {
+::grpc::Status EuropeanOptionPricer::Stub::Price(::grpc::ClientContext* context, const ::proto::PriceRequest& request, ::proto::PriceResponse* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_Price_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::PriceResponse>* Gobs::Stub::AsyncPriceRaw(::grpc::ClientContext* context, const ::proto::PriceRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::PriceResponse>* EuropeanOptionPricer::Stub::AsyncPriceRaw(::grpc::ClientContext* context, const ::proto::PriceRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::PriceResponse>::Create(channel_.get(), cq, rpcmethod_Price_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::PriceResponse>* Gobs::Stub::PrepareAsyncPriceRaw(::grpc::ClientContext* context, const ::proto::PriceRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::PriceResponse>* EuropeanOptionPricer::Stub::PrepareAsyncPriceRaw(::grpc::ClientContext* context, const ::proto::PriceRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::PriceResponse>::Create(channel_.get(), cq, rpcmethod_Price_, context, request, false);
 }
 
-::grpc::Status Gobs::Stub::Greek(::grpc::ClientContext* context, const ::proto::GreekRequest& request, ::proto::GreekResponse* response) {
+::grpc::Status EuropeanOptionPricer::Stub::Greek(::grpc::ClientContext* context, const ::proto::GreekRequest& request, ::proto::GreekResponse* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_Greek_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::GreekResponse>* Gobs::Stub::AsyncGreekRaw(::grpc::ClientContext* context, const ::proto::GreekRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::GreekResponse>* EuropeanOptionPricer::Stub::AsyncGreekRaw(::grpc::ClientContext* context, const ::proto::GreekRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::GreekResponse>::Create(channel_.get(), cq, rpcmethod_Greek_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::GreekResponse>* Gobs::Stub::PrepareAsyncGreekRaw(::grpc::ClientContext* context, const ::proto::GreekRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::GreekResponse>* EuropeanOptionPricer::Stub::PrepareAsyncGreekRaw(::grpc::ClientContext* context, const ::proto::GreekRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::GreekResponse>::Create(channel_.get(), cq, rpcmethod_Greek_, context, request, false);
 }
 
-::grpc::Status Gobs::Stub::ImpliedVol(::grpc::ClientContext* context, const ::proto::ImpliedVolRequest& request, ::proto::ImpliedVolResponse* response) {
+::grpc::Status EuropeanOptionPricer::Stub::ImpliedVol(::grpc::ClientContext* context, const ::proto::ImpliedVolRequest& request, ::proto::ImpliedVolResponse* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_ImpliedVol_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::ImpliedVolResponse>* Gobs::Stub::AsyncImpliedVolRaw(::grpc::ClientContext* context, const ::proto::ImpliedVolRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::ImpliedVolResponse>* EuropeanOptionPricer::Stub::AsyncImpliedVolRaw(::grpc::ClientContext* context, const ::proto::ImpliedVolRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ImpliedVolResponse>::Create(channel_.get(), cq, rpcmethod_ImpliedVol_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::proto::ImpliedVolResponse>* Gobs::Stub::PrepareAsyncImpliedVolRaw(::grpc::ClientContext* context, const ::proto::ImpliedVolRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::proto::ImpliedVolResponse>* EuropeanOptionPricer::Stub::PrepareAsyncImpliedVolRaw(::grpc::ClientContext* context, const ::proto::ImpliedVolRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::proto::ImpliedVolResponse>::Create(channel_.get(), cq, rpcmethod_ImpliedVol_, context, request, false);
 }
 
-Gobs::Service::Service() {
+EuropeanOptionPricer::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Gobs_method_names[0],
+      EuropeanOptionPricer_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< Gobs::Service, ::proto::PriceRequest, ::proto::PriceResponse>(
-          std::mem_fn(&Gobs::Service::Price), this)));
+      new ::grpc::internal::RpcMethodHandler< EuropeanOptionPricer::Service, ::proto::PriceRequest, ::proto::PriceResponse>(
+          std::mem_fn(&EuropeanOptionPricer::Service::Price), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Gobs_method_names[1],
+      EuropeanOptionPricer_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< Gobs::Service, ::proto::GreekRequest, ::proto::GreekResponse>(
-          std::mem_fn(&Gobs::Service::Greek), this)));
+      new ::grpc::internal::RpcMethodHandler< EuropeanOptionPricer::Service, ::proto::GreekRequest, ::proto::GreekResponse>(
+          std::mem_fn(&EuropeanOptionPricer::Service::Greek), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Gobs_method_names[2],
+      EuropeanOptionPricer_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< Gobs::Service, ::proto::ImpliedVolRequest, ::proto::ImpliedVolResponse>(
-          std::mem_fn(&Gobs::Service::ImpliedVol), this)));
+      new ::grpc::internal::RpcMethodHandler< EuropeanOptionPricer::Service, ::proto::ImpliedVolRequest, ::proto::ImpliedVolResponse>(
+          std::mem_fn(&EuropeanOptionPricer::Service::ImpliedVol), this)));
 }
 
-Gobs::Service::~Service() {
+EuropeanOptionPricer::Service::~Service() {
 }
 
-::grpc::Status Gobs::Service::Price(::grpc::ServerContext* context, const ::proto::PriceRequest* request, ::proto::PriceResponse* response) {
+::grpc::Status EuropeanOptionPricer::Service::Price(::grpc::ServerContext* context, const ::proto::PriceRequest* request, ::proto::PriceResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status Gobs::Service::Greek(::grpc::ServerContext* context, const ::proto::GreekRequest* request, ::proto::GreekResponse* response) {
+::grpc::Status EuropeanOptionPricer::Service::Greek(::grpc::ServerContext* context, const ::proto::GreekRequest* request, ::proto::GreekResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status Gobs::Service::ImpliedVol(::grpc::ServerContext* context, const ::proto::ImpliedVolRequest* request, ::proto::ImpliedVolResponse* response) {
+::grpc::Status EuropeanOptionPricer::Service::ImpliedVol(::grpc::ServerContext* context, const ::proto::ImpliedVolRequest* request, ::proto::ImpliedVolResponse* response) {
   (void) context;
   (void) request;
   (void) response;

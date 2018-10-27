@@ -5,29 +5,29 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gooption-io/gooption/proto"
+	"github.com/gooption-io/gooption/proto/go/pb"
 )
 
 var (
 	pricingDate float64 = 1540425600
 
-	call = proto.European{
+	call = pb.European{
 		Strike:  100,
 		Putcall: "call",
 		Expiry:  1571961600,
 	}
 
-	put = proto.European{
+	put = pb.European{
 		Strike:  100,
 		Putcall: "put",
 		Expiry:  1571961600,
 	}
 
-	mkt = proto.OptionMarket{
+	mkt = pb.OptionMarket{
 		Timestamp: 1540425600,
-		Spot:      &proto.Spot{&proto.Index{Value: 100}},
-		Vol:       &proto.FlatVol{&proto.Index{Value: 0.1}},
-		Rate:      &proto.RiskFreeRate{&proto.Index{Value: 0.01}},
+		Spot:      &pb.Spot{&pb.Index{Value: 100}},
+		Vol:       &pb.FlatVol{&pb.Index{Value: 0.1}},
+		Rate:      &pb.RiskFreeRate{&pb.Index{Value: 0.01}},
 	}
 )
 
@@ -61,7 +61,7 @@ func TestPutCallIVRootSolver(t *testing.T) {
 	c := bs(pricingDate, &call, &mkt)
 	t.Logf("atmCall price: %v", c)
 
-	quote := proto.OptionQuote{
+	quote := pb.OptionQuote{
 		Ask:     c,
 		Bid:     c,
 		Strike:  call.Strike,
@@ -87,7 +87,7 @@ func TestPutCallIVRootSolver(t *testing.T) {
 	p := bs(pricingDate, &put, &mkt)
 	t.Logf("atmPut price: %v", p)
 
-	quote = proto.OptionQuote{
+	quote = pb.OptionQuote{
 		Ask:     p,
 		Bid:     p,
 		Strike:  put.Strike,

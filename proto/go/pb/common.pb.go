@@ -29,7 +29,7 @@ It has these top-level messages:
 	ImpliedVolRequest
 	ImpliedVolResponse
 */
-package proto
+package pb
 
 import proto1 "github.com/gogo/protobuf/proto"
 import fmt "fmt"

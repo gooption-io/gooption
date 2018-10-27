@@ -26,10 +26,10 @@ class ServerContext;
 
 namespace proto {
 
-class Gobs final {
+class EuropeanOptionPricer final {
  public:
   static constexpr char const* service_full_name() {
-    return "proto.Gobs";
+    return "proto.EuropeanOptionPricer";
   }
   class StubInterface {
    public:

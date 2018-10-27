@@ -21,26 +21,26 @@ pipeline:
     dockerfile: ./gobs/dockerfile
     context: ./gobs
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
-  
-  build-goquantlib:
+
+  build-goql:
     image: golang:1.10
     commands:
       - apt-get update && apt-get install -y libboost-all-dev libquantlib0-dev swig
-      - cd goquantlib
+      - cd goql
       - CGO_ENABLED=1 go get -v
       - CGO_ENABLED=1 GOOS=linux go build --ldflags '-w -extldflags "-static"'
       - go test
-      
-  docker-goquantlib:
+
+  docker-goql:
     image: plugins/docker:latest
-    repo: gooption/goquantlib
+    repo: gooption/goql
     tags:
       - v0
       - dev
-    dockerfile: ./goquantlib/dockerfile
-    context: ./goquantlib
+    dockerfile: ./goql/dockerfile
+    context: ./goql
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
-    
+
   scp-copy:
     image: appleboy/drone-scp:latest
     pull: true
@@ -51,7 +51,7 @@ pipeline:
     key_path: /root/ssh/drone_rsa
     target: /
     source: /go/src/github.com/gooption-io/gooption
-  
+
   ssh-docker-compose-up:
     image: appleboy/drone-ssh:latest
     pull: true
@@ -62,7 +62,7 @@ pipeline:
     key_path: /root/ssh/drone_rsa
     script:
       - docker pull gooption/gobs:dev
-      - docker pull gooption/goquantlib:dev
+      - docker pull gooption/goql:dev
       - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose-dev.yml down
       - /usr/local/bin/docker-compose -f /go/src/github.com/gooption-io/gooption/docker-compose-dev.yml up -d
 
