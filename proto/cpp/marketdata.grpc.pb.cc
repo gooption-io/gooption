@@ -13,7 +13,7 @@
 #include <grpcpp/impl/codegen/rpc_service_method.h>
 #include <grpcpp/impl/codegen/service_type.h>
 #include <grpcpp/impl/codegen/sync_stream.h>
-namespace proto {
+namespace pb {
 
-}  // namespace proto
+}  // namespace pb
 

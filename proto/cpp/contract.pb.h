@@ -45,21 +45,21 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_contract_2eproto
-namespace proto {
+namespace pb {
 class European;
 class EuropeanDefaultTypeInternal;
 extern EuropeanDefaultTypeInternal _European_default_instance_;
-}  // namespace proto
+}  // namespace pb
 namespace google {
 namespace protobuf {
-template<> ::proto::European* Arena::CreateMaybeMessage<::proto::European>(Arena*);
+template<> ::pb::European* Arena::CreateMaybeMessage<::pb::European>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace proto {
+namespace pb {
 
 // ===================================================================
 
-class European : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.European) */ {
+class European : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.European) */ {
  public:
   European();
   virtual ~European();
@@ -206,7 +206,7 @@ class European : public ::google::protobuf::Message /* @@protoc_insertion_point(
   double expiry() const;
   void set_expiry(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.European)
+  // @@protoc_insertion_point(class_scope:pb.European)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -235,13 +235,13 @@ inline void European::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double European::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.European.timestamp)
+  // @@protoc_insertion_point(field_get:pb.European.timestamp)
   return timestamp_;
 }
 inline void European::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.European.timestamp)
+  // @@protoc_insertion_point(field_set:pb.European.timestamp)
 }
 
 // string ticker = 2;
@@ -249,41 +249,41 @@ inline void European::clear_ticker() {
   ticker_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& European::ticker() const {
-  // @@protoc_insertion_point(field_get:proto.European.ticker)
+  // @@protoc_insertion_point(field_get:pb.European.ticker)
   return ticker_.GetNoArena();
 }
 inline void European::set_ticker(const ::std::string& value) {
   
   ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.European.ticker)
+  // @@protoc_insertion_point(field_set:pb.European.ticker)
 }
 #if LANG_CXX11
 inline void European::set_ticker(::std::string&& value) {
   
   ticker_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.European.ticker)
+  // @@protoc_insertion_point(field_set_rvalue:pb.European.ticker)
 }
 #endif
 inline void European::set_ticker(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.European.ticker)
+  // @@protoc_insertion_point(field_set_char:pb.European.ticker)
 }
 inline void European::set_ticker(const char* value, size_t size) {
   
   ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.European.ticker)
+  // @@protoc_insertion_point(field_set_pointer:pb.European.ticker)
 }
 inline ::std::string* European::mutable_ticker() {
   
-  // @@protoc_insertion_point(field_mutable:proto.European.ticker)
+  // @@protoc_insertion_point(field_mutable:pb.European.ticker)
   return ticker_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* European::release_ticker() {
-  // @@protoc_insertion_point(field_release:proto.European.ticker)
+  // @@protoc_insertion_point(field_release:pb.European.ticker)
   
   return ticker_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -294,7 +294,7 @@ inline void European::set_allocated_ticker(::std::string* ticker) {
     
   }
   ticker_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ticker);
-  // @@protoc_insertion_point(field_set_allocated:proto.European.ticker)
+  // @@protoc_insertion_point(field_set_allocated:pb.European.ticker)
 }
 
 // string undticker = 3;
@@ -302,41 +302,41 @@ inline void European::clear_undticker() {
   undticker_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& European::undticker() const {
-  // @@protoc_insertion_point(field_get:proto.European.undticker)
+  // @@protoc_insertion_point(field_get:pb.European.undticker)
   return undticker_.GetNoArena();
 }
 inline void European::set_undticker(const ::std::string& value) {
   
   undticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.European.undticker)
+  // @@protoc_insertion_point(field_set:pb.European.undticker)
 }
 #if LANG_CXX11
 inline void European::set_undticker(::std::string&& value) {
   
   undticker_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.European.undticker)
+  // @@protoc_insertion_point(field_set_rvalue:pb.European.undticker)
 }
 #endif
 inline void European::set_undticker(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   undticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.European.undticker)
+  // @@protoc_insertion_point(field_set_char:pb.European.undticker)
 }
 inline void European::set_undticker(const char* value, size_t size) {
   
   undticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.European.undticker)
+  // @@protoc_insertion_point(field_set_pointer:pb.European.undticker)
 }
 inline ::std::string* European::mutable_undticker() {
   
-  // @@protoc_insertion_point(field_mutable:proto.European.undticker)
+  // @@protoc_insertion_point(field_mutable:pb.European.undticker)
   return undticker_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* European::release_undticker() {
-  // @@protoc_insertion_point(field_release:proto.European.undticker)
+  // @@protoc_insertion_point(field_release:pb.European.undticker)
   
   return undticker_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -347,7 +347,7 @@ inline void European::set_allocated_undticker(::std::string* undticker) {
     
   }
   undticker_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), undticker);
-  // @@protoc_insertion_point(field_set_allocated:proto.European.undticker)
+  // @@protoc_insertion_point(field_set_allocated:pb.European.undticker)
 }
 
 // double strike = 4;
@@ -355,13 +355,13 @@ inline void European::clear_strike() {
   strike_ = 0;
 }
 inline double European::strike() const {
-  // @@protoc_insertion_point(field_get:proto.European.strike)
+  // @@protoc_insertion_point(field_get:pb.European.strike)
   return strike_;
 }
 inline void European::set_strike(double value) {
   
   strike_ = value;
-  // @@protoc_insertion_point(field_set:proto.European.strike)
+  // @@protoc_insertion_point(field_set:pb.European.strike)
 }
 
 // double expiry = 5;
@@ -369,13 +369,13 @@ inline void European::clear_expiry() {
   expiry_ = 0;
 }
 inline double European::expiry() const {
-  // @@protoc_insertion_point(field_get:proto.European.expiry)
+  // @@protoc_insertion_point(field_get:pb.European.expiry)
   return expiry_;
 }
 inline void European::set_expiry(double value) {
   
   expiry_ = value;
-  // @@protoc_insertion_point(field_set:proto.European.expiry)
+  // @@protoc_insertion_point(field_set:pb.European.expiry)
 }
 
 // string putcall = 6;
@@ -383,41 +383,41 @@ inline void European::clear_putcall() {
   putcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& European::putcall() const {
-  // @@protoc_insertion_point(field_get:proto.European.putcall)
+  // @@protoc_insertion_point(field_get:pb.European.putcall)
   return putcall_.GetNoArena();
 }
 inline void European::set_putcall(const ::std::string& value) {
   
   putcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.European.putcall)
+  // @@protoc_insertion_point(field_set:pb.European.putcall)
 }
 #if LANG_CXX11
 inline void European::set_putcall(::std::string&& value) {
   
   putcall_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.European.putcall)
+  // @@protoc_insertion_point(field_set_rvalue:pb.European.putcall)
 }
 #endif
 inline void European::set_putcall(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   putcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.European.putcall)
+  // @@protoc_insertion_point(field_set_char:pb.European.putcall)
 }
 inline void European::set_putcall(const char* value, size_t size) {
   
   putcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.European.putcall)
+  // @@protoc_insertion_point(field_set_pointer:pb.European.putcall)
 }
 inline ::std::string* European::mutable_putcall() {
   
-  // @@protoc_insertion_point(field_mutable:proto.European.putcall)
+  // @@protoc_insertion_point(field_mutable:pb.European.putcall)
   return putcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* European::release_putcall() {
-  // @@protoc_insertion_point(field_release:proto.European.putcall)
+  // @@protoc_insertion_point(field_release:pb.European.putcall)
   
   return putcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -428,7 +428,7 @@ inline void European::set_allocated_putcall(::std::string* putcall) {
     
   }
   putcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), putcall);
-  // @@protoc_insertion_point(field_set_allocated:proto.European.putcall)
+  // @@protoc_insertion_point(field_set_allocated:pb.European.putcall)
 }
 
 #ifdef __GNUC__
@@ -437,7 +437,7 @@ inline void European::set_allocated_putcall(::std::string* putcall) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace proto
+}  // namespace pb
 
 // @@protoc_insertion_point(global_scope)
 

@@ -31,7 +31,7 @@ namespace protobuf_service_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_service_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_GreekResponse_Greek;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_service_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_PriceRequest;
 }  // namespace protobuf_service_2eproto
-namespace proto {
+namespace pb {
 class PriceRequestDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<PriceRequest>
@@ -67,17 +67,17 @@ class ImpliedVolResponseDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<ImpliedVolResponse>
       _instance;
 } _ImpliedVolResponse_default_instance_;
-}  // namespace proto
+}  // namespace pb
 namespace protobuf_service_2eproto {
 static void InitDefaultsPriceRequest() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_PriceRequest_default_instance_;
-    new (ptr) ::proto::PriceRequest();
+    void* ptr = &::pb::_PriceRequest_default_instance_;
+    new (ptr) ::pb::PriceRequest();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::PriceRequest::InitAsDefaultInstance();
+  ::pb::PriceRequest::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<2> scc_info_PriceRequest =
@@ -89,11 +89,11 @@ static void InitDefaultsPriceResponse() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_PriceResponse_default_instance_;
-    new (ptr) ::proto::PriceResponse();
+    void* ptr = &::pb::_PriceResponse_default_instance_;
+    new (ptr) ::pb::PriceResponse();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::PriceResponse::InitAsDefaultInstance();
+  ::pb::PriceResponse::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_PriceResponse =
@@ -103,11 +103,11 @@ static void InitDefaultsGreekRequest() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_GreekRequest_default_instance_;
-    new (ptr) ::proto::GreekRequest();
+    void* ptr = &::pb::_GreekRequest_default_instance_;
+    new (ptr) ::pb::GreekRequest();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::GreekRequest::InitAsDefaultInstance();
+  ::pb::GreekRequest::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_GreekRequest =
@@ -118,11 +118,11 @@ static void InitDefaultsGreekResponse_Greek() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_GreekResponse_Greek_default_instance_;
-    new (ptr) ::proto::GreekResponse_Greek();
+    void* ptr = &::pb::_GreekResponse_Greek_default_instance_;
+    new (ptr) ::pb::GreekResponse_Greek();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::GreekResponse_Greek::InitAsDefaultInstance();
+  ::pb::GreekResponse_Greek::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_GreekResponse_Greek =
@@ -132,11 +132,11 @@ static void InitDefaultsGreekResponse() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_GreekResponse_default_instance_;
-    new (ptr) ::proto::GreekResponse();
+    void* ptr = &::pb::_GreekResponse_default_instance_;
+    new (ptr) ::pb::GreekResponse();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::GreekResponse::InitAsDefaultInstance();
+  ::pb::GreekResponse::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_GreekResponse =
@@ -147,11 +147,11 @@ static void InitDefaultsImpliedVolRequest() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_ImpliedVolRequest_default_instance_;
-    new (ptr) ::proto::ImpliedVolRequest();
+    void* ptr = &::pb::_ImpliedVolRequest_default_instance_;
+    new (ptr) ::pb::ImpliedVolRequest();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::ImpliedVolRequest::InitAsDefaultInstance();
+  ::pb::ImpliedVolRequest::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<2> scc_info_ImpliedVolRequest =
@@ -163,11 +163,11 @@ static void InitDefaultsImpliedVolResponse() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_ImpliedVolResponse_default_instance_;
-    new (ptr) ::proto::ImpliedVolResponse();
+    void* ptr = &::pb::_ImpliedVolResponse_default_instance_;
+    new (ptr) ::pb::ImpliedVolResponse();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::ImpliedVolResponse::InitAsDefaultInstance();
+  ::pb::ImpliedVolResponse::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_ImpliedVolResponse =
@@ -188,76 +188,76 @@ void InitDefaults() {
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceRequest, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceRequest, pricingdate_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceRequest, contract_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceRequest, marketdata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceRequest, pricingdate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceRequest, contract_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceRequest, marketdata_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceResponse, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceResponse, price_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::PriceResponse, error_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceResponse, price_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::PriceResponse, error_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekRequest, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekRequest, request_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekRequest, greek_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekRequest, request_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekRequest, greek_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse_Greek, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse_Greek, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse_Greek, label_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse_Greek, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse_Greek, error_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse_Greek, label_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse_Greek, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse_Greek, error_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse, greeks_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::GreekResponse, error_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse, greeks_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::GreekResponse, error_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolRequest, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolRequest, pricingdate_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolRequest, marketdata_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolRequest, quotes_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolRequest, pricingdate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolRequest, marketdata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolRequest, quotes_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolResponse, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolResponse, volsurface_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::ImpliedVolResponse, error_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolResponse, volsurface_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::ImpliedVolResponse, error_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::proto::PriceRequest)},
-  { 8, -1, sizeof(::proto::PriceResponse)},
-  { 15, -1, sizeof(::proto::GreekRequest)},
-  { 22, -1, sizeof(::proto::GreekResponse_Greek)},
-  { 30, -1, sizeof(::proto::GreekResponse)},
-  { 37, -1, sizeof(::proto::ImpliedVolRequest)},
-  { 45, -1, sizeof(::proto::ImpliedVolResponse)},
+  { 0, -1, sizeof(::pb::PriceRequest)},
+  { 8, -1, sizeof(::pb::PriceResponse)},
+  { 15, -1, sizeof(::pb::GreekRequest)},
+  { 22, -1, sizeof(::pb::GreekResponse_Greek)},
+  { 30, -1, sizeof(::pb::GreekResponse)},
+  { 37, -1, sizeof(::pb::ImpliedVolRequest)},
+  { 45, -1, sizeof(::pb::ImpliedVolResponse)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_PriceRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_PriceResponse_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_GreekRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_GreekResponse_Greek_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_GreekResponse_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_ImpliedVolRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_ImpliedVolResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_PriceRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_PriceResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_GreekRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_GreekResponse_Greek_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_GreekResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_ImpliedVolRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_ImpliedVolResponse_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -281,30 +281,29 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\rservice.proto\022\005proto\032\016contract.proto\032\020"
-      "marketdata.proto\"o\n\014PriceRequest\022\023\n\013pric"
-      "ingdate\030\001 \001(\001\022!\n\010contract\030\002 \001(\0132\017.proto."
-      "European\022\'\n\nmarketdata\030\003 \001(\0132\023.proto.Opt"
-      "ionMarket\"-\n\rPriceResponse\022\r\n\005price\030\002 \001("
-      "\001\022\r\n\005error\030\003 \001(\t\"C\n\014GreekRequest\022$\n\007requ"
-      "est\030\001 \001(\0132\023.proto.PriceRequest\022\r\n\005greek\030"
-      "\002 \003(\t\"\200\001\n\rGreekResponse\022*\n\006greeks\030\001 \003(\0132"
-      "\032.proto.GreekResponse.Greek\022\r\n\005error\030\002 \001"
-      "(\t\0324\n\005Greek\022\r\n\005label\030\001 \001(\t\022\r\n\005value\030\002 \001("
-      "\001\022\r\n\005error\030\003 \001(\t\"z\n\021ImpliedVolRequest\022\023\n"
-      "\013pricingdate\030\001 \001(\001\022\'\n\nmarketdata\030\002 \001(\0132\023"
-      ".proto.OptionMarket\022\'\n\006quotes\030\003 \003(\0132\027.pr"
-      "oto.OptionQuoteSlice\"Q\n\022ImpliedVolRespon"
-      "se\022,\n\nvolsurface\030\001 \001(\0132\030.proto.ImpliedVo"
-      "lSurface\022\r\n\005error\030\002 \001(\t2\307\001\n\024EuropeanOpti"
-      "onPricer\0224\n\005Price\022\023.proto.PriceRequest\032\024"
-      ".proto.PriceResponse\"\000\0224\n\005Greek\022\023.proto."
-      "GreekRequest\032\024.proto.GreekResponse\"\000\022C\n\n"
-      "ImpliedVol\022\030.proto.ImpliedVolRequest\032\031.p"
-      "roto.ImpliedVolResponse\"\000b\006proto3"
+      "\n\rservice.proto\022\002pb\032\016contract.proto\032\020mar"
+      "ketdata.proto\"i\n\014PriceRequest\022\023\n\013pricing"
+      "date\030\001 \001(\001\022\036\n\010contract\030\002 \001(\0132\014.pb.Europe"
+      "an\022$\n\nmarketdata\030\003 \001(\0132\020.pb.OptionMarket"
+      "\"-\n\rPriceResponse\022\r\n\005price\030\002 \001(\001\022\r\n\005erro"
+      "r\030\003 \001(\t\"@\n\014GreekRequest\022!\n\007request\030\001 \001(\013"
+      "2\020.pb.PriceRequest\022\r\n\005greek\030\002 \003(\t\"}\n\rGre"
+      "ekResponse\022\'\n\006greeks\030\001 \003(\0132\027.pb.GreekRes"
+      "ponse.Greek\022\r\n\005error\030\002 \001(\t\0324\n\005Greek\022\r\n\005l"
+      "abel\030\001 \001(\t\022\r\n\005value\030\002 \001(\001\022\r\n\005error\030\003 \001(\t"
+      "\"t\n\021ImpliedVolRequest\022\023\n\013pricingdate\030\001 \001"
+      "(\001\022$\n\nmarketdata\030\002 \001(\0132\020.pb.OptionMarket"
+      "\022$\n\006quotes\030\003 \003(\0132\024.pb.OptionQuoteSlice\"N"
+      "\n\022ImpliedVolResponse\022)\n\nvolsurface\030\001 \001(\013"
+      "2\025.pb.ImpliedVolSurface\022\r\n\005error\030\002 \001(\t2\265"
+      "\001\n\024EuropeanOptionPricer\022.\n\005Price\022\020.pb.Pr"
+      "iceRequest\032\021.pb.PriceResponse\"\000\022.\n\005Greek"
+      "\022\020.pb.GreekRequest\032\021.pb.GreekResponse\"\000\022"
+      "=\n\nImpliedVol\022\025.pb.ImpliedVolRequest\032\026.p"
+      "b.ImpliedVolResponse\"\000b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 833);
+      descriptor, 790);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "service.proto", &protobuf_RegisterTypes);
   ::protobuf_contract_2eproto::AddDescriptors();
@@ -322,15 +321,15 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_service_2eproto
-namespace proto {
+namespace pb {
 
 // ===================================================================
 
 void PriceRequest::InitAsDefaultInstance() {
-  ::proto::_PriceRequest_default_instance_._instance.get_mutable()->contract_ = const_cast< ::proto::European*>(
-      ::proto::European::internal_default_instance());
-  ::proto::_PriceRequest_default_instance_._instance.get_mutable()->marketdata_ = const_cast< ::proto::OptionMarket*>(
-      ::proto::OptionMarket::internal_default_instance());
+  ::pb::_PriceRequest_default_instance_._instance.get_mutable()->contract_ = const_cast< ::pb::European*>(
+      ::pb::European::internal_default_instance());
+  ::pb::_PriceRequest_default_instance_._instance.get_mutable()->marketdata_ = const_cast< ::pb::OptionMarket*>(
+      ::pb::OptionMarket::internal_default_instance());
 }
 void PriceRequest::clear_contract() {
   if (GetArenaNoVirtual() == NULL && contract_ != NULL) {
@@ -355,24 +354,24 @@ PriceRequest::PriceRequest()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_PriceRequest.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.PriceRequest)
+  // @@protoc_insertion_point(constructor:pb.PriceRequest)
 }
 PriceRequest::PriceRequest(const PriceRequest& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_contract()) {
-    contract_ = new ::proto::European(*from.contract_);
+    contract_ = new ::pb::European(*from.contract_);
   } else {
     contract_ = NULL;
   }
   if (from.has_marketdata()) {
-    marketdata_ = new ::proto::OptionMarket(*from.marketdata_);
+    marketdata_ = new ::pb::OptionMarket(*from.marketdata_);
   } else {
     marketdata_ = NULL;
   }
   pricingdate_ = from.pricingdate_;
-  // @@protoc_insertion_point(copy_constructor:proto.PriceRequest)
+  // @@protoc_insertion_point(copy_constructor:pb.PriceRequest)
 }
 
 void PriceRequest::SharedCtor() {
@@ -382,7 +381,7 @@ void PriceRequest::SharedCtor() {
 }
 
 PriceRequest::~PriceRequest() {
-  // @@protoc_insertion_point(destructor:proto.PriceRequest)
+  // @@protoc_insertion_point(destructor:pb.PriceRequest)
   SharedDtor();
 }
 
@@ -406,7 +405,7 @@ const PriceRequest& PriceRequest::default_instance() {
 
 
 void PriceRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.PriceRequest)
+// @@protoc_insertion_point(message_clear_start:pb.PriceRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -427,7 +426,7 @@ bool PriceRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.PriceRequest)
+  // @@protoc_insertion_point(parse_start:pb.PriceRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -447,7 +446,7 @@ bool PriceRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // .proto.European contract = 2;
+      // .pb.European contract = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
@@ -459,7 +458,7 @@ bool PriceRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // .proto.OptionMarket marketdata = 3;
+      // .pb.OptionMarket marketdata = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
@@ -483,17 +482,17 @@ bool PriceRequest::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.PriceRequest)
+  // @@protoc_insertion_point(parse_success:pb.PriceRequest)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.PriceRequest)
+  // @@protoc_insertion_point(parse_failure:pb.PriceRequest)
   return false;
 #undef DO_
 }
 
 void PriceRequest::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.PriceRequest)
+  // @@protoc_insertion_point(serialize_start:pb.PriceRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -502,13 +501,13 @@ void PriceRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->pricingdate(), output);
   }
 
-  // .proto.European contract = 2;
+  // .pb.European contract = 2;
   if (this->has_contract()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->_internal_contract(), output);
   }
 
-  // .proto.OptionMarket marketdata = 3;
+  // .pb.OptionMarket marketdata = 3;
   if (this->has_marketdata()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->_internal_marketdata(), output);
@@ -518,13 +517,13 @@ void PriceRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.PriceRequest)
+  // @@protoc_insertion_point(serialize_end:pb.PriceRequest)
 }
 
 ::google::protobuf::uint8* PriceRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.PriceRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.PriceRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -533,14 +532,14 @@ void PriceRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->pricingdate(), target);
   }
 
-  // .proto.European contract = 2;
+  // .pb.European contract = 2;
   if (this->has_contract()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         2, this->_internal_contract(), deterministic, target);
   }
 
-  // .proto.OptionMarket marketdata = 3;
+  // .pb.OptionMarket marketdata = 3;
   if (this->has_marketdata()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -551,12 +550,12 @@ void PriceRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.PriceRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.PriceRequest)
   return target;
 }
 
 size_t PriceRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.PriceRequest)
+// @@protoc_insertion_point(message_byte_size_start:pb.PriceRequest)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -564,14 +563,14 @@ size_t PriceRequest::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .proto.European contract = 2;
+  // .pb.European contract = 2;
   if (this->has_contract()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *contract_);
   }
 
-  // .proto.OptionMarket marketdata = 3;
+  // .pb.OptionMarket marketdata = 3;
   if (this->has_marketdata()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -589,32 +588,32 @@ size_t PriceRequest::ByteSizeLong() const {
 }
 
 void PriceRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.PriceRequest)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.PriceRequest)
   GOOGLE_DCHECK_NE(&from, this);
   const PriceRequest* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const PriceRequest>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.PriceRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.PriceRequest)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.PriceRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.PriceRequest)
     MergeFrom(*source);
   }
 }
 
 void PriceRequest::MergeFrom(const PriceRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.PriceRequest)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.PriceRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.has_contract()) {
-    mutable_contract()->::proto::European::MergeFrom(from.contract());
+    mutable_contract()->::pb::European::MergeFrom(from.contract());
   }
   if (from.has_marketdata()) {
-    mutable_marketdata()->::proto::OptionMarket::MergeFrom(from.marketdata());
+    mutable_marketdata()->::pb::OptionMarket::MergeFrom(from.marketdata());
   }
   if (from.pricingdate() != 0) {
     set_pricingdate(from.pricingdate());
@@ -622,14 +621,14 @@ void PriceRequest::MergeFrom(const PriceRequest& from) {
 }
 
 void PriceRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.PriceRequest)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.PriceRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void PriceRequest::CopyFrom(const PriceRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.PriceRequest)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.PriceRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -671,7 +670,7 @@ PriceResponse::PriceResponse()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_PriceResponse.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.PriceResponse)
+  // @@protoc_insertion_point(constructor:pb.PriceResponse)
 }
 PriceResponse::PriceResponse(const PriceResponse& from)
   : ::google::protobuf::Message(),
@@ -682,7 +681,7 @@ PriceResponse::PriceResponse(const PriceResponse& from)
     error_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_);
   }
   price_ = from.price_;
-  // @@protoc_insertion_point(copy_constructor:proto.PriceResponse)
+  // @@protoc_insertion_point(copy_constructor:pb.PriceResponse)
 }
 
 void PriceResponse::SharedCtor() {
@@ -691,7 +690,7 @@ void PriceResponse::SharedCtor() {
 }
 
 PriceResponse::~PriceResponse() {
-  // @@protoc_insertion_point(destructor:proto.PriceResponse)
+  // @@protoc_insertion_point(destructor:pb.PriceResponse)
   SharedDtor();
 }
 
@@ -714,7 +713,7 @@ const PriceResponse& PriceResponse::default_instance() {
 
 
 void PriceResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.PriceResponse)
+// @@protoc_insertion_point(message_clear_start:pb.PriceResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -728,7 +727,7 @@ bool PriceResponse::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.PriceResponse)
+  // @@protoc_insertion_point(parse_start:pb.PriceResponse)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -757,7 +756,7 @@ bool PriceResponse::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->error().data(), static_cast<int>(this->error().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.PriceResponse.error"));
+            "pb.PriceResponse.error"));
         } else {
           goto handle_unusual;
         }
@@ -776,17 +775,17 @@ bool PriceResponse::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.PriceResponse)
+  // @@protoc_insertion_point(parse_success:pb.PriceResponse)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.PriceResponse)
+  // @@protoc_insertion_point(parse_failure:pb.PriceResponse)
   return false;
 #undef DO_
 }
 
 void PriceResponse::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.PriceResponse)
+  // @@protoc_insertion_point(serialize_start:pb.PriceResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -800,7 +799,7 @@ void PriceResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.PriceResponse.error");
+      "pb.PriceResponse.error");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->error(), output);
   }
@@ -809,13 +808,13 @@ void PriceResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.PriceResponse)
+  // @@protoc_insertion_point(serialize_end:pb.PriceResponse)
 }
 
 ::google::protobuf::uint8* PriceResponse::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.PriceResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.PriceResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -829,7 +828,7 @@ void PriceResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.PriceResponse.error");
+      "pb.PriceResponse.error");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->error(), target);
@@ -839,12 +838,12 @@ void PriceResponse::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.PriceResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.PriceResponse)
   return target;
 }
 
 size_t PriceResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.PriceResponse)
+// @@protoc_insertion_point(message_byte_size_start:pb.PriceResponse)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -870,22 +869,22 @@ size_t PriceResponse::ByteSizeLong() const {
 }
 
 void PriceResponse::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.PriceResponse)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.PriceResponse)
   GOOGLE_DCHECK_NE(&from, this);
   const PriceResponse* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const PriceResponse>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.PriceResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.PriceResponse)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.PriceResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.PriceResponse)
     MergeFrom(*source);
   }
 }
 
 void PriceResponse::MergeFrom(const PriceResponse& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.PriceResponse)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.PriceResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -901,14 +900,14 @@ void PriceResponse::MergeFrom(const PriceResponse& from) {
 }
 
 void PriceResponse::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.PriceResponse)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.PriceResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void PriceResponse::CopyFrom(const PriceResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.PriceResponse)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.PriceResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -939,8 +938,8 @@ void PriceResponse::InternalSwap(PriceResponse* other) {
 // ===================================================================
 
 void GreekRequest::InitAsDefaultInstance() {
-  ::proto::_GreekRequest_default_instance_._instance.get_mutable()->request_ = const_cast< ::proto::PriceRequest*>(
-      ::proto::PriceRequest::internal_default_instance());
+  ::pb::_GreekRequest_default_instance_._instance.get_mutable()->request_ = const_cast< ::pb::PriceRequest*>(
+      ::pb::PriceRequest::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GreekRequest::kRequestFieldNumber;
@@ -952,7 +951,7 @@ GreekRequest::GreekRequest()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_GreekRequest.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.GreekRequest)
+  // @@protoc_insertion_point(constructor:pb.GreekRequest)
 }
 GreekRequest::GreekRequest(const GreekRequest& from)
   : ::google::protobuf::Message(),
@@ -960,11 +959,11 @@ GreekRequest::GreekRequest(const GreekRequest& from)
       greek_(from.greek_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_request()) {
-    request_ = new ::proto::PriceRequest(*from.request_);
+    request_ = new ::pb::PriceRequest(*from.request_);
   } else {
     request_ = NULL;
   }
-  // @@protoc_insertion_point(copy_constructor:proto.GreekRequest)
+  // @@protoc_insertion_point(copy_constructor:pb.GreekRequest)
 }
 
 void GreekRequest::SharedCtor() {
@@ -972,7 +971,7 @@ void GreekRequest::SharedCtor() {
 }
 
 GreekRequest::~GreekRequest() {
-  // @@protoc_insertion_point(destructor:proto.GreekRequest)
+  // @@protoc_insertion_point(destructor:pb.GreekRequest)
   SharedDtor();
 }
 
@@ -995,7 +994,7 @@ const GreekRequest& GreekRequest::default_instance() {
 
 
 void GreekRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.GreekRequest)
+// @@protoc_insertion_point(message_clear_start:pb.GreekRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1012,13 +1011,13 @@ bool GreekRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.GreekRequest)
+  // @@protoc_insertion_point(parse_start:pb.GreekRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .proto.PriceRequest request = 1;
+      // .pb.PriceRequest request = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -1040,7 +1039,7 @@ bool GreekRequest::MergePartialFromCodedStream(
             this->greek(this->greek_size() - 1).data(),
             static_cast<int>(this->greek(this->greek_size() - 1).length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.GreekRequest.greek"));
+            "pb.GreekRequest.greek"));
         } else {
           goto handle_unusual;
         }
@@ -1059,21 +1058,21 @@ bool GreekRequest::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.GreekRequest)
+  // @@protoc_insertion_point(parse_success:pb.GreekRequest)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.GreekRequest)
+  // @@protoc_insertion_point(parse_failure:pb.GreekRequest)
   return false;
 #undef DO_
 }
 
 void GreekRequest::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.GreekRequest)
+  // @@protoc_insertion_point(serialize_start:pb.GreekRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .proto.PriceRequest request = 1;
+  // .pb.PriceRequest request = 1;
   if (this->has_request()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_request(), output);
@@ -1084,7 +1083,7 @@ void GreekRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->greek(i).data(), static_cast<int>(this->greek(i).length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekRequest.greek");
+      "pb.GreekRequest.greek");
     ::google::protobuf::internal::WireFormatLite::WriteString(
       2, this->greek(i), output);
   }
@@ -1093,17 +1092,17 @@ void GreekRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.GreekRequest)
+  // @@protoc_insertion_point(serialize_end:pb.GreekRequest)
 }
 
 ::google::protobuf::uint8* GreekRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.GreekRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.GreekRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .proto.PriceRequest request = 1;
+  // .pb.PriceRequest request = 1;
   if (this->has_request()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -1115,7 +1114,7 @@ void GreekRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->greek(i).data(), static_cast<int>(this->greek(i).length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekRequest.greek");
+      "pb.GreekRequest.greek");
     target = ::google::protobuf::internal::WireFormatLite::
       WriteStringToArray(2, this->greek(i), target);
   }
@@ -1124,12 +1123,12 @@ void GreekRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.GreekRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.GreekRequest)
   return target;
 }
 
 size_t GreekRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.GreekRequest)
+// @@protoc_insertion_point(message_byte_size_start:pb.GreekRequest)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1145,7 +1144,7 @@ size_t GreekRequest::ByteSizeLong() const {
       this->greek(i));
   }
 
-  // .proto.PriceRequest request = 1;
+  // .pb.PriceRequest request = 1;
   if (this->has_request()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -1158,22 +1157,22 @@ size_t GreekRequest::ByteSizeLong() const {
 }
 
 void GreekRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.GreekRequest)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.GreekRequest)
   GOOGLE_DCHECK_NE(&from, this);
   const GreekRequest* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const GreekRequest>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.GreekRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.GreekRequest)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.GreekRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.GreekRequest)
     MergeFrom(*source);
   }
 }
 
 void GreekRequest::MergeFrom(const GreekRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.GreekRequest)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.GreekRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1181,19 +1180,19 @@ void GreekRequest::MergeFrom(const GreekRequest& from) {
 
   greek_.MergeFrom(from.greek_);
   if (from.has_request()) {
-    mutable_request()->::proto::PriceRequest::MergeFrom(from.request());
+    mutable_request()->::pb::PriceRequest::MergeFrom(from.request());
   }
 }
 
 void GreekRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.GreekRequest)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.GreekRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void GreekRequest::CopyFrom(const GreekRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.GreekRequest)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.GreekRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1235,7 +1234,7 @@ GreekResponse_Greek::GreekResponse_Greek()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_GreekResponse_Greek.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(constructor:pb.GreekResponse.Greek)
 }
 GreekResponse_Greek::GreekResponse_Greek(const GreekResponse_Greek& from)
   : ::google::protobuf::Message(),
@@ -1250,7 +1249,7 @@ GreekResponse_Greek::GreekResponse_Greek(const GreekResponse_Greek& from)
     error_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_);
   }
   value_ = from.value_;
-  // @@protoc_insertion_point(copy_constructor:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(copy_constructor:pb.GreekResponse.Greek)
 }
 
 void GreekResponse_Greek::SharedCtor() {
@@ -1260,7 +1259,7 @@ void GreekResponse_Greek::SharedCtor() {
 }
 
 GreekResponse_Greek::~GreekResponse_Greek() {
-  // @@protoc_insertion_point(destructor:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(destructor:pb.GreekResponse.Greek)
   SharedDtor();
 }
 
@@ -1284,7 +1283,7 @@ const GreekResponse_Greek& GreekResponse_Greek::default_instance() {
 
 
 void GreekResponse_Greek::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.GreekResponse.Greek)
+// @@protoc_insertion_point(message_clear_start:pb.GreekResponse.Greek)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1299,7 +1298,7 @@ bool GreekResponse_Greek::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(parse_start:pb.GreekResponse.Greek)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -1314,7 +1313,7 @@ bool GreekResponse_Greek::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->label().data(), static_cast<int>(this->label().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.GreekResponse.Greek.label"));
+            "pb.GreekResponse.Greek.label"));
         } else {
           goto handle_unusual;
         }
@@ -1344,7 +1343,7 @@ bool GreekResponse_Greek::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->error().data(), static_cast<int>(this->error().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.GreekResponse.Greek.error"));
+            "pb.GreekResponse.Greek.error"));
         } else {
           goto handle_unusual;
         }
@@ -1363,17 +1362,17 @@ bool GreekResponse_Greek::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(parse_success:pb.GreekResponse.Greek)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(parse_failure:pb.GreekResponse.Greek)
   return false;
 #undef DO_
 }
 
 void GreekResponse_Greek::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(serialize_start:pb.GreekResponse.Greek)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1382,7 +1381,7 @@ void GreekResponse_Greek::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->label().data(), static_cast<int>(this->label().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekResponse.Greek.label");
+      "pb.GreekResponse.Greek.label");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->label(), output);
   }
@@ -1397,7 +1396,7 @@ void GreekResponse_Greek::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekResponse.Greek.error");
+      "pb.GreekResponse.Greek.error");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->error(), output);
   }
@@ -1406,13 +1405,13 @@ void GreekResponse_Greek::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(serialize_end:pb.GreekResponse.Greek)
 }
 
 ::google::protobuf::uint8* GreekResponse_Greek::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.GreekResponse.Greek)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1421,7 +1420,7 @@ void GreekResponse_Greek::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->label().data(), static_cast<int>(this->label().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekResponse.Greek.label");
+      "pb.GreekResponse.Greek.label");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->label(), target);
@@ -1437,7 +1436,7 @@ void GreekResponse_Greek::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekResponse.Greek.error");
+      "pb.GreekResponse.Greek.error");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->error(), target);
@@ -1447,12 +1446,12 @@ void GreekResponse_Greek::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.GreekResponse.Greek)
   return target;
 }
 
 size_t GreekResponse_Greek::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.GreekResponse.Greek)
+// @@protoc_insertion_point(message_byte_size_start:pb.GreekResponse.Greek)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1485,22 +1484,22 @@ size_t GreekResponse_Greek::ByteSizeLong() const {
 }
 
 void GreekResponse_Greek::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.GreekResponse.Greek)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.GreekResponse.Greek)
   GOOGLE_DCHECK_NE(&from, this);
   const GreekResponse_Greek* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const GreekResponse_Greek>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.GreekResponse.Greek)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.GreekResponse.Greek)
     MergeFrom(*source);
   }
 }
 
 void GreekResponse_Greek::MergeFrom(const GreekResponse_Greek& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.GreekResponse.Greek)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.GreekResponse.Greek)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1520,14 +1519,14 @@ void GreekResponse_Greek::MergeFrom(const GreekResponse_Greek& from) {
 }
 
 void GreekResponse_Greek::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.GreekResponse.Greek)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.GreekResponse.Greek)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void GreekResponse_Greek::CopyFrom(const GreekResponse_Greek& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.GreekResponse.Greek)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.GreekResponse.Greek)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1571,7 +1570,7 @@ GreekResponse::GreekResponse()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_GreekResponse.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.GreekResponse)
+  // @@protoc_insertion_point(constructor:pb.GreekResponse)
 }
 GreekResponse::GreekResponse(const GreekResponse& from)
   : ::google::protobuf::Message(),
@@ -1582,7 +1581,7 @@ GreekResponse::GreekResponse(const GreekResponse& from)
   if (from.error().size() > 0) {
     error_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_);
   }
-  // @@protoc_insertion_point(copy_constructor:proto.GreekResponse)
+  // @@protoc_insertion_point(copy_constructor:pb.GreekResponse)
 }
 
 void GreekResponse::SharedCtor() {
@@ -1590,7 +1589,7 @@ void GreekResponse::SharedCtor() {
 }
 
 GreekResponse::~GreekResponse() {
-  // @@protoc_insertion_point(destructor:proto.GreekResponse)
+  // @@protoc_insertion_point(destructor:pb.GreekResponse)
   SharedDtor();
 }
 
@@ -1613,7 +1612,7 @@ const GreekResponse& GreekResponse::default_instance() {
 
 
 void GreekResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.GreekResponse)
+// @@protoc_insertion_point(message_clear_start:pb.GreekResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1627,13 +1626,13 @@ bool GreekResponse::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.GreekResponse)
+  // @@protoc_insertion_point(parse_start:pb.GreekResponse)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .proto.GreekResponse.Greek greeks = 1;
+      // repeated .pb.GreekResponse.Greek greeks = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -1654,7 +1653,7 @@ bool GreekResponse::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->error().data(), static_cast<int>(this->error().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.GreekResponse.error"));
+            "pb.GreekResponse.error"));
         } else {
           goto handle_unusual;
         }
@@ -1673,21 +1672,21 @@ bool GreekResponse::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.GreekResponse)
+  // @@protoc_insertion_point(parse_success:pb.GreekResponse)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.GreekResponse)
+  // @@protoc_insertion_point(parse_failure:pb.GreekResponse)
   return false;
 #undef DO_
 }
 
 void GreekResponse::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.GreekResponse)
+  // @@protoc_insertion_point(serialize_start:pb.GreekResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .proto.GreekResponse.Greek greeks = 1;
+  // repeated .pb.GreekResponse.Greek greeks = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->greeks_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -1701,7 +1700,7 @@ void GreekResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekResponse.error");
+      "pb.GreekResponse.error");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->error(), output);
   }
@@ -1710,17 +1709,17 @@ void GreekResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.GreekResponse)
+  // @@protoc_insertion_point(serialize_end:pb.GreekResponse)
 }
 
 ::google::protobuf::uint8* GreekResponse::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.GreekResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.GreekResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .proto.GreekResponse.Greek greeks = 1;
+  // repeated .pb.GreekResponse.Greek greeks = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->greeks_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -1733,7 +1732,7 @@ void GreekResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.GreekResponse.error");
+      "pb.GreekResponse.error");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->error(), target);
@@ -1743,12 +1742,12 @@ void GreekResponse::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.GreekResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.GreekResponse)
   return target;
 }
 
 size_t GreekResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.GreekResponse)
+// @@protoc_insertion_point(message_byte_size_start:pb.GreekResponse)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1756,7 +1755,7 @@ size_t GreekResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .proto.GreekResponse.Greek greeks = 1;
+  // repeated .pb.GreekResponse.Greek greeks = 1;
   {
     unsigned int count = static_cast<unsigned int>(this->greeks_size());
     total_size += 1UL * count;
@@ -1780,22 +1779,22 @@ size_t GreekResponse::ByteSizeLong() const {
 }
 
 void GreekResponse::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.GreekResponse)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.GreekResponse)
   GOOGLE_DCHECK_NE(&from, this);
   const GreekResponse* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const GreekResponse>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.GreekResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.GreekResponse)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.GreekResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.GreekResponse)
     MergeFrom(*source);
   }
 }
 
 void GreekResponse::MergeFrom(const GreekResponse& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.GreekResponse)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.GreekResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1809,14 +1808,14 @@ void GreekResponse::MergeFrom(const GreekResponse& from) {
 }
 
 void GreekResponse::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.GreekResponse)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.GreekResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void GreekResponse::CopyFrom(const GreekResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.GreekResponse)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.GreekResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1847,8 +1846,8 @@ void GreekResponse::InternalSwap(GreekResponse* other) {
 // ===================================================================
 
 void ImpliedVolRequest::InitAsDefaultInstance() {
-  ::proto::_ImpliedVolRequest_default_instance_._instance.get_mutable()->marketdata_ = const_cast< ::proto::OptionMarket*>(
-      ::proto::OptionMarket::internal_default_instance());
+  ::pb::_ImpliedVolRequest_default_instance_._instance.get_mutable()->marketdata_ = const_cast< ::pb::OptionMarket*>(
+      ::pb::OptionMarket::internal_default_instance());
 }
 void ImpliedVolRequest::clear_marketdata() {
   if (GetArenaNoVirtual() == NULL && marketdata_ != NULL) {
@@ -1870,7 +1869,7 @@ ImpliedVolRequest::ImpliedVolRequest()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_ImpliedVolRequest.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(constructor:pb.ImpliedVolRequest)
 }
 ImpliedVolRequest::ImpliedVolRequest(const ImpliedVolRequest& from)
   : ::google::protobuf::Message(),
@@ -1878,12 +1877,12 @@ ImpliedVolRequest::ImpliedVolRequest(const ImpliedVolRequest& from)
       quotes_(from.quotes_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_marketdata()) {
-    marketdata_ = new ::proto::OptionMarket(*from.marketdata_);
+    marketdata_ = new ::pb::OptionMarket(*from.marketdata_);
   } else {
     marketdata_ = NULL;
   }
   pricingdate_ = from.pricingdate_;
-  // @@protoc_insertion_point(copy_constructor:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(copy_constructor:pb.ImpliedVolRequest)
 }
 
 void ImpliedVolRequest::SharedCtor() {
@@ -1893,7 +1892,7 @@ void ImpliedVolRequest::SharedCtor() {
 }
 
 ImpliedVolRequest::~ImpliedVolRequest() {
-  // @@protoc_insertion_point(destructor:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(destructor:pb.ImpliedVolRequest)
   SharedDtor();
 }
 
@@ -1916,7 +1915,7 @@ const ImpliedVolRequest& ImpliedVolRequest::default_instance() {
 
 
 void ImpliedVolRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.ImpliedVolRequest)
+// @@protoc_insertion_point(message_clear_start:pb.ImpliedVolRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1934,7 +1933,7 @@ bool ImpliedVolRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(parse_start:pb.ImpliedVolRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -1954,7 +1953,7 @@ bool ImpliedVolRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // .proto.OptionMarket marketdata = 2;
+      // .pb.OptionMarket marketdata = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
@@ -1966,7 +1965,7 @@ bool ImpliedVolRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .proto.OptionQuoteSlice quotes = 3;
+      // repeated .pb.OptionQuoteSlice quotes = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
@@ -1990,17 +1989,17 @@ bool ImpliedVolRequest::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(parse_success:pb.ImpliedVolRequest)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(parse_failure:pb.ImpliedVolRequest)
   return false;
 #undef DO_
 }
 
 void ImpliedVolRequest::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(serialize_start:pb.ImpliedVolRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -2009,13 +2008,13 @@ void ImpliedVolRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->pricingdate(), output);
   }
 
-  // .proto.OptionMarket marketdata = 2;
+  // .pb.OptionMarket marketdata = 2;
   if (this->has_marketdata()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->_internal_marketdata(), output);
   }
 
-  // repeated .proto.OptionQuoteSlice quotes = 3;
+  // repeated .pb.OptionQuoteSlice quotes = 3;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->quotes_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -2028,13 +2027,13 @@ void ImpliedVolRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(serialize_end:pb.ImpliedVolRequest)
 }
 
 ::google::protobuf::uint8* ImpliedVolRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.ImpliedVolRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -2043,14 +2042,14 @@ void ImpliedVolRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->pricingdate(), target);
   }
 
-  // .proto.OptionMarket marketdata = 2;
+  // .pb.OptionMarket marketdata = 2;
   if (this->has_marketdata()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         2, this->_internal_marketdata(), deterministic, target);
   }
 
-  // repeated .proto.OptionQuoteSlice quotes = 3;
+  // repeated .pb.OptionQuoteSlice quotes = 3;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->quotes_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -2062,12 +2061,12 @@ void ImpliedVolRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.ImpliedVolRequest)
   return target;
 }
 
 size_t ImpliedVolRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.ImpliedVolRequest)
+// @@protoc_insertion_point(message_byte_size_start:pb.ImpliedVolRequest)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2075,7 +2074,7 @@ size_t ImpliedVolRequest::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .proto.OptionQuoteSlice quotes = 3;
+  // repeated .pb.OptionQuoteSlice quotes = 3;
   {
     unsigned int count = static_cast<unsigned int>(this->quotes_size());
     total_size += 1UL * count;
@@ -2086,7 +2085,7 @@ size_t ImpliedVolRequest::ByteSizeLong() const {
     }
   }
 
-  // .proto.OptionMarket marketdata = 2;
+  // .pb.OptionMarket marketdata = 2;
   if (this->has_marketdata()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2104,22 +2103,22 @@ size_t ImpliedVolRequest::ByteSizeLong() const {
 }
 
 void ImpliedVolRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.ImpliedVolRequest)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.ImpliedVolRequest)
   GOOGLE_DCHECK_NE(&from, this);
   const ImpliedVolRequest* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const ImpliedVolRequest>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.ImpliedVolRequest)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.ImpliedVolRequest)
     MergeFrom(*source);
   }
 }
 
 void ImpliedVolRequest::MergeFrom(const ImpliedVolRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.ImpliedVolRequest)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.ImpliedVolRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -2127,7 +2126,7 @@ void ImpliedVolRequest::MergeFrom(const ImpliedVolRequest& from) {
 
   quotes_.MergeFrom(from.quotes_);
   if (from.has_marketdata()) {
-    mutable_marketdata()->::proto::OptionMarket::MergeFrom(from.marketdata());
+    mutable_marketdata()->::pb::OptionMarket::MergeFrom(from.marketdata());
   }
   if (from.pricingdate() != 0) {
     set_pricingdate(from.pricingdate());
@@ -2135,14 +2134,14 @@ void ImpliedVolRequest::MergeFrom(const ImpliedVolRequest& from) {
 }
 
 void ImpliedVolRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.ImpliedVolRequest)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.ImpliedVolRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void ImpliedVolRequest::CopyFrom(const ImpliedVolRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.ImpliedVolRequest)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.ImpliedVolRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -2173,8 +2172,8 @@ void ImpliedVolRequest::InternalSwap(ImpliedVolRequest* other) {
 // ===================================================================
 
 void ImpliedVolResponse::InitAsDefaultInstance() {
-  ::proto::_ImpliedVolResponse_default_instance_._instance.get_mutable()->volsurface_ = const_cast< ::proto::ImpliedVolSurface*>(
-      ::proto::ImpliedVolSurface::internal_default_instance());
+  ::pb::_ImpliedVolResponse_default_instance_._instance.get_mutable()->volsurface_ = const_cast< ::pb::ImpliedVolSurface*>(
+      ::pb::ImpliedVolSurface::internal_default_instance());
 }
 void ImpliedVolResponse::clear_volsurface() {
   if (GetArenaNoVirtual() == NULL && volsurface_ != NULL) {
@@ -2192,7 +2191,7 @@ ImpliedVolResponse::ImpliedVolResponse()
   ::google::protobuf::internal::InitSCC(
       &protobuf_service_2eproto::scc_info_ImpliedVolResponse.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(constructor:pb.ImpliedVolResponse)
 }
 ImpliedVolResponse::ImpliedVolResponse(const ImpliedVolResponse& from)
   : ::google::protobuf::Message(),
@@ -2203,11 +2202,11 @@ ImpliedVolResponse::ImpliedVolResponse(const ImpliedVolResponse& from)
     error_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_);
   }
   if (from.has_volsurface()) {
-    volsurface_ = new ::proto::ImpliedVolSurface(*from.volsurface_);
+    volsurface_ = new ::pb::ImpliedVolSurface(*from.volsurface_);
   } else {
     volsurface_ = NULL;
   }
-  // @@protoc_insertion_point(copy_constructor:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(copy_constructor:pb.ImpliedVolResponse)
 }
 
 void ImpliedVolResponse::SharedCtor() {
@@ -2216,7 +2215,7 @@ void ImpliedVolResponse::SharedCtor() {
 }
 
 ImpliedVolResponse::~ImpliedVolResponse() {
-  // @@protoc_insertion_point(destructor:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(destructor:pb.ImpliedVolResponse)
   SharedDtor();
 }
 
@@ -2240,7 +2239,7 @@ const ImpliedVolResponse& ImpliedVolResponse::default_instance() {
 
 
 void ImpliedVolResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.ImpliedVolResponse)
+// @@protoc_insertion_point(message_clear_start:pb.ImpliedVolResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -2257,13 +2256,13 @@ bool ImpliedVolResponse::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(parse_start:pb.ImpliedVolResponse)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .proto.ImpliedVolSurface volsurface = 1;
+      // .pb.ImpliedVolSurface volsurface = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -2284,7 +2283,7 @@ bool ImpliedVolResponse::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->error().data(), static_cast<int>(this->error().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.ImpliedVolResponse.error"));
+            "pb.ImpliedVolResponse.error"));
         } else {
           goto handle_unusual;
         }
@@ -2303,21 +2302,21 @@ bool ImpliedVolResponse::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(parse_success:pb.ImpliedVolResponse)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(parse_failure:pb.ImpliedVolResponse)
   return false;
 #undef DO_
 }
 
 void ImpliedVolResponse::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(serialize_start:pb.ImpliedVolResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .proto.ImpliedVolSurface volsurface = 1;
+  // .pb.ImpliedVolSurface volsurface = 1;
   if (this->has_volsurface()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_volsurface(), output);
@@ -2328,7 +2327,7 @@ void ImpliedVolResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.ImpliedVolResponse.error");
+      "pb.ImpliedVolResponse.error");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->error(), output);
   }
@@ -2337,17 +2336,17 @@ void ImpliedVolResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(serialize_end:pb.ImpliedVolResponse)
 }
 
 ::google::protobuf::uint8* ImpliedVolResponse::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.ImpliedVolResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .proto.ImpliedVolSurface volsurface = 1;
+  // .pb.ImpliedVolSurface volsurface = 1;
   if (this->has_volsurface()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -2359,7 +2358,7 @@ void ImpliedVolResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->error().data(), static_cast<int>(this->error().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.ImpliedVolResponse.error");
+      "pb.ImpliedVolResponse.error");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->error(), target);
@@ -2369,12 +2368,12 @@ void ImpliedVolResponse::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.ImpliedVolResponse)
   return target;
 }
 
 size_t ImpliedVolResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.ImpliedVolResponse)
+// @@protoc_insertion_point(message_byte_size_start:pb.ImpliedVolResponse)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2389,7 +2388,7 @@ size_t ImpliedVolResponse::ByteSizeLong() const {
         this->error());
   }
 
-  // .proto.ImpliedVolSurface volsurface = 1;
+  // .pb.ImpliedVolSurface volsurface = 1;
   if (this->has_volsurface()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -2402,22 +2401,22 @@ size_t ImpliedVolResponse::ByteSizeLong() const {
 }
 
 void ImpliedVolResponse::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.ImpliedVolResponse)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.ImpliedVolResponse)
   GOOGLE_DCHECK_NE(&from, this);
   const ImpliedVolResponse* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const ImpliedVolResponse>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.ImpliedVolResponse)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.ImpliedVolResponse)
     MergeFrom(*source);
   }
 }
 
 void ImpliedVolResponse::MergeFrom(const ImpliedVolResponse& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.ImpliedVolResponse)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.ImpliedVolResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -2428,19 +2427,19 @@ void ImpliedVolResponse::MergeFrom(const ImpliedVolResponse& from) {
     error_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_);
   }
   if (from.has_volsurface()) {
-    mutable_volsurface()->::proto::ImpliedVolSurface::MergeFrom(from.volsurface());
+    mutable_volsurface()->::pb::ImpliedVolSurface::MergeFrom(from.volsurface());
   }
 }
 
 void ImpliedVolResponse::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.ImpliedVolResponse)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.ImpliedVolResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void ImpliedVolResponse::CopyFrom(const ImpliedVolResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.ImpliedVolResponse)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.ImpliedVolResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -2469,29 +2468,29 @@ void ImpliedVolResponse::InternalSwap(ImpliedVolResponse* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace proto
+}  // namespace pb
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::PriceRequest* Arena::CreateMaybeMessage< ::proto::PriceRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::PriceRequest >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::PriceRequest* Arena::CreateMaybeMessage< ::pb::PriceRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::PriceRequest >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::PriceResponse* Arena::CreateMaybeMessage< ::proto::PriceResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::PriceResponse >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::PriceResponse* Arena::CreateMaybeMessage< ::pb::PriceResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::PriceResponse >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::GreekRequest* Arena::CreateMaybeMessage< ::proto::GreekRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::GreekRequest >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::GreekRequest* Arena::CreateMaybeMessage< ::pb::GreekRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::GreekRequest >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::GreekResponse_Greek* Arena::CreateMaybeMessage< ::proto::GreekResponse_Greek >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::GreekResponse_Greek >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::GreekResponse_Greek* Arena::CreateMaybeMessage< ::pb::GreekResponse_Greek >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::GreekResponse_Greek >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::GreekResponse* Arena::CreateMaybeMessage< ::proto::GreekResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::GreekResponse >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::GreekResponse* Arena::CreateMaybeMessage< ::pb::GreekResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::GreekResponse >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::ImpliedVolRequest* Arena::CreateMaybeMessage< ::proto::ImpliedVolRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::ImpliedVolRequest >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::ImpliedVolRequest* Arena::CreateMaybeMessage< ::pb::ImpliedVolRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::ImpliedVolRequest >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::ImpliedVolResponse* Arena::CreateMaybeMessage< ::proto::ImpliedVolResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::ImpliedVolResponse >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::ImpliedVolResponse* Arena::CreateMaybeMessage< ::pb::ImpliedVolResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::ImpliedVolResponse >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

@@ -47,7 +47,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_service_2eproto
-namespace proto {
+namespace pb {
 class GreekRequest;
 class GreekRequestDefaultTypeInternal;
 extern GreekRequestDefaultTypeInternal _GreekRequest_default_instance_;
@@ -69,23 +69,23 @@ extern PriceRequestDefaultTypeInternal _PriceRequest_default_instance_;
 class PriceResponse;
 class PriceResponseDefaultTypeInternal;
 extern PriceResponseDefaultTypeInternal _PriceResponse_default_instance_;
-}  // namespace proto
+}  // namespace pb
 namespace google {
 namespace protobuf {
-template<> ::proto::GreekRequest* Arena::CreateMaybeMessage<::proto::GreekRequest>(Arena*);
-template<> ::proto::GreekResponse* Arena::CreateMaybeMessage<::proto::GreekResponse>(Arena*);
-template<> ::proto::GreekResponse_Greek* Arena::CreateMaybeMessage<::proto::GreekResponse_Greek>(Arena*);
-template<> ::proto::ImpliedVolRequest* Arena::CreateMaybeMessage<::proto::ImpliedVolRequest>(Arena*);
-template<> ::proto::ImpliedVolResponse* Arena::CreateMaybeMessage<::proto::ImpliedVolResponse>(Arena*);
-template<> ::proto::PriceRequest* Arena::CreateMaybeMessage<::proto::PriceRequest>(Arena*);
-template<> ::proto::PriceResponse* Arena::CreateMaybeMessage<::proto::PriceResponse>(Arena*);
+template<> ::pb::GreekRequest* Arena::CreateMaybeMessage<::pb::GreekRequest>(Arena*);
+template<> ::pb::GreekResponse* Arena::CreateMaybeMessage<::pb::GreekResponse>(Arena*);
+template<> ::pb::GreekResponse_Greek* Arena::CreateMaybeMessage<::pb::GreekResponse_Greek>(Arena*);
+template<> ::pb::ImpliedVolRequest* Arena::CreateMaybeMessage<::pb::ImpliedVolRequest>(Arena*);
+template<> ::pb::ImpliedVolResponse* Arena::CreateMaybeMessage<::pb::ImpliedVolResponse>(Arena*);
+template<> ::pb::PriceRequest* Arena::CreateMaybeMessage<::pb::PriceRequest>(Arena*);
+template<> ::pb::PriceResponse* Arena::CreateMaybeMessage<::pb::PriceResponse>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace proto {
+namespace pb {
 
 // ===================================================================
 
-class PriceRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.PriceRequest) */ {
+class PriceRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.PriceRequest) */ {
  public:
   PriceRequest();
   virtual ~PriceRequest();
@@ -172,29 +172,29 @@ class PriceRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // .proto.European contract = 2;
+  // .pb.European contract = 2;
   bool has_contract() const;
   void clear_contract();
   static const int kContractFieldNumber = 2;
   private:
-  const ::proto::European& _internal_contract() const;
+  const ::pb::European& _internal_contract() const;
   public:
-  const ::proto::European& contract() const;
-  ::proto::European* release_contract();
-  ::proto::European* mutable_contract();
-  void set_allocated_contract(::proto::European* contract);
+  const ::pb::European& contract() const;
+  ::pb::European* release_contract();
+  ::pb::European* mutable_contract();
+  void set_allocated_contract(::pb::European* contract);
 
-  // .proto.OptionMarket marketdata = 3;
+  // .pb.OptionMarket marketdata = 3;
   bool has_marketdata() const;
   void clear_marketdata();
   static const int kMarketdataFieldNumber = 3;
   private:
-  const ::proto::OptionMarket& _internal_marketdata() const;
+  const ::pb::OptionMarket& _internal_marketdata() const;
   public:
-  const ::proto::OptionMarket& marketdata() const;
-  ::proto::OptionMarket* release_marketdata();
-  ::proto::OptionMarket* mutable_marketdata();
-  void set_allocated_marketdata(::proto::OptionMarket* marketdata);
+  const ::pb::OptionMarket& marketdata() const;
+  ::pb::OptionMarket* release_marketdata();
+  ::pb::OptionMarket* mutable_marketdata();
+  void set_allocated_marketdata(::pb::OptionMarket* marketdata);
 
   // double pricingdate = 1;
   void clear_pricingdate();
@@ -202,19 +202,19 @@ class PriceRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
   double pricingdate() const;
   void set_pricingdate(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.PriceRequest)
+  // @@protoc_insertion_point(class_scope:pb.PriceRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::proto::European* contract_;
-  ::proto::OptionMarket* marketdata_;
+  ::pb::European* contract_;
+  ::pb::OptionMarket* marketdata_;
   double pricingdate_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class PriceResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.PriceResponse) */ {
+class PriceResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.PriceResponse) */ {
  public:
   PriceResponse();
   virtual ~PriceResponse();
@@ -321,7 +321,7 @@ class PriceResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
   double price() const;
   void set_price(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.PriceResponse)
+  // @@protoc_insertion_point(class_scope:pb.PriceResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -332,7 +332,7 @@ class PriceResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
 };
 // -------------------------------------------------------------------
 
-class GreekRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.GreekRequest) */ {
+class GreekRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.GreekRequest) */ {
  public:
   GreekRequest();
   virtual ~GreekRequest();
@@ -441,30 +441,30 @@ class GreekRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::std::string>& greek() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_greek();
 
-  // .proto.PriceRequest request = 1;
+  // .pb.PriceRequest request = 1;
   bool has_request() const;
   void clear_request();
   static const int kRequestFieldNumber = 1;
   private:
-  const ::proto::PriceRequest& _internal_request() const;
+  const ::pb::PriceRequest& _internal_request() const;
   public:
-  const ::proto::PriceRequest& request() const;
-  ::proto::PriceRequest* release_request();
-  ::proto::PriceRequest* mutable_request();
-  void set_allocated_request(::proto::PriceRequest* request);
+  const ::pb::PriceRequest& request() const;
+  ::pb::PriceRequest* release_request();
+  ::pb::PriceRequest* mutable_request();
+  void set_allocated_request(::pb::PriceRequest* request);
 
-  // @@protoc_insertion_point(class_scope:proto.GreekRequest)
+  // @@protoc_insertion_point(class_scope:pb.GreekRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::std::string> greek_;
-  ::proto::PriceRequest* request_;
+  ::pb::PriceRequest* request_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class GreekResponse_Greek : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.GreekResponse.Greek) */ {
+class GreekResponse_Greek : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.GreekResponse.Greek) */ {
  public:
   GreekResponse_Greek();
   virtual ~GreekResponse_Greek();
@@ -585,7 +585,7 @@ class GreekResponse_Greek : public ::google::protobuf::Message /* @@protoc_inser
   double value() const;
   void set_value(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.GreekResponse.Greek)
+  // @@protoc_insertion_point(class_scope:pb.GreekResponse.Greek)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -597,7 +597,7 @@ class GreekResponse_Greek : public ::google::protobuf::Message /* @@protoc_inser
 };
 // -------------------------------------------------------------------
 
-class GreekResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.GreekResponse) */ {
+class GreekResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.GreekResponse) */ {
  public:
   GreekResponse();
   virtual ~GreekResponse();
@@ -686,16 +686,16 @@ class GreekResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // repeated .proto.GreekResponse.Greek greeks = 1;
+  // repeated .pb.GreekResponse.Greek greeks = 1;
   int greeks_size() const;
   void clear_greeks();
   static const int kGreeksFieldNumber = 1;
-  ::proto::GreekResponse_Greek* mutable_greeks(int index);
-  ::google::protobuf::RepeatedPtrField< ::proto::GreekResponse_Greek >*
+  ::pb::GreekResponse_Greek* mutable_greeks(int index);
+  ::google::protobuf::RepeatedPtrField< ::pb::GreekResponse_Greek >*
       mutable_greeks();
-  const ::proto::GreekResponse_Greek& greeks(int index) const;
-  ::proto::GreekResponse_Greek* add_greeks();
-  const ::google::protobuf::RepeatedPtrField< ::proto::GreekResponse_Greek >&
+  const ::pb::GreekResponse_Greek& greeks(int index) const;
+  ::pb::GreekResponse_Greek* add_greeks();
+  const ::google::protobuf::RepeatedPtrField< ::pb::GreekResponse_Greek >&
       greeks() const;
 
   // string error = 2;
@@ -712,18 +712,18 @@ class GreekResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_error();
   void set_allocated_error(::std::string* error);
 
-  // @@protoc_insertion_point(class_scope:proto.GreekResponse)
+  // @@protoc_insertion_point(class_scope:pb.GreekResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::proto::GreekResponse_Greek > greeks_;
+  ::google::protobuf::RepeatedPtrField< ::pb::GreekResponse_Greek > greeks_;
   ::google::protobuf::internal::ArenaStringPtr error_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ImpliedVolRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.ImpliedVolRequest) */ {
+class ImpliedVolRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.ImpliedVolRequest) */ {
  public:
   ImpliedVolRequest();
   virtual ~ImpliedVolRequest();
@@ -810,29 +810,29 @@ class ImpliedVolRequest : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // repeated .proto.OptionQuoteSlice quotes = 3;
+  // repeated .pb.OptionQuoteSlice quotes = 3;
   int quotes_size() const;
   void clear_quotes();
   static const int kQuotesFieldNumber = 3;
-  ::proto::OptionQuoteSlice* mutable_quotes(int index);
-  ::google::protobuf::RepeatedPtrField< ::proto::OptionQuoteSlice >*
+  ::pb::OptionQuoteSlice* mutable_quotes(int index);
+  ::google::protobuf::RepeatedPtrField< ::pb::OptionQuoteSlice >*
       mutable_quotes();
-  const ::proto::OptionQuoteSlice& quotes(int index) const;
-  ::proto::OptionQuoteSlice* add_quotes();
-  const ::google::protobuf::RepeatedPtrField< ::proto::OptionQuoteSlice >&
+  const ::pb::OptionQuoteSlice& quotes(int index) const;
+  ::pb::OptionQuoteSlice* add_quotes();
+  const ::google::protobuf::RepeatedPtrField< ::pb::OptionQuoteSlice >&
       quotes() const;
 
-  // .proto.OptionMarket marketdata = 2;
+  // .pb.OptionMarket marketdata = 2;
   bool has_marketdata() const;
   void clear_marketdata();
   static const int kMarketdataFieldNumber = 2;
   private:
-  const ::proto::OptionMarket& _internal_marketdata() const;
+  const ::pb::OptionMarket& _internal_marketdata() const;
   public:
-  const ::proto::OptionMarket& marketdata() const;
-  ::proto::OptionMarket* release_marketdata();
-  ::proto::OptionMarket* mutable_marketdata();
-  void set_allocated_marketdata(::proto::OptionMarket* marketdata);
+  const ::pb::OptionMarket& marketdata() const;
+  ::pb::OptionMarket* release_marketdata();
+  ::pb::OptionMarket* mutable_marketdata();
+  void set_allocated_marketdata(::pb::OptionMarket* marketdata);
 
   // double pricingdate = 1;
   void clear_pricingdate();
@@ -840,19 +840,19 @@ class ImpliedVolRequest : public ::google::protobuf::Message /* @@protoc_inserti
   double pricingdate() const;
   void set_pricingdate(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.ImpliedVolRequest)
+  // @@protoc_insertion_point(class_scope:pb.ImpliedVolRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::proto::OptionQuoteSlice > quotes_;
-  ::proto::OptionMarket* marketdata_;
+  ::google::protobuf::RepeatedPtrField< ::pb::OptionQuoteSlice > quotes_;
+  ::pb::OptionMarket* marketdata_;
   double pricingdate_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ImpliedVolResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.ImpliedVolResponse) */ {
+class ImpliedVolResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.ImpliedVolResponse) */ {
  public:
   ImpliedVolResponse();
   virtual ~ImpliedVolResponse();
@@ -953,24 +953,24 @@ class ImpliedVolResponse : public ::google::protobuf::Message /* @@protoc_insert
   ::std::string* release_error();
   void set_allocated_error(::std::string* error);
 
-  // .proto.ImpliedVolSurface volsurface = 1;
+  // .pb.ImpliedVolSurface volsurface = 1;
   bool has_volsurface() const;
   void clear_volsurface();
   static const int kVolsurfaceFieldNumber = 1;
   private:
-  const ::proto::ImpliedVolSurface& _internal_volsurface() const;
+  const ::pb::ImpliedVolSurface& _internal_volsurface() const;
   public:
-  const ::proto::ImpliedVolSurface& volsurface() const;
-  ::proto::ImpliedVolSurface* release_volsurface();
-  ::proto::ImpliedVolSurface* mutable_volsurface();
-  void set_allocated_volsurface(::proto::ImpliedVolSurface* volsurface);
+  const ::pb::ImpliedVolSurface& volsurface() const;
+  ::pb::ImpliedVolSurface* release_volsurface();
+  ::pb::ImpliedVolSurface* mutable_volsurface();
+  void set_allocated_volsurface(::pb::ImpliedVolSurface* volsurface);
 
-  // @@protoc_insertion_point(class_scope:proto.ImpliedVolResponse)
+  // @@protoc_insertion_point(class_scope:pb.ImpliedVolResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr error_;
-  ::proto::ImpliedVolSurface* volsurface_;
+  ::pb::ImpliedVolSurface* volsurface_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
@@ -990,45 +990,45 @@ inline void PriceRequest::clear_pricingdate() {
   pricingdate_ = 0;
 }
 inline double PriceRequest::pricingdate() const {
-  // @@protoc_insertion_point(field_get:proto.PriceRequest.pricingdate)
+  // @@protoc_insertion_point(field_get:pb.PriceRequest.pricingdate)
   return pricingdate_;
 }
 inline void PriceRequest::set_pricingdate(double value) {
   
   pricingdate_ = value;
-  // @@protoc_insertion_point(field_set:proto.PriceRequest.pricingdate)
+  // @@protoc_insertion_point(field_set:pb.PriceRequest.pricingdate)
 }
 
-// .proto.European contract = 2;
+// .pb.European contract = 2;
 inline bool PriceRequest::has_contract() const {
   return this != internal_default_instance() && contract_ != NULL;
 }
-inline const ::proto::European& PriceRequest::_internal_contract() const {
+inline const ::pb::European& PriceRequest::_internal_contract() const {
   return *contract_;
 }
-inline const ::proto::European& PriceRequest::contract() const {
-  const ::proto::European* p = contract_;
-  // @@protoc_insertion_point(field_get:proto.PriceRequest.contract)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::European*>(
-      &::proto::_European_default_instance_);
+inline const ::pb::European& PriceRequest::contract() const {
+  const ::pb::European* p = contract_;
+  // @@protoc_insertion_point(field_get:pb.PriceRequest.contract)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::European*>(
+      &::pb::_European_default_instance_);
 }
-inline ::proto::European* PriceRequest::release_contract() {
-  // @@protoc_insertion_point(field_release:proto.PriceRequest.contract)
+inline ::pb::European* PriceRequest::release_contract() {
+  // @@protoc_insertion_point(field_release:pb.PriceRequest.contract)
   
-  ::proto::European* temp = contract_;
+  ::pb::European* temp = contract_;
   contract_ = NULL;
   return temp;
 }
-inline ::proto::European* PriceRequest::mutable_contract() {
+inline ::pb::European* PriceRequest::mutable_contract() {
   
   if (contract_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::European>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::European>(GetArenaNoVirtual());
     contract_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.PriceRequest.contract)
+  // @@protoc_insertion_point(field_mutable:pb.PriceRequest.contract)
   return contract_;
 }
-inline void PriceRequest::set_allocated_contract(::proto::European* contract) {
+inline void PriceRequest::set_allocated_contract(::pb::European* contract) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(contract_);
@@ -1044,39 +1044,39 @@ inline void PriceRequest::set_allocated_contract(::proto::European* contract) {
     
   }
   contract_ = contract;
-  // @@protoc_insertion_point(field_set_allocated:proto.PriceRequest.contract)
+  // @@protoc_insertion_point(field_set_allocated:pb.PriceRequest.contract)
 }
 
-// .proto.OptionMarket marketdata = 3;
+// .pb.OptionMarket marketdata = 3;
 inline bool PriceRequest::has_marketdata() const {
   return this != internal_default_instance() && marketdata_ != NULL;
 }
-inline const ::proto::OptionMarket& PriceRequest::_internal_marketdata() const {
+inline const ::pb::OptionMarket& PriceRequest::_internal_marketdata() const {
   return *marketdata_;
 }
-inline const ::proto::OptionMarket& PriceRequest::marketdata() const {
-  const ::proto::OptionMarket* p = marketdata_;
-  // @@protoc_insertion_point(field_get:proto.PriceRequest.marketdata)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::OptionMarket*>(
-      &::proto::_OptionMarket_default_instance_);
+inline const ::pb::OptionMarket& PriceRequest::marketdata() const {
+  const ::pb::OptionMarket* p = marketdata_;
+  // @@protoc_insertion_point(field_get:pb.PriceRequest.marketdata)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::OptionMarket*>(
+      &::pb::_OptionMarket_default_instance_);
 }
-inline ::proto::OptionMarket* PriceRequest::release_marketdata() {
-  // @@protoc_insertion_point(field_release:proto.PriceRequest.marketdata)
+inline ::pb::OptionMarket* PriceRequest::release_marketdata() {
+  // @@protoc_insertion_point(field_release:pb.PriceRequest.marketdata)
   
-  ::proto::OptionMarket* temp = marketdata_;
+  ::pb::OptionMarket* temp = marketdata_;
   marketdata_ = NULL;
   return temp;
 }
-inline ::proto::OptionMarket* PriceRequest::mutable_marketdata() {
+inline ::pb::OptionMarket* PriceRequest::mutable_marketdata() {
   
   if (marketdata_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::OptionMarket>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::OptionMarket>(GetArenaNoVirtual());
     marketdata_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.PriceRequest.marketdata)
+  // @@protoc_insertion_point(field_mutable:pb.PriceRequest.marketdata)
   return marketdata_;
 }
-inline void PriceRequest::set_allocated_marketdata(::proto::OptionMarket* marketdata) {
+inline void PriceRequest::set_allocated_marketdata(::pb::OptionMarket* marketdata) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(marketdata_);
@@ -1092,7 +1092,7 @@ inline void PriceRequest::set_allocated_marketdata(::proto::OptionMarket* market
     
   }
   marketdata_ = marketdata;
-  // @@protoc_insertion_point(field_set_allocated:proto.PriceRequest.marketdata)
+  // @@protoc_insertion_point(field_set_allocated:pb.PriceRequest.marketdata)
 }
 
 // -------------------------------------------------------------------
@@ -1104,13 +1104,13 @@ inline void PriceResponse::clear_price() {
   price_ = 0;
 }
 inline double PriceResponse::price() const {
-  // @@protoc_insertion_point(field_get:proto.PriceResponse.price)
+  // @@protoc_insertion_point(field_get:pb.PriceResponse.price)
   return price_;
 }
 inline void PriceResponse::set_price(double value) {
   
   price_ = value;
-  // @@protoc_insertion_point(field_set:proto.PriceResponse.price)
+  // @@protoc_insertion_point(field_set:pb.PriceResponse.price)
 }
 
 // string error = 3;
@@ -1118,41 +1118,41 @@ inline void PriceResponse::clear_error() {
   error_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& PriceResponse::error() const {
-  // @@protoc_insertion_point(field_get:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_get:pb.PriceResponse.error)
   return error_.GetNoArena();
 }
 inline void PriceResponse::set_error(const ::std::string& value) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_set:pb.PriceResponse.error)
 }
 #if LANG_CXX11
 inline void PriceResponse::set_error(::std::string&& value) {
   
   error_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_set_rvalue:pb.PriceResponse.error)
 }
 #endif
 inline void PriceResponse::set_error(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_set_char:pb.PriceResponse.error)
 }
 inline void PriceResponse::set_error(const char* value, size_t size) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_set_pointer:pb.PriceResponse.error)
 }
 inline ::std::string* PriceResponse::mutable_error() {
   
-  // @@protoc_insertion_point(field_mutable:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_mutable:pb.PriceResponse.error)
   return error_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* PriceResponse::release_error() {
-  // @@protoc_insertion_point(field_release:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_release:pb.PriceResponse.error)
   
   return error_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1163,14 +1163,14 @@ inline void PriceResponse::set_allocated_error(::std::string* error) {
     
   }
   error_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error);
-  // @@protoc_insertion_point(field_set_allocated:proto.PriceResponse.error)
+  // @@protoc_insertion_point(field_set_allocated:pb.PriceResponse.error)
 }
 
 // -------------------------------------------------------------------
 
 // GreekRequest
 
-// .proto.PriceRequest request = 1;
+// .pb.PriceRequest request = 1;
 inline bool GreekRequest::has_request() const {
   return this != internal_default_instance() && request_ != NULL;
 }
@@ -1180,32 +1180,32 @@ inline void GreekRequest::clear_request() {
   }
   request_ = NULL;
 }
-inline const ::proto::PriceRequest& GreekRequest::_internal_request() const {
+inline const ::pb::PriceRequest& GreekRequest::_internal_request() const {
   return *request_;
 }
-inline const ::proto::PriceRequest& GreekRequest::request() const {
-  const ::proto::PriceRequest* p = request_;
-  // @@protoc_insertion_point(field_get:proto.GreekRequest.request)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::PriceRequest*>(
-      &::proto::_PriceRequest_default_instance_);
+inline const ::pb::PriceRequest& GreekRequest::request() const {
+  const ::pb::PriceRequest* p = request_;
+  // @@protoc_insertion_point(field_get:pb.GreekRequest.request)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::PriceRequest*>(
+      &::pb::_PriceRequest_default_instance_);
 }
-inline ::proto::PriceRequest* GreekRequest::release_request() {
-  // @@protoc_insertion_point(field_release:proto.GreekRequest.request)
+inline ::pb::PriceRequest* GreekRequest::release_request() {
+  // @@protoc_insertion_point(field_release:pb.GreekRequest.request)
   
-  ::proto::PriceRequest* temp = request_;
+  ::pb::PriceRequest* temp = request_;
   request_ = NULL;
   return temp;
 }
-inline ::proto::PriceRequest* GreekRequest::mutable_request() {
+inline ::pb::PriceRequest* GreekRequest::mutable_request() {
   
   if (request_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::PriceRequest>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::PriceRequest>(GetArenaNoVirtual());
     request_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.GreekRequest.request)
+  // @@protoc_insertion_point(field_mutable:pb.GreekRequest.request)
   return request_;
 }
-inline void GreekRequest::set_allocated_request(::proto::PriceRequest* request) {
+inline void GreekRequest::set_allocated_request(::pb::PriceRequest* request) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete request_;
@@ -1221,7 +1221,7 @@ inline void GreekRequest::set_allocated_request(::proto::PriceRequest* request) 
     
   }
   request_ = request;
-  // @@protoc_insertion_point(field_set_allocated:proto.GreekRequest.request)
+  // @@protoc_insertion_point(field_set_allocated:pb.GreekRequest.request)
 }
 
 // repeated string greek = 2;
@@ -1232,64 +1232,64 @@ inline void GreekRequest::clear_greek() {
   greek_.Clear();
 }
 inline const ::std::string& GreekRequest::greek(int index) const {
-  // @@protoc_insertion_point(field_get:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_get:pb.GreekRequest.greek)
   return greek_.Get(index);
 }
 inline ::std::string* GreekRequest::mutable_greek(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_mutable:pb.GreekRequest.greek)
   return greek_.Mutable(index);
 }
 inline void GreekRequest::set_greek(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_set:pb.GreekRequest.greek)
   greek_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
 inline void GreekRequest::set_greek(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_set:pb.GreekRequest.greek)
   greek_.Mutable(index)->assign(std::move(value));
 }
 #endif
 inline void GreekRequest::set_greek(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
   greek_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_set_char:pb.GreekRequest.greek)
 }
 inline void GreekRequest::set_greek(int index, const char* value, size_t size) {
   greek_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_set_pointer:pb.GreekRequest.greek)
 }
 inline ::std::string* GreekRequest::add_greek() {
-  // @@protoc_insertion_point(field_add_mutable:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_add_mutable:pb.GreekRequest.greek)
   return greek_.Add();
 }
 inline void GreekRequest::add_greek(const ::std::string& value) {
   greek_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_add:pb.GreekRequest.greek)
 }
 #if LANG_CXX11
 inline void GreekRequest::add_greek(::std::string&& value) {
   greek_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_add:pb.GreekRequest.greek)
 }
 #endif
 inline void GreekRequest::add_greek(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   greek_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_add_char:pb.GreekRequest.greek)
 }
 inline void GreekRequest::add_greek(const char* value, size_t size) {
   greek_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_add_pointer:pb.GreekRequest.greek)
 }
 inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
 GreekRequest::greek() const {
-  // @@protoc_insertion_point(field_list:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_list:pb.GreekRequest.greek)
   return greek_;
 }
 inline ::google::protobuf::RepeatedPtrField< ::std::string>*
 GreekRequest::mutable_greek() {
-  // @@protoc_insertion_point(field_mutable_list:proto.GreekRequest.greek)
+  // @@protoc_insertion_point(field_mutable_list:pb.GreekRequest.greek)
   return &greek_;
 }
 
@@ -1302,41 +1302,41 @@ inline void GreekResponse_Greek::clear_label() {
   label_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GreekResponse_Greek::label() const {
-  // @@protoc_insertion_point(field_get:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_get:pb.GreekResponse.Greek.label)
   return label_.GetNoArena();
 }
 inline void GreekResponse_Greek::set_label(const ::std::string& value) {
   
   label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_set:pb.GreekResponse.Greek.label)
 }
 #if LANG_CXX11
 inline void GreekResponse_Greek::set_label(::std::string&& value) {
   
   label_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_set_rvalue:pb.GreekResponse.Greek.label)
 }
 #endif
 inline void GreekResponse_Greek::set_label(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_set_char:pb.GreekResponse.Greek.label)
 }
 inline void GreekResponse_Greek::set_label(const char* value, size_t size) {
   
   label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_set_pointer:pb.GreekResponse.Greek.label)
 }
 inline ::std::string* GreekResponse_Greek::mutable_label() {
   
-  // @@protoc_insertion_point(field_mutable:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_mutable:pb.GreekResponse.Greek.label)
   return label_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GreekResponse_Greek::release_label() {
-  // @@protoc_insertion_point(field_release:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_release:pb.GreekResponse.Greek.label)
   
   return label_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1347,7 +1347,7 @@ inline void GreekResponse_Greek::set_allocated_label(::std::string* label) {
     
   }
   label_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), label);
-  // @@protoc_insertion_point(field_set_allocated:proto.GreekResponse.Greek.label)
+  // @@protoc_insertion_point(field_set_allocated:pb.GreekResponse.Greek.label)
 }
 
 // double value = 2;
@@ -1355,13 +1355,13 @@ inline void GreekResponse_Greek::clear_value() {
   value_ = 0;
 }
 inline double GreekResponse_Greek::value() const {
-  // @@protoc_insertion_point(field_get:proto.GreekResponse.Greek.value)
+  // @@protoc_insertion_point(field_get:pb.GreekResponse.Greek.value)
   return value_;
 }
 inline void GreekResponse_Greek::set_value(double value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:proto.GreekResponse.Greek.value)
+  // @@protoc_insertion_point(field_set:pb.GreekResponse.Greek.value)
 }
 
 // string error = 3;
@@ -1369,41 +1369,41 @@ inline void GreekResponse_Greek::clear_error() {
   error_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GreekResponse_Greek::error() const {
-  // @@protoc_insertion_point(field_get:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_get:pb.GreekResponse.Greek.error)
   return error_.GetNoArena();
 }
 inline void GreekResponse_Greek::set_error(const ::std::string& value) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_set:pb.GreekResponse.Greek.error)
 }
 #if LANG_CXX11
 inline void GreekResponse_Greek::set_error(::std::string&& value) {
   
   error_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_set_rvalue:pb.GreekResponse.Greek.error)
 }
 #endif
 inline void GreekResponse_Greek::set_error(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_set_char:pb.GreekResponse.Greek.error)
 }
 inline void GreekResponse_Greek::set_error(const char* value, size_t size) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_set_pointer:pb.GreekResponse.Greek.error)
 }
 inline ::std::string* GreekResponse_Greek::mutable_error() {
   
-  // @@protoc_insertion_point(field_mutable:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_mutable:pb.GreekResponse.Greek.error)
   return error_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GreekResponse_Greek::release_error() {
-  // @@protoc_insertion_point(field_release:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_release:pb.GreekResponse.Greek.error)
   
   return error_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1414,40 +1414,40 @@ inline void GreekResponse_Greek::set_allocated_error(::std::string* error) {
     
   }
   error_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error);
-  // @@protoc_insertion_point(field_set_allocated:proto.GreekResponse.Greek.error)
+  // @@protoc_insertion_point(field_set_allocated:pb.GreekResponse.Greek.error)
 }
 
 // -------------------------------------------------------------------
 
 // GreekResponse
 
-// repeated .proto.GreekResponse.Greek greeks = 1;
+// repeated .pb.GreekResponse.Greek greeks = 1;
 inline int GreekResponse::greeks_size() const {
   return greeks_.size();
 }
 inline void GreekResponse::clear_greeks() {
   greeks_.Clear();
 }
-inline ::proto::GreekResponse_Greek* GreekResponse::mutable_greeks(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.GreekResponse.greeks)
+inline ::pb::GreekResponse_Greek* GreekResponse::mutable_greeks(int index) {
+  // @@protoc_insertion_point(field_mutable:pb.GreekResponse.greeks)
   return greeks_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::proto::GreekResponse_Greek >*
+inline ::google::protobuf::RepeatedPtrField< ::pb::GreekResponse_Greek >*
 GreekResponse::mutable_greeks() {
-  // @@protoc_insertion_point(field_mutable_list:proto.GreekResponse.greeks)
+  // @@protoc_insertion_point(field_mutable_list:pb.GreekResponse.greeks)
   return &greeks_;
 }
-inline const ::proto::GreekResponse_Greek& GreekResponse::greeks(int index) const {
-  // @@protoc_insertion_point(field_get:proto.GreekResponse.greeks)
+inline const ::pb::GreekResponse_Greek& GreekResponse::greeks(int index) const {
+  // @@protoc_insertion_point(field_get:pb.GreekResponse.greeks)
   return greeks_.Get(index);
 }
-inline ::proto::GreekResponse_Greek* GreekResponse::add_greeks() {
-  // @@protoc_insertion_point(field_add:proto.GreekResponse.greeks)
+inline ::pb::GreekResponse_Greek* GreekResponse::add_greeks() {
+  // @@protoc_insertion_point(field_add:pb.GreekResponse.greeks)
   return greeks_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::proto::GreekResponse_Greek >&
+inline const ::google::protobuf::RepeatedPtrField< ::pb::GreekResponse_Greek >&
 GreekResponse::greeks() const {
-  // @@protoc_insertion_point(field_list:proto.GreekResponse.greeks)
+  // @@protoc_insertion_point(field_list:pb.GreekResponse.greeks)
   return greeks_;
 }
 
@@ -1456,41 +1456,41 @@ inline void GreekResponse::clear_error() {
   error_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GreekResponse::error() const {
-  // @@protoc_insertion_point(field_get:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_get:pb.GreekResponse.error)
   return error_.GetNoArena();
 }
 inline void GreekResponse::set_error(const ::std::string& value) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_set:pb.GreekResponse.error)
 }
 #if LANG_CXX11
 inline void GreekResponse::set_error(::std::string&& value) {
   
   error_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_set_rvalue:pb.GreekResponse.error)
 }
 #endif
 inline void GreekResponse::set_error(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_set_char:pb.GreekResponse.error)
 }
 inline void GreekResponse::set_error(const char* value, size_t size) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_set_pointer:pb.GreekResponse.error)
 }
 inline ::std::string* GreekResponse::mutable_error() {
   
-  // @@protoc_insertion_point(field_mutable:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_mutable:pb.GreekResponse.error)
   return error_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GreekResponse::release_error() {
-  // @@protoc_insertion_point(field_release:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_release:pb.GreekResponse.error)
   
   return error_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1501,7 +1501,7 @@ inline void GreekResponse::set_allocated_error(::std::string* error) {
     
   }
   error_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error);
-  // @@protoc_insertion_point(field_set_allocated:proto.GreekResponse.error)
+  // @@protoc_insertion_point(field_set_allocated:pb.GreekResponse.error)
 }
 
 // -------------------------------------------------------------------
@@ -1513,45 +1513,45 @@ inline void ImpliedVolRequest::clear_pricingdate() {
   pricingdate_ = 0;
 }
 inline double ImpliedVolRequest::pricingdate() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolRequest.pricingdate)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolRequest.pricingdate)
   return pricingdate_;
 }
 inline void ImpliedVolRequest::set_pricingdate(double value) {
   
   pricingdate_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolRequest.pricingdate)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolRequest.pricingdate)
 }
 
-// .proto.OptionMarket marketdata = 2;
+// .pb.OptionMarket marketdata = 2;
 inline bool ImpliedVolRequest::has_marketdata() const {
   return this != internal_default_instance() && marketdata_ != NULL;
 }
-inline const ::proto::OptionMarket& ImpliedVolRequest::_internal_marketdata() const {
+inline const ::pb::OptionMarket& ImpliedVolRequest::_internal_marketdata() const {
   return *marketdata_;
 }
-inline const ::proto::OptionMarket& ImpliedVolRequest::marketdata() const {
-  const ::proto::OptionMarket* p = marketdata_;
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolRequest.marketdata)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::OptionMarket*>(
-      &::proto::_OptionMarket_default_instance_);
+inline const ::pb::OptionMarket& ImpliedVolRequest::marketdata() const {
+  const ::pb::OptionMarket* p = marketdata_;
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolRequest.marketdata)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::OptionMarket*>(
+      &::pb::_OptionMarket_default_instance_);
 }
-inline ::proto::OptionMarket* ImpliedVolRequest::release_marketdata() {
-  // @@protoc_insertion_point(field_release:proto.ImpliedVolRequest.marketdata)
+inline ::pb::OptionMarket* ImpliedVolRequest::release_marketdata() {
+  // @@protoc_insertion_point(field_release:pb.ImpliedVolRequest.marketdata)
   
-  ::proto::OptionMarket* temp = marketdata_;
+  ::pb::OptionMarket* temp = marketdata_;
   marketdata_ = NULL;
   return temp;
 }
-inline ::proto::OptionMarket* ImpliedVolRequest::mutable_marketdata() {
+inline ::pb::OptionMarket* ImpliedVolRequest::mutable_marketdata() {
   
   if (marketdata_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::OptionMarket>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::OptionMarket>(GetArenaNoVirtual());
     marketdata_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolRequest.marketdata)
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolRequest.marketdata)
   return marketdata_;
 }
-inline void ImpliedVolRequest::set_allocated_marketdata(::proto::OptionMarket* marketdata) {
+inline void ImpliedVolRequest::set_allocated_marketdata(::pb::OptionMarket* marketdata) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(marketdata_);
@@ -1567,33 +1567,33 @@ inline void ImpliedVolRequest::set_allocated_marketdata(::proto::OptionMarket* m
     
   }
   marketdata_ = marketdata;
-  // @@protoc_insertion_point(field_set_allocated:proto.ImpliedVolRequest.marketdata)
+  // @@protoc_insertion_point(field_set_allocated:pb.ImpliedVolRequest.marketdata)
 }
 
-// repeated .proto.OptionQuoteSlice quotes = 3;
+// repeated .pb.OptionQuoteSlice quotes = 3;
 inline int ImpliedVolRequest::quotes_size() const {
   return quotes_.size();
 }
-inline ::proto::OptionQuoteSlice* ImpliedVolRequest::mutable_quotes(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolRequest.quotes)
+inline ::pb::OptionQuoteSlice* ImpliedVolRequest::mutable_quotes(int index) {
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolRequest.quotes)
   return quotes_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::proto::OptionQuoteSlice >*
+inline ::google::protobuf::RepeatedPtrField< ::pb::OptionQuoteSlice >*
 ImpliedVolRequest::mutable_quotes() {
-  // @@protoc_insertion_point(field_mutable_list:proto.ImpliedVolRequest.quotes)
+  // @@protoc_insertion_point(field_mutable_list:pb.ImpliedVolRequest.quotes)
   return &quotes_;
 }
-inline const ::proto::OptionQuoteSlice& ImpliedVolRequest::quotes(int index) const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolRequest.quotes)
+inline const ::pb::OptionQuoteSlice& ImpliedVolRequest::quotes(int index) const {
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolRequest.quotes)
   return quotes_.Get(index);
 }
-inline ::proto::OptionQuoteSlice* ImpliedVolRequest::add_quotes() {
-  // @@protoc_insertion_point(field_add:proto.ImpliedVolRequest.quotes)
+inline ::pb::OptionQuoteSlice* ImpliedVolRequest::add_quotes() {
+  // @@protoc_insertion_point(field_add:pb.ImpliedVolRequest.quotes)
   return quotes_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::proto::OptionQuoteSlice >&
+inline const ::google::protobuf::RepeatedPtrField< ::pb::OptionQuoteSlice >&
 ImpliedVolRequest::quotes() const {
-  // @@protoc_insertion_point(field_list:proto.ImpliedVolRequest.quotes)
+  // @@protoc_insertion_point(field_list:pb.ImpliedVolRequest.quotes)
   return quotes_;
 }
 
@@ -1601,36 +1601,36 @@ ImpliedVolRequest::quotes() const {
 
 // ImpliedVolResponse
 
-// .proto.ImpliedVolSurface volsurface = 1;
+// .pb.ImpliedVolSurface volsurface = 1;
 inline bool ImpliedVolResponse::has_volsurface() const {
   return this != internal_default_instance() && volsurface_ != NULL;
 }
-inline const ::proto::ImpliedVolSurface& ImpliedVolResponse::_internal_volsurface() const {
+inline const ::pb::ImpliedVolSurface& ImpliedVolResponse::_internal_volsurface() const {
   return *volsurface_;
 }
-inline const ::proto::ImpliedVolSurface& ImpliedVolResponse::volsurface() const {
-  const ::proto::ImpliedVolSurface* p = volsurface_;
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolResponse.volsurface)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::ImpliedVolSurface*>(
-      &::proto::_ImpliedVolSurface_default_instance_);
+inline const ::pb::ImpliedVolSurface& ImpliedVolResponse::volsurface() const {
+  const ::pb::ImpliedVolSurface* p = volsurface_;
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolResponse.volsurface)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::ImpliedVolSurface*>(
+      &::pb::_ImpliedVolSurface_default_instance_);
 }
-inline ::proto::ImpliedVolSurface* ImpliedVolResponse::release_volsurface() {
-  // @@protoc_insertion_point(field_release:proto.ImpliedVolResponse.volsurface)
+inline ::pb::ImpliedVolSurface* ImpliedVolResponse::release_volsurface() {
+  // @@protoc_insertion_point(field_release:pb.ImpliedVolResponse.volsurface)
   
-  ::proto::ImpliedVolSurface* temp = volsurface_;
+  ::pb::ImpliedVolSurface* temp = volsurface_;
   volsurface_ = NULL;
   return temp;
 }
-inline ::proto::ImpliedVolSurface* ImpliedVolResponse::mutable_volsurface() {
+inline ::pb::ImpliedVolSurface* ImpliedVolResponse::mutable_volsurface() {
   
   if (volsurface_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::ImpliedVolSurface>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::ImpliedVolSurface>(GetArenaNoVirtual());
     volsurface_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolResponse.volsurface)
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolResponse.volsurface)
   return volsurface_;
 }
-inline void ImpliedVolResponse::set_allocated_volsurface(::proto::ImpliedVolSurface* volsurface) {
+inline void ImpliedVolResponse::set_allocated_volsurface(::pb::ImpliedVolSurface* volsurface) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(volsurface_);
@@ -1646,7 +1646,7 @@ inline void ImpliedVolResponse::set_allocated_volsurface(::proto::ImpliedVolSurf
     
   }
   volsurface_ = volsurface;
-  // @@protoc_insertion_point(field_set_allocated:proto.ImpliedVolResponse.volsurface)
+  // @@protoc_insertion_point(field_set_allocated:pb.ImpliedVolResponse.volsurface)
 }
 
 // string error = 2;
@@ -1654,41 +1654,41 @@ inline void ImpliedVolResponse::clear_error() {
   error_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& ImpliedVolResponse::error() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolResponse.error)
   return error_.GetNoArena();
 }
 inline void ImpliedVolResponse::set_error(const ::std::string& value) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolResponse.error)
 }
 #if LANG_CXX11
 inline void ImpliedVolResponse::set_error(::std::string&& value) {
   
   error_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_set_rvalue:pb.ImpliedVolResponse.error)
 }
 #endif
 inline void ImpliedVolResponse::set_error(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_set_char:pb.ImpliedVolResponse.error)
 }
 inline void ImpliedVolResponse::set_error(const char* value, size_t size) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_set_pointer:pb.ImpliedVolResponse.error)
 }
 inline ::std::string* ImpliedVolResponse::mutable_error() {
   
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolResponse.error)
   return error_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* ImpliedVolResponse::release_error() {
-  // @@protoc_insertion_point(field_release:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_release:pb.ImpliedVolResponse.error)
   
   return error_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1699,7 +1699,7 @@ inline void ImpliedVolResponse::set_allocated_error(::std::string* error) {
     
   }
   error_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error);
-  // @@protoc_insertion_point(field_set_allocated:proto.ImpliedVolResponse.error)
+  // @@protoc_insertion_point(field_set_allocated:pb.ImpliedVolResponse.error)
 }
 
 #ifdef __GNUC__
@@ -1720,7 +1720,7 @@ inline void ImpliedVolResponse::set_allocated_error(::std::string* error) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace proto
+}  // namespace pb
 
 // @@protoc_insertion_point(global_scope)
 

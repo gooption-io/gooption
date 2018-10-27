@@ -20,13 +20,13 @@ using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
-using proto::PriceRequest;
-using proto::PriceResponse;
-using proto::GreekRequest;
-using proto::GreekResponse;
-using proto::ImpliedVolRequest;
-using proto::ImpliedVolResponse;
-using proto::EuropeanOptionPricer;
+using pb::PriceRequest;
+using pb::PriceResponse;
+using pb::GreekRequest;
+using pb::GreekResponse;
+using pb::ImpliedVolRequest;
+using pb::ImpliedVolResponse;
+using pb::EuropeanOptionPricer;
 
 #if defined(QL_ENABLE_SESSIONS)
 namespace QuantLib {

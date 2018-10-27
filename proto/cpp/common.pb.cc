@@ -19,8 +19,8 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace proto {
-}  // namespace proto
+namespace pb {
+}  // namespace pb
 namespace protobuf_common_2eproto {
 void InitDefaults() {
 }
@@ -50,11 +50,11 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\014common.proto\022\005proto*\037\n\nOptionType\022\007\n\003P"
-      "UT\020\000\022\010\n\004CALL\020\001b\006proto3"
+      "\n\014common.proto\022\002pb*\037\n\nOptionType\022\007\n\003PUT\020"
+      "\000\022\010\n\004CALL\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 62);
+      descriptor, 59);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "common.proto", &protobuf_RegisterTypes);
 }
@@ -70,7 +70,7 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_common_2eproto
-namespace proto {
+namespace pb {
 const ::google::protobuf::EnumDescriptor* OptionType_descriptor() {
   protobuf_common_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_common_2eproto::file_level_enum_descriptors[0];
@@ -87,7 +87,7 @@ bool OptionType_IsValid(int value) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace proto
+}  // namespace pb
 namespace google {
 namespace protobuf {
 }  // namespace protobuf

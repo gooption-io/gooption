@@ -24,9 +24,9 @@ class ServerCompletionQueue;
 class ServerContext;
 }  // namespace grpc
 
-namespace proto {
+namespace pb {
 
-}  // namespace proto
+}  // namespace pb
 
 
 #endif  // GRPC_marketdata_2eproto__INCLUDED

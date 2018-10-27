@@ -19,23 +19,23 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace proto {
+namespace pb {
 class EuropeanDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<European>
       _instance;
 } _European_default_instance_;
-}  // namespace proto
+}  // namespace pb
 namespace protobuf_contract_2eproto {
 static void InitDefaultsEuropean() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::proto::_European_default_instance_;
-    new (ptr) ::proto::European();
+    void* ptr = &::pb::_European_default_instance_;
+    new (ptr) ::pb::European();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::proto::European::InitAsDefaultInstance();
+  ::pb::European::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_European =
@@ -49,23 +49,23 @@ void InitDefaults() {
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, timestamp_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, ticker_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, undticker_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, strike_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, expiry_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::European, putcall_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, timestamp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, ticker_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, undticker_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, strike_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, expiry_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::European, putcall_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::proto::European)},
+  { 0, -1, sizeof(::pb::European)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::proto::_European_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_European_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -89,13 +89,13 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016contract.proto\022\005proto\"q\n\010European\022\021\n\tt"
-      "imestamp\030\001 \001(\001\022\016\n\006ticker\030\002 \001(\t\022\021\n\tundtic"
-      "ker\030\003 \001(\t\022\016\n\006strike\030\004 \001(\001\022\016\n\006expiry\030\005 \001("
-      "\001\022\017\n\007putcall\030\006 \001(\tb\006proto3"
+      "\n\016contract.proto\022\002pb\"q\n\010European\022\021\n\ttime"
+      "stamp\030\001 \001(\001\022\016\n\006ticker\030\002 \001(\t\022\021\n\tundticker"
+      "\030\003 \001(\t\022\016\n\006strike\030\004 \001(\001\022\016\n\006expiry\030\005 \001(\001\022\017"
+      "\n\007putcall\030\006 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 146);
+      descriptor, 143);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "contract.proto", &protobuf_RegisterTypes);
 }
@@ -111,7 +111,7 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_contract_2eproto
-namespace proto {
+namespace pb {
 
 // ===================================================================
 
@@ -131,7 +131,7 @@ European::European()
   ::google::protobuf::internal::InitSCC(
       &protobuf_contract_2eproto::scc_info_European.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:proto.European)
+  // @@protoc_insertion_point(constructor:pb.European)
 }
 European::European(const European& from)
   : ::google::protobuf::Message(),
@@ -152,7 +152,7 @@ European::European(const European& from)
   ::memcpy(&timestamp_, &from.timestamp_,
     static_cast<size_t>(reinterpret_cast<char*>(&expiry_) -
     reinterpret_cast<char*>(&timestamp_)) + sizeof(expiry_));
-  // @@protoc_insertion_point(copy_constructor:proto.European)
+  // @@protoc_insertion_point(copy_constructor:pb.European)
 }
 
 void European::SharedCtor() {
@@ -165,7 +165,7 @@ void European::SharedCtor() {
 }
 
 European::~European() {
-  // @@protoc_insertion_point(destructor:proto.European)
+  // @@protoc_insertion_point(destructor:pb.European)
   SharedDtor();
 }
 
@@ -190,7 +190,7 @@ const European& European::default_instance() {
 
 
 void European::Clear() {
-// @@protoc_insertion_point(message_clear_start:proto.European)
+// @@protoc_insertion_point(message_clear_start:pb.European)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -208,7 +208,7 @@ bool European::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:proto.European)
+  // @@protoc_insertion_point(parse_start:pb.European)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -237,7 +237,7 @@ bool European::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->ticker().data(), static_cast<int>(this->ticker().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.European.ticker"));
+            "pb.European.ticker"));
         } else {
           goto handle_unusual;
         }
@@ -253,7 +253,7 @@ bool European::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->undticker().data(), static_cast<int>(this->undticker().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.European.undticker"));
+            "pb.European.undticker"));
         } else {
           goto handle_unusual;
         }
@@ -297,7 +297,7 @@ bool European::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->putcall().data(), static_cast<int>(this->putcall().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto.European.putcall"));
+            "pb.European.putcall"));
         } else {
           goto handle_unusual;
         }
@@ -316,17 +316,17 @@ bool European::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:proto.European)
+  // @@protoc_insertion_point(parse_success:pb.European)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:proto.European)
+  // @@protoc_insertion_point(parse_failure:pb.European)
   return false;
 #undef DO_
 }
 
 void European::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:proto.European)
+  // @@protoc_insertion_point(serialize_start:pb.European)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -340,7 +340,7 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->ticker().data(), static_cast<int>(this->ticker().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.European.ticker");
+      "pb.European.ticker");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->ticker(), output);
   }
@@ -350,7 +350,7 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->undticker().data(), static_cast<int>(this->undticker().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.European.undticker");
+      "pb.European.undticker");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->undticker(), output);
   }
@@ -370,7 +370,7 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->putcall().data(), static_cast<int>(this->putcall().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.European.putcall");
+      "pb.European.putcall");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->putcall(), output);
   }
@@ -379,13 +379,13 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:proto.European)
+  // @@protoc_insertion_point(serialize_end:pb.European)
 }
 
 ::google::protobuf::uint8* European::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:proto.European)
+  // @@protoc_insertion_point(serialize_to_array_start:pb.European)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -399,7 +399,7 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->ticker().data(), static_cast<int>(this->ticker().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.European.ticker");
+      "pb.European.ticker");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->ticker(), target);
@@ -410,7 +410,7 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->undticker().data(), static_cast<int>(this->undticker().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.European.undticker");
+      "pb.European.undticker");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->undticker(), target);
@@ -431,7 +431,7 @@ void European::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->putcall().data(), static_cast<int>(this->putcall().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto.European.putcall");
+      "pb.European.putcall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->putcall(), target);
@@ -441,12 +441,12 @@ void European::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:proto.European)
+  // @@protoc_insertion_point(serialize_to_array_end:pb.European)
   return target;
 }
 
 size_t European::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:proto.European)
+// @@protoc_insertion_point(message_byte_size_start:pb.European)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -496,22 +496,22 @@ size_t European::ByteSizeLong() const {
 }
 
 void European::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:proto.European)
+// @@protoc_insertion_point(generalized_merge_from_start:pb.European)
   GOOGLE_DCHECK_NE(&from, this);
   const European* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const European>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto.European)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.European)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto.European)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.European)
     MergeFrom(*source);
   }
 }
 
 void European::MergeFrom(const European& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:proto.European)
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.European)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -541,14 +541,14 @@ void European::MergeFrom(const European& from) {
 }
 
 void European::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:proto.European)
+// @@protoc_insertion_point(generalized_copy_from_start:pb.European)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void European::CopyFrom(const European& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:proto.European)
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.European)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -583,11 +583,11 @@ void European::InternalSwap(European* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace proto
+}  // namespace pb
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto::European* Arena::CreateMaybeMessage< ::proto::European >(Arena* arena) {
-  return Arena::CreateInternal< ::proto::European >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::pb::European* Arena::CreateMaybeMessage< ::pb::European >(Arena* arena) {
+  return Arena::CreateInternal< ::pb::European >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

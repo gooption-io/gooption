@@ -44,9 +44,9 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_common_2eproto
-namespace proto {
-}  // namespace proto
-namespace proto {
+namespace pb {
+}  // namespace pb
+namespace pb {
 
 enum OptionType {
   PUT = 0,
@@ -87,15 +87,15 @@ inline bool OptionType_Parse(
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace proto
+}  // namespace pb
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::proto::OptionType> : ::std::true_type {};
+template <> struct is_proto_enum< ::pb::OptionType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::proto::OptionType>() {
-  return ::proto::OptionType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::pb::OptionType>() {
+  return ::pb::OptionType_descriptor();
 }
 
 }  // namespace protobuf

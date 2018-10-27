@@ -45,7 +45,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_marketdata_2eproto
-namespace proto {
+namespace pb {
 class FlatVol;
 class FlatVolDefaultTypeInternal;
 extern FlatVolDefaultTypeInternal _FlatVol_default_instance_;
@@ -76,26 +76,26 @@ extern RiskFreeRateDefaultTypeInternal _RiskFreeRate_default_instance_;
 class Spot;
 class SpotDefaultTypeInternal;
 extern SpotDefaultTypeInternal _Spot_default_instance_;
-}  // namespace proto
+}  // namespace pb
 namespace google {
 namespace protobuf {
-template<> ::proto::FlatVol* Arena::CreateMaybeMessage<::proto::FlatVol>(Arena*);
-template<> ::proto::ImpliedVolQuote* Arena::CreateMaybeMessage<::proto::ImpliedVolQuote>(Arena*);
-template<> ::proto::ImpliedVolSlice* Arena::CreateMaybeMessage<::proto::ImpliedVolSlice>(Arena*);
-template<> ::proto::ImpliedVolSurface* Arena::CreateMaybeMessage<::proto::ImpliedVolSurface>(Arena*);
-template<> ::proto::Index* Arena::CreateMaybeMessage<::proto::Index>(Arena*);
-template<> ::proto::OptionMarket* Arena::CreateMaybeMessage<::proto::OptionMarket>(Arena*);
-template<> ::proto::OptionQuote* Arena::CreateMaybeMessage<::proto::OptionQuote>(Arena*);
-template<> ::proto::OptionQuoteSlice* Arena::CreateMaybeMessage<::proto::OptionQuoteSlice>(Arena*);
-template<> ::proto::RiskFreeRate* Arena::CreateMaybeMessage<::proto::RiskFreeRate>(Arena*);
-template<> ::proto::Spot* Arena::CreateMaybeMessage<::proto::Spot>(Arena*);
+template<> ::pb::FlatVol* Arena::CreateMaybeMessage<::pb::FlatVol>(Arena*);
+template<> ::pb::ImpliedVolQuote* Arena::CreateMaybeMessage<::pb::ImpliedVolQuote>(Arena*);
+template<> ::pb::ImpliedVolSlice* Arena::CreateMaybeMessage<::pb::ImpliedVolSlice>(Arena*);
+template<> ::pb::ImpliedVolSurface* Arena::CreateMaybeMessage<::pb::ImpliedVolSurface>(Arena*);
+template<> ::pb::Index* Arena::CreateMaybeMessage<::pb::Index>(Arena*);
+template<> ::pb::OptionMarket* Arena::CreateMaybeMessage<::pb::OptionMarket>(Arena*);
+template<> ::pb::OptionQuote* Arena::CreateMaybeMessage<::pb::OptionQuote>(Arena*);
+template<> ::pb::OptionQuoteSlice* Arena::CreateMaybeMessage<::pb::OptionQuoteSlice>(Arena*);
+template<> ::pb::RiskFreeRate* Arena::CreateMaybeMessage<::pb::RiskFreeRate>(Arena*);
+template<> ::pb::Spot* Arena::CreateMaybeMessage<::pb::Spot>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace proto {
+namespace pb {
 
 // ===================================================================
 
-class Index : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.Index) */ {
+class Index : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.Index) */ {
  public:
   Index();
   virtual ~Index();
@@ -208,7 +208,7 @@ class Index : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   double value() const;
   void set_value(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.Index)
+  // @@protoc_insertion_point(class_scope:pb.Index)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -220,7 +220,7 @@ class Index : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class Spot : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.Spot) */ {
+class Spot : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.Spot) */ {
  public:
   Spot();
   virtual ~Spot();
@@ -307,29 +307,29 @@ class Spot : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 
   // accessors -------------------------------------------------------
 
-  // .proto.Index index = 1;
+  // .pb.Index index = 1;
   bool has_index() const;
   void clear_index();
   static const int kIndexFieldNumber = 1;
   private:
-  const ::proto::Index& _internal_index() const;
+  const ::pb::Index& _internal_index() const;
   public:
-  const ::proto::Index& index() const;
-  ::proto::Index* release_index();
-  ::proto::Index* mutable_index();
-  void set_allocated_index(::proto::Index* index);
+  const ::pb::Index& index() const;
+  ::pb::Index* release_index();
+  ::pb::Index* mutable_index();
+  void set_allocated_index(::pb::Index* index);
 
-  // @@protoc_insertion_point(class_scope:proto.Spot)
+  // @@protoc_insertion_point(class_scope:pb.Spot)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::proto::Index* index_;
+  ::pb::Index* index_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_marketdata_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class RiskFreeRate : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.RiskFreeRate) */ {
+class RiskFreeRate : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.RiskFreeRate) */ {
  public:
   RiskFreeRate();
   virtual ~RiskFreeRate();
@@ -416,29 +416,29 @@ class RiskFreeRate : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // .proto.Index index = 1;
+  // .pb.Index index = 1;
   bool has_index() const;
   void clear_index();
   static const int kIndexFieldNumber = 1;
   private:
-  const ::proto::Index& _internal_index() const;
+  const ::pb::Index& _internal_index() const;
   public:
-  const ::proto::Index& index() const;
-  ::proto::Index* release_index();
-  ::proto::Index* mutable_index();
-  void set_allocated_index(::proto::Index* index);
+  const ::pb::Index& index() const;
+  ::pb::Index* release_index();
+  ::pb::Index* mutable_index();
+  void set_allocated_index(::pb::Index* index);
 
-  // @@protoc_insertion_point(class_scope:proto.RiskFreeRate)
+  // @@protoc_insertion_point(class_scope:pb.RiskFreeRate)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::proto::Index* index_;
+  ::pb::Index* index_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_marketdata_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class FlatVol : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.FlatVol) */ {
+class FlatVol : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.FlatVol) */ {
  public:
   FlatVol();
   virtual ~FlatVol();
@@ -525,29 +525,29 @@ class FlatVol : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // .proto.Index index = 1;
+  // .pb.Index index = 1;
   bool has_index() const;
   void clear_index();
   static const int kIndexFieldNumber = 1;
   private:
-  const ::proto::Index& _internal_index() const;
+  const ::pb::Index& _internal_index() const;
   public:
-  const ::proto::Index& index() const;
-  ::proto::Index* release_index();
-  ::proto::Index* mutable_index();
-  void set_allocated_index(::proto::Index* index);
+  const ::pb::Index& index() const;
+  ::pb::Index* release_index();
+  ::pb::Index* mutable_index();
+  void set_allocated_index(::pb::Index* index);
 
-  // @@protoc_insertion_point(class_scope:proto.FlatVol)
+  // @@protoc_insertion_point(class_scope:pb.FlatVol)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::proto::Index* index_;
+  ::pb::Index* index_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_marketdata_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class OptionQuote : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.OptionQuote) */ {
+class OptionQuote : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.OptionQuote) */ {
  public:
   OptionQuote();
   virtual ~OptionQuote();
@@ -684,7 +684,7 @@ class OptionQuote : public ::google::protobuf::Message /* @@protoc_insertion_poi
   double openinterest() const;
   void set_openinterest(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.OptionQuote)
+  // @@protoc_insertion_point(class_scope:pb.OptionQuote)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -700,7 +700,7 @@ class OptionQuote : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class OptionQuoteSlice : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.OptionQuoteSlice) */ {
+class OptionQuoteSlice : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.OptionQuoteSlice) */ {
  public:
   OptionQuoteSlice();
   virtual ~OptionQuoteSlice();
@@ -787,28 +787,28 @@ class OptionQuoteSlice : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // repeated .proto.OptionQuote puts = 3;
+  // repeated .pb.OptionQuote puts = 3;
   int puts_size() const;
   void clear_puts();
   static const int kPutsFieldNumber = 3;
-  ::proto::OptionQuote* mutable_puts(int index);
-  ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >*
+  ::pb::OptionQuote* mutable_puts(int index);
+  ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >*
       mutable_puts();
-  const ::proto::OptionQuote& puts(int index) const;
-  ::proto::OptionQuote* add_puts();
-  const ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >&
+  const ::pb::OptionQuote& puts(int index) const;
+  ::pb::OptionQuote* add_puts();
+  const ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >&
       puts() const;
 
-  // repeated .proto.OptionQuote calls = 4;
+  // repeated .pb.OptionQuote calls = 4;
   int calls_size() const;
   void clear_calls();
   static const int kCallsFieldNumber = 4;
-  ::proto::OptionQuote* mutable_calls(int index);
-  ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >*
+  ::pb::OptionQuote* mutable_calls(int index);
+  ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >*
       mutable_calls();
-  const ::proto::OptionQuote& calls(int index) const;
-  ::proto::OptionQuote* add_calls();
-  const ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >&
+  const ::pb::OptionQuote& calls(int index) const;
+  ::pb::OptionQuote* add_calls();
+  const ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >&
       calls() const;
 
   // double timestamp = 1;
@@ -823,12 +823,12 @@ class OptionQuoteSlice : public ::google::protobuf::Message /* @@protoc_insertio
   double expiry() const;
   void set_expiry(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.OptionQuoteSlice)
+  // @@protoc_insertion_point(class_scope:pb.OptionQuoteSlice)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote > puts_;
-  ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote > calls_;
+  ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote > puts_;
+  ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote > calls_;
   double timestamp_;
   double expiry_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -836,7 +836,7 @@ class OptionQuoteSlice : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class OptionMarket : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.OptionMarket) */ {
+class OptionMarket : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.OptionMarket) */ {
  public:
   OptionMarket();
   virtual ~OptionMarket();
@@ -923,41 +923,41 @@ class OptionMarket : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // .proto.Spot spot = 2;
+  // .pb.Spot spot = 2;
   bool has_spot() const;
   void clear_spot();
   static const int kSpotFieldNumber = 2;
   private:
-  const ::proto::Spot& _internal_spot() const;
+  const ::pb::Spot& _internal_spot() const;
   public:
-  const ::proto::Spot& spot() const;
-  ::proto::Spot* release_spot();
-  ::proto::Spot* mutable_spot();
-  void set_allocated_spot(::proto::Spot* spot);
+  const ::pb::Spot& spot() const;
+  ::pb::Spot* release_spot();
+  ::pb::Spot* mutable_spot();
+  void set_allocated_spot(::pb::Spot* spot);
 
-  // .proto.FlatVol vol = 3;
+  // .pb.FlatVol vol = 3;
   bool has_vol() const;
   void clear_vol();
   static const int kVolFieldNumber = 3;
   private:
-  const ::proto::FlatVol& _internal_vol() const;
+  const ::pb::FlatVol& _internal_vol() const;
   public:
-  const ::proto::FlatVol& vol() const;
-  ::proto::FlatVol* release_vol();
-  ::proto::FlatVol* mutable_vol();
-  void set_allocated_vol(::proto::FlatVol* vol);
+  const ::pb::FlatVol& vol() const;
+  ::pb::FlatVol* release_vol();
+  ::pb::FlatVol* mutable_vol();
+  void set_allocated_vol(::pb::FlatVol* vol);
 
-  // .proto.RiskFreeRate rate = 4;
+  // .pb.RiskFreeRate rate = 4;
   bool has_rate() const;
   void clear_rate();
   static const int kRateFieldNumber = 4;
   private:
-  const ::proto::RiskFreeRate& _internal_rate() const;
+  const ::pb::RiskFreeRate& _internal_rate() const;
   public:
-  const ::proto::RiskFreeRate& rate() const;
-  ::proto::RiskFreeRate* release_rate();
-  ::proto::RiskFreeRate* mutable_rate();
-  void set_allocated_rate(::proto::RiskFreeRate* rate);
+  const ::pb::RiskFreeRate& rate() const;
+  ::pb::RiskFreeRate* release_rate();
+  ::pb::RiskFreeRate* mutable_rate();
+  void set_allocated_rate(::pb::RiskFreeRate* rate);
 
   // double timestamp = 1;
   void clear_timestamp();
@@ -965,20 +965,20 @@ class OptionMarket : public ::google::protobuf::Message /* @@protoc_insertion_po
   double timestamp() const;
   void set_timestamp(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.OptionMarket)
+  // @@protoc_insertion_point(class_scope:pb.OptionMarket)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::proto::Spot* spot_;
-  ::proto::FlatVol* vol_;
-  ::proto::RiskFreeRate* rate_;
+  ::pb::Spot* spot_;
+  ::pb::FlatVol* vol_;
+  ::pb::RiskFreeRate* rate_;
   double timestamp_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_marketdata_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ImpliedVolQuote : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.ImpliedVolQuote) */ {
+class ImpliedVolQuote : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.ImpliedVolQuote) */ {
  public:
   ImpliedVolQuote();
   virtual ~ImpliedVolQuote();
@@ -1079,17 +1079,17 @@ class ImpliedVolQuote : public ::google::protobuf::Message /* @@protoc_insertion
   ::std::string* release_error();
   void set_allocated_error(::std::string* error);
 
-  // .proto.OptionQuote input = 2;
+  // .pb.OptionQuote input = 2;
   bool has_input() const;
   void clear_input();
   static const int kInputFieldNumber = 2;
   private:
-  const ::proto::OptionQuote& _internal_input() const;
+  const ::pb::OptionQuote& _internal_input() const;
   public:
-  const ::proto::OptionQuote& input() const;
-  ::proto::OptionQuote* release_input();
-  ::proto::OptionQuote* mutable_input();
-  void set_allocated_input(::proto::OptionQuote* input);
+  const ::pb::OptionQuote& input() const;
+  ::pb::OptionQuote* release_input();
+  ::pb::OptionQuote* mutable_input();
+  void set_allocated_input(::pb::OptionQuote* input);
 
   // double timestamp = 1;
   void clear_timestamp();
@@ -1109,12 +1109,12 @@ class ImpliedVolQuote : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int64 nbiteration() const;
   void set_nbiteration(::google::protobuf::int64 value);
 
-  // @@protoc_insertion_point(class_scope:proto.ImpliedVolQuote)
+  // @@protoc_insertion_point(class_scope:pb.ImpliedVolQuote)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr error_;
-  ::proto::OptionQuote* input_;
+  ::pb::OptionQuote* input_;
   double timestamp_;
   double vol_;
   ::google::protobuf::int64 nbiteration_;
@@ -1123,7 +1123,7 @@ class ImpliedVolQuote : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
-class ImpliedVolSlice : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.ImpliedVolSlice) */ {
+class ImpliedVolSlice : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.ImpliedVolSlice) */ {
  public:
   ImpliedVolSlice();
   virtual ~ImpliedVolSlice();
@@ -1210,16 +1210,16 @@ class ImpliedVolSlice : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // repeated .proto.ImpliedVolQuote quotes = 4;
+  // repeated .pb.ImpliedVolQuote quotes = 4;
   int quotes_size() const;
   void clear_quotes();
   static const int kQuotesFieldNumber = 4;
-  ::proto::ImpliedVolQuote* mutable_quotes(int index);
-  ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolQuote >*
+  ::pb::ImpliedVolQuote* mutable_quotes(int index);
+  ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolQuote >*
       mutable_quotes();
-  const ::proto::ImpliedVolQuote& quotes(int index) const;
-  ::proto::ImpliedVolQuote* add_quotes();
-  const ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolQuote >&
+  const ::pb::ImpliedVolQuote& quotes(int index) const;
+  ::pb::ImpliedVolQuote* add_quotes();
+  const ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolQuote >&
       quotes() const;
 
   // double timestamp = 1;
@@ -1240,11 +1240,11 @@ class ImpliedVolSlice : public ::google::protobuf::Message /* @@protoc_insertion
   bool iserror() const;
   void set_iserror(bool value);
 
-  // @@protoc_insertion_point(class_scope:proto.ImpliedVolSlice)
+  // @@protoc_insertion_point(class_scope:pb.ImpliedVolSlice)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolQuote > quotes_;
+  ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolQuote > quotes_;
   double timestamp_;
   double expiry_;
   bool iserror_;
@@ -1253,7 +1253,7 @@ class ImpliedVolSlice : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
-class ImpliedVolSurface : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.ImpliedVolSurface) */ {
+class ImpliedVolSurface : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.ImpliedVolSurface) */ {
  public:
   ImpliedVolSurface();
   virtual ~ImpliedVolSurface();
@@ -1340,16 +1340,16 @@ class ImpliedVolSurface : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // repeated .proto.ImpliedVolSlice slices = 2;
+  // repeated .pb.ImpliedVolSlice slices = 2;
   int slices_size() const;
   void clear_slices();
   static const int kSlicesFieldNumber = 2;
-  ::proto::ImpliedVolSlice* mutable_slices(int index);
-  ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolSlice >*
+  ::pb::ImpliedVolSlice* mutable_slices(int index);
+  ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolSlice >*
       mutable_slices();
-  const ::proto::ImpliedVolSlice& slices(int index) const;
-  ::proto::ImpliedVolSlice* add_slices();
-  const ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolSlice >&
+  const ::pb::ImpliedVolSlice& slices(int index) const;
+  ::pb::ImpliedVolSlice* add_slices();
+  const ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolSlice >&
       slices() const;
 
   // double timestamp = 1;
@@ -1358,11 +1358,11 @@ class ImpliedVolSurface : public ::google::protobuf::Message /* @@protoc_inserti
   double timestamp() const;
   void set_timestamp(double value);
 
-  // @@protoc_insertion_point(class_scope:proto.ImpliedVolSurface)
+  // @@protoc_insertion_point(class_scope:pb.ImpliedVolSurface)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolSlice > slices_;
+  ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolSlice > slices_;
   double timestamp_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_marketdata_2eproto::TableStruct;
@@ -1383,13 +1383,13 @@ inline void Index::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double Index::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.Index.timestamp)
+  // @@protoc_insertion_point(field_get:pb.Index.timestamp)
   return timestamp_;
 }
 inline void Index::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.Index.timestamp)
+  // @@protoc_insertion_point(field_set:pb.Index.timestamp)
 }
 
 // string ticker = 2;
@@ -1397,41 +1397,41 @@ inline void Index::clear_ticker() {
   ticker_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Index::ticker() const {
-  // @@protoc_insertion_point(field_get:proto.Index.ticker)
+  // @@protoc_insertion_point(field_get:pb.Index.ticker)
   return ticker_.GetNoArena();
 }
 inline void Index::set_ticker(const ::std::string& value) {
   
   ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.Index.ticker)
+  // @@protoc_insertion_point(field_set:pb.Index.ticker)
 }
 #if LANG_CXX11
 inline void Index::set_ticker(::std::string&& value) {
   
   ticker_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.Index.ticker)
+  // @@protoc_insertion_point(field_set_rvalue:pb.Index.ticker)
 }
 #endif
 inline void Index::set_ticker(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.Index.ticker)
+  // @@protoc_insertion_point(field_set_char:pb.Index.ticker)
 }
 inline void Index::set_ticker(const char* value, size_t size) {
   
   ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.Index.ticker)
+  // @@protoc_insertion_point(field_set_pointer:pb.Index.ticker)
 }
 inline ::std::string* Index::mutable_ticker() {
   
-  // @@protoc_insertion_point(field_mutable:proto.Index.ticker)
+  // @@protoc_insertion_point(field_mutable:pb.Index.ticker)
   return ticker_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Index::release_ticker() {
-  // @@protoc_insertion_point(field_release:proto.Index.ticker)
+  // @@protoc_insertion_point(field_release:pb.Index.ticker)
   
   return ticker_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1442,7 +1442,7 @@ inline void Index::set_allocated_ticker(::std::string* ticker) {
     
   }
   ticker_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ticker);
-  // @@protoc_insertion_point(field_set_allocated:proto.Index.ticker)
+  // @@protoc_insertion_point(field_set_allocated:pb.Index.ticker)
 }
 
 // double value = 3;
@@ -1450,20 +1450,20 @@ inline void Index::clear_value() {
   value_ = 0;
 }
 inline double Index::value() const {
-  // @@protoc_insertion_point(field_get:proto.Index.value)
+  // @@protoc_insertion_point(field_get:pb.Index.value)
   return value_;
 }
 inline void Index::set_value(double value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:proto.Index.value)
+  // @@protoc_insertion_point(field_set:pb.Index.value)
 }
 
 // -------------------------------------------------------------------
 
 // Spot
 
-// .proto.Index index = 1;
+// .pb.Index index = 1;
 inline bool Spot::has_index() const {
   return this != internal_default_instance() && index_ != NULL;
 }
@@ -1473,32 +1473,32 @@ inline void Spot::clear_index() {
   }
   index_ = NULL;
 }
-inline const ::proto::Index& Spot::_internal_index() const {
+inline const ::pb::Index& Spot::_internal_index() const {
   return *index_;
 }
-inline const ::proto::Index& Spot::index() const {
-  const ::proto::Index* p = index_;
-  // @@protoc_insertion_point(field_get:proto.Spot.index)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::Index*>(
-      &::proto::_Index_default_instance_);
+inline const ::pb::Index& Spot::index() const {
+  const ::pb::Index* p = index_;
+  // @@protoc_insertion_point(field_get:pb.Spot.index)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::Index*>(
+      &::pb::_Index_default_instance_);
 }
-inline ::proto::Index* Spot::release_index() {
-  // @@protoc_insertion_point(field_release:proto.Spot.index)
+inline ::pb::Index* Spot::release_index() {
+  // @@protoc_insertion_point(field_release:pb.Spot.index)
   
-  ::proto::Index* temp = index_;
+  ::pb::Index* temp = index_;
   index_ = NULL;
   return temp;
 }
-inline ::proto::Index* Spot::mutable_index() {
+inline ::pb::Index* Spot::mutable_index() {
   
   if (index_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::Index>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::Index>(GetArenaNoVirtual());
     index_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.Spot.index)
+  // @@protoc_insertion_point(field_mutable:pb.Spot.index)
   return index_;
 }
-inline void Spot::set_allocated_index(::proto::Index* index) {
+inline void Spot::set_allocated_index(::pb::Index* index) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete index_;
@@ -1514,14 +1514,14 @@ inline void Spot::set_allocated_index(::proto::Index* index) {
     
   }
   index_ = index;
-  // @@protoc_insertion_point(field_set_allocated:proto.Spot.index)
+  // @@protoc_insertion_point(field_set_allocated:pb.Spot.index)
 }
 
 // -------------------------------------------------------------------
 
 // RiskFreeRate
 
-// .proto.Index index = 1;
+// .pb.Index index = 1;
 inline bool RiskFreeRate::has_index() const {
   return this != internal_default_instance() && index_ != NULL;
 }
@@ -1531,32 +1531,32 @@ inline void RiskFreeRate::clear_index() {
   }
   index_ = NULL;
 }
-inline const ::proto::Index& RiskFreeRate::_internal_index() const {
+inline const ::pb::Index& RiskFreeRate::_internal_index() const {
   return *index_;
 }
-inline const ::proto::Index& RiskFreeRate::index() const {
-  const ::proto::Index* p = index_;
-  // @@protoc_insertion_point(field_get:proto.RiskFreeRate.index)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::Index*>(
-      &::proto::_Index_default_instance_);
+inline const ::pb::Index& RiskFreeRate::index() const {
+  const ::pb::Index* p = index_;
+  // @@protoc_insertion_point(field_get:pb.RiskFreeRate.index)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::Index*>(
+      &::pb::_Index_default_instance_);
 }
-inline ::proto::Index* RiskFreeRate::release_index() {
-  // @@protoc_insertion_point(field_release:proto.RiskFreeRate.index)
+inline ::pb::Index* RiskFreeRate::release_index() {
+  // @@protoc_insertion_point(field_release:pb.RiskFreeRate.index)
   
-  ::proto::Index* temp = index_;
+  ::pb::Index* temp = index_;
   index_ = NULL;
   return temp;
 }
-inline ::proto::Index* RiskFreeRate::mutable_index() {
+inline ::pb::Index* RiskFreeRate::mutable_index() {
   
   if (index_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::Index>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::Index>(GetArenaNoVirtual());
     index_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.RiskFreeRate.index)
+  // @@protoc_insertion_point(field_mutable:pb.RiskFreeRate.index)
   return index_;
 }
-inline void RiskFreeRate::set_allocated_index(::proto::Index* index) {
+inline void RiskFreeRate::set_allocated_index(::pb::Index* index) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete index_;
@@ -1572,14 +1572,14 @@ inline void RiskFreeRate::set_allocated_index(::proto::Index* index) {
     
   }
   index_ = index;
-  // @@protoc_insertion_point(field_set_allocated:proto.RiskFreeRate.index)
+  // @@protoc_insertion_point(field_set_allocated:pb.RiskFreeRate.index)
 }
 
 // -------------------------------------------------------------------
 
 // FlatVol
 
-// .proto.Index index = 1;
+// .pb.Index index = 1;
 inline bool FlatVol::has_index() const {
   return this != internal_default_instance() && index_ != NULL;
 }
@@ -1589,32 +1589,32 @@ inline void FlatVol::clear_index() {
   }
   index_ = NULL;
 }
-inline const ::proto::Index& FlatVol::_internal_index() const {
+inline const ::pb::Index& FlatVol::_internal_index() const {
   return *index_;
 }
-inline const ::proto::Index& FlatVol::index() const {
-  const ::proto::Index* p = index_;
-  // @@protoc_insertion_point(field_get:proto.FlatVol.index)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::Index*>(
-      &::proto::_Index_default_instance_);
+inline const ::pb::Index& FlatVol::index() const {
+  const ::pb::Index* p = index_;
+  // @@protoc_insertion_point(field_get:pb.FlatVol.index)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::Index*>(
+      &::pb::_Index_default_instance_);
 }
-inline ::proto::Index* FlatVol::release_index() {
-  // @@protoc_insertion_point(field_release:proto.FlatVol.index)
+inline ::pb::Index* FlatVol::release_index() {
+  // @@protoc_insertion_point(field_release:pb.FlatVol.index)
   
-  ::proto::Index* temp = index_;
+  ::pb::Index* temp = index_;
   index_ = NULL;
   return temp;
 }
-inline ::proto::Index* FlatVol::mutable_index() {
+inline ::pb::Index* FlatVol::mutable_index() {
   
   if (index_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::Index>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::Index>(GetArenaNoVirtual());
     index_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.FlatVol.index)
+  // @@protoc_insertion_point(field_mutable:pb.FlatVol.index)
   return index_;
 }
-inline void FlatVol::set_allocated_index(::proto::Index* index) {
+inline void FlatVol::set_allocated_index(::pb::Index* index) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete index_;
@@ -1630,7 +1630,7 @@ inline void FlatVol::set_allocated_index(::proto::Index* index) {
     
   }
   index_ = index;
-  // @@protoc_insertion_point(field_set_allocated:proto.FlatVol.index)
+  // @@protoc_insertion_point(field_set_allocated:pb.FlatVol.index)
 }
 
 // -------------------------------------------------------------------
@@ -1642,13 +1642,13 @@ inline void OptionQuote::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double OptionQuote::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.timestamp)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.timestamp)
   return timestamp_;
 }
 inline void OptionQuote::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.timestamp)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.timestamp)
 }
 
 // double strike = 8;
@@ -1656,13 +1656,13 @@ inline void OptionQuote::clear_strike() {
   strike_ = 0;
 }
 inline double OptionQuote::strike() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.strike)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.strike)
   return strike_;
 }
 inline void OptionQuote::set_strike(double value) {
   
   strike_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.strike)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.strike)
 }
 
 // double bid = 9;
@@ -1670,13 +1670,13 @@ inline void OptionQuote::clear_bid() {
   bid_ = 0;
 }
 inline double OptionQuote::bid() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.bid)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.bid)
   return bid_;
 }
 inline void OptionQuote::set_bid(double value) {
   
   bid_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.bid)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.bid)
 }
 
 // double ask = 10;
@@ -1684,13 +1684,13 @@ inline void OptionQuote::clear_ask() {
   ask_ = 0;
 }
 inline double OptionQuote::ask() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.ask)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.ask)
   return ask_;
 }
 inline void OptionQuote::set_ask(double value) {
   
   ask_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.ask)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.ask)
 }
 
 // double volume = 11;
@@ -1698,13 +1698,13 @@ inline void OptionQuote::clear_volume() {
   volume_ = 0;
 }
 inline double OptionQuote::volume() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.volume)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.volume)
   return volume_;
 }
 inline void OptionQuote::set_volume(double value) {
   
   volume_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.volume)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.volume)
 }
 
 // double openinterest = 12;
@@ -1712,13 +1712,13 @@ inline void OptionQuote::clear_openinterest() {
   openinterest_ = 0;
 }
 inline double OptionQuote::openinterest() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.openinterest)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.openinterest)
   return openinterest_;
 }
 inline void OptionQuote::set_openinterest(double value) {
   
   openinterest_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.openinterest)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.openinterest)
 }
 
 // string putcall = 13;
@@ -1726,41 +1726,41 @@ inline void OptionQuote::clear_putcall() {
   putcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& OptionQuote::putcall() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_get:pb.OptionQuote.putcall)
   return putcall_.GetNoArena();
 }
 inline void OptionQuote::set_putcall(const ::std::string& value) {
   
   putcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_set:pb.OptionQuote.putcall)
 }
 #if LANG_CXX11
 inline void OptionQuote::set_putcall(::std::string&& value) {
   
   putcall_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_set_rvalue:pb.OptionQuote.putcall)
 }
 #endif
 inline void OptionQuote::set_putcall(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   putcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_set_char:pb.OptionQuote.putcall)
 }
 inline void OptionQuote::set_putcall(const char* value, size_t size) {
   
   putcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_set_pointer:pb.OptionQuote.putcall)
 }
 inline ::std::string* OptionQuote::mutable_putcall() {
   
-  // @@protoc_insertion_point(field_mutable:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_mutable:pb.OptionQuote.putcall)
   return putcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* OptionQuote::release_putcall() {
-  // @@protoc_insertion_point(field_release:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_release:pb.OptionQuote.putcall)
   
   return putcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1771,7 +1771,7 @@ inline void OptionQuote::set_allocated_putcall(::std::string* putcall) {
     
   }
   putcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), putcall);
-  // @@protoc_insertion_point(field_set_allocated:proto.OptionQuote.putcall)
+  // @@protoc_insertion_point(field_set_allocated:pb.OptionQuote.putcall)
 }
 
 // -------------------------------------------------------------------
@@ -1783,13 +1783,13 @@ inline void OptionQuoteSlice::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double OptionQuoteSlice::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuoteSlice.timestamp)
+  // @@protoc_insertion_point(field_get:pb.OptionQuoteSlice.timestamp)
   return timestamp_;
 }
 inline void OptionQuoteSlice::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuoteSlice.timestamp)
+  // @@protoc_insertion_point(field_set:pb.OptionQuoteSlice.timestamp)
 }
 
 // double expiry = 2;
@@ -1797,72 +1797,72 @@ inline void OptionQuoteSlice::clear_expiry() {
   expiry_ = 0;
 }
 inline double OptionQuoteSlice::expiry() const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuoteSlice.expiry)
+  // @@protoc_insertion_point(field_get:pb.OptionQuoteSlice.expiry)
   return expiry_;
 }
 inline void OptionQuoteSlice::set_expiry(double value) {
   
   expiry_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionQuoteSlice.expiry)
+  // @@protoc_insertion_point(field_set:pb.OptionQuoteSlice.expiry)
 }
 
-// repeated .proto.OptionQuote puts = 3;
+// repeated .pb.OptionQuote puts = 3;
 inline int OptionQuoteSlice::puts_size() const {
   return puts_.size();
 }
 inline void OptionQuoteSlice::clear_puts() {
   puts_.Clear();
 }
-inline ::proto::OptionQuote* OptionQuoteSlice::mutable_puts(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.OptionQuoteSlice.puts)
+inline ::pb::OptionQuote* OptionQuoteSlice::mutable_puts(int index) {
+  // @@protoc_insertion_point(field_mutable:pb.OptionQuoteSlice.puts)
   return puts_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >*
+inline ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >*
 OptionQuoteSlice::mutable_puts() {
-  // @@protoc_insertion_point(field_mutable_list:proto.OptionQuoteSlice.puts)
+  // @@protoc_insertion_point(field_mutable_list:pb.OptionQuoteSlice.puts)
   return &puts_;
 }
-inline const ::proto::OptionQuote& OptionQuoteSlice::puts(int index) const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuoteSlice.puts)
+inline const ::pb::OptionQuote& OptionQuoteSlice::puts(int index) const {
+  // @@protoc_insertion_point(field_get:pb.OptionQuoteSlice.puts)
   return puts_.Get(index);
 }
-inline ::proto::OptionQuote* OptionQuoteSlice::add_puts() {
-  // @@protoc_insertion_point(field_add:proto.OptionQuoteSlice.puts)
+inline ::pb::OptionQuote* OptionQuoteSlice::add_puts() {
+  // @@protoc_insertion_point(field_add:pb.OptionQuoteSlice.puts)
   return puts_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >&
+inline const ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >&
 OptionQuoteSlice::puts() const {
-  // @@protoc_insertion_point(field_list:proto.OptionQuoteSlice.puts)
+  // @@protoc_insertion_point(field_list:pb.OptionQuoteSlice.puts)
   return puts_;
 }
 
-// repeated .proto.OptionQuote calls = 4;
+// repeated .pb.OptionQuote calls = 4;
 inline int OptionQuoteSlice::calls_size() const {
   return calls_.size();
 }
 inline void OptionQuoteSlice::clear_calls() {
   calls_.Clear();
 }
-inline ::proto::OptionQuote* OptionQuoteSlice::mutable_calls(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.OptionQuoteSlice.calls)
+inline ::pb::OptionQuote* OptionQuoteSlice::mutable_calls(int index) {
+  // @@protoc_insertion_point(field_mutable:pb.OptionQuoteSlice.calls)
   return calls_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >*
+inline ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >*
 OptionQuoteSlice::mutable_calls() {
-  // @@protoc_insertion_point(field_mutable_list:proto.OptionQuoteSlice.calls)
+  // @@protoc_insertion_point(field_mutable_list:pb.OptionQuoteSlice.calls)
   return &calls_;
 }
-inline const ::proto::OptionQuote& OptionQuoteSlice::calls(int index) const {
-  // @@protoc_insertion_point(field_get:proto.OptionQuoteSlice.calls)
+inline const ::pb::OptionQuote& OptionQuoteSlice::calls(int index) const {
+  // @@protoc_insertion_point(field_get:pb.OptionQuoteSlice.calls)
   return calls_.Get(index);
 }
-inline ::proto::OptionQuote* OptionQuoteSlice::add_calls() {
-  // @@protoc_insertion_point(field_add:proto.OptionQuoteSlice.calls)
+inline ::pb::OptionQuote* OptionQuoteSlice::add_calls() {
+  // @@protoc_insertion_point(field_add:pb.OptionQuoteSlice.calls)
   return calls_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::proto::OptionQuote >&
+inline const ::google::protobuf::RepeatedPtrField< ::pb::OptionQuote >&
 OptionQuoteSlice::calls() const {
-  // @@protoc_insertion_point(field_list:proto.OptionQuoteSlice.calls)
+  // @@protoc_insertion_point(field_list:pb.OptionQuoteSlice.calls)
   return calls_;
 }
 
@@ -1875,16 +1875,16 @@ inline void OptionMarket::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double OptionMarket::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.OptionMarket.timestamp)
+  // @@protoc_insertion_point(field_get:pb.OptionMarket.timestamp)
   return timestamp_;
 }
 inline void OptionMarket::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.OptionMarket.timestamp)
+  // @@protoc_insertion_point(field_set:pb.OptionMarket.timestamp)
 }
 
-// .proto.Spot spot = 2;
+// .pb.Spot spot = 2;
 inline bool OptionMarket::has_spot() const {
   return this != internal_default_instance() && spot_ != NULL;
 }
@@ -1894,32 +1894,32 @@ inline void OptionMarket::clear_spot() {
   }
   spot_ = NULL;
 }
-inline const ::proto::Spot& OptionMarket::_internal_spot() const {
+inline const ::pb::Spot& OptionMarket::_internal_spot() const {
   return *spot_;
 }
-inline const ::proto::Spot& OptionMarket::spot() const {
-  const ::proto::Spot* p = spot_;
-  // @@protoc_insertion_point(field_get:proto.OptionMarket.spot)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::Spot*>(
-      &::proto::_Spot_default_instance_);
+inline const ::pb::Spot& OptionMarket::spot() const {
+  const ::pb::Spot* p = spot_;
+  // @@protoc_insertion_point(field_get:pb.OptionMarket.spot)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::Spot*>(
+      &::pb::_Spot_default_instance_);
 }
-inline ::proto::Spot* OptionMarket::release_spot() {
-  // @@protoc_insertion_point(field_release:proto.OptionMarket.spot)
+inline ::pb::Spot* OptionMarket::release_spot() {
+  // @@protoc_insertion_point(field_release:pb.OptionMarket.spot)
   
-  ::proto::Spot* temp = spot_;
+  ::pb::Spot* temp = spot_;
   spot_ = NULL;
   return temp;
 }
-inline ::proto::Spot* OptionMarket::mutable_spot() {
+inline ::pb::Spot* OptionMarket::mutable_spot() {
   
   if (spot_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::Spot>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::Spot>(GetArenaNoVirtual());
     spot_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.OptionMarket.spot)
+  // @@protoc_insertion_point(field_mutable:pb.OptionMarket.spot)
   return spot_;
 }
-inline void OptionMarket::set_allocated_spot(::proto::Spot* spot) {
+inline void OptionMarket::set_allocated_spot(::pb::Spot* spot) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete spot_;
@@ -1935,10 +1935,10 @@ inline void OptionMarket::set_allocated_spot(::proto::Spot* spot) {
     
   }
   spot_ = spot;
-  // @@protoc_insertion_point(field_set_allocated:proto.OptionMarket.spot)
+  // @@protoc_insertion_point(field_set_allocated:pb.OptionMarket.spot)
 }
 
-// .proto.FlatVol vol = 3;
+// .pb.FlatVol vol = 3;
 inline bool OptionMarket::has_vol() const {
   return this != internal_default_instance() && vol_ != NULL;
 }
@@ -1948,32 +1948,32 @@ inline void OptionMarket::clear_vol() {
   }
   vol_ = NULL;
 }
-inline const ::proto::FlatVol& OptionMarket::_internal_vol() const {
+inline const ::pb::FlatVol& OptionMarket::_internal_vol() const {
   return *vol_;
 }
-inline const ::proto::FlatVol& OptionMarket::vol() const {
-  const ::proto::FlatVol* p = vol_;
-  // @@protoc_insertion_point(field_get:proto.OptionMarket.vol)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::FlatVol*>(
-      &::proto::_FlatVol_default_instance_);
+inline const ::pb::FlatVol& OptionMarket::vol() const {
+  const ::pb::FlatVol* p = vol_;
+  // @@protoc_insertion_point(field_get:pb.OptionMarket.vol)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::FlatVol*>(
+      &::pb::_FlatVol_default_instance_);
 }
-inline ::proto::FlatVol* OptionMarket::release_vol() {
-  // @@protoc_insertion_point(field_release:proto.OptionMarket.vol)
+inline ::pb::FlatVol* OptionMarket::release_vol() {
+  // @@protoc_insertion_point(field_release:pb.OptionMarket.vol)
   
-  ::proto::FlatVol* temp = vol_;
+  ::pb::FlatVol* temp = vol_;
   vol_ = NULL;
   return temp;
 }
-inline ::proto::FlatVol* OptionMarket::mutable_vol() {
+inline ::pb::FlatVol* OptionMarket::mutable_vol() {
   
   if (vol_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::FlatVol>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::FlatVol>(GetArenaNoVirtual());
     vol_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.OptionMarket.vol)
+  // @@protoc_insertion_point(field_mutable:pb.OptionMarket.vol)
   return vol_;
 }
-inline void OptionMarket::set_allocated_vol(::proto::FlatVol* vol) {
+inline void OptionMarket::set_allocated_vol(::pb::FlatVol* vol) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete vol_;
@@ -1989,10 +1989,10 @@ inline void OptionMarket::set_allocated_vol(::proto::FlatVol* vol) {
     
   }
   vol_ = vol;
-  // @@protoc_insertion_point(field_set_allocated:proto.OptionMarket.vol)
+  // @@protoc_insertion_point(field_set_allocated:pb.OptionMarket.vol)
 }
 
-// .proto.RiskFreeRate rate = 4;
+// .pb.RiskFreeRate rate = 4;
 inline bool OptionMarket::has_rate() const {
   return this != internal_default_instance() && rate_ != NULL;
 }
@@ -2002,32 +2002,32 @@ inline void OptionMarket::clear_rate() {
   }
   rate_ = NULL;
 }
-inline const ::proto::RiskFreeRate& OptionMarket::_internal_rate() const {
+inline const ::pb::RiskFreeRate& OptionMarket::_internal_rate() const {
   return *rate_;
 }
-inline const ::proto::RiskFreeRate& OptionMarket::rate() const {
-  const ::proto::RiskFreeRate* p = rate_;
-  // @@protoc_insertion_point(field_get:proto.OptionMarket.rate)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::RiskFreeRate*>(
-      &::proto::_RiskFreeRate_default_instance_);
+inline const ::pb::RiskFreeRate& OptionMarket::rate() const {
+  const ::pb::RiskFreeRate* p = rate_;
+  // @@protoc_insertion_point(field_get:pb.OptionMarket.rate)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::RiskFreeRate*>(
+      &::pb::_RiskFreeRate_default_instance_);
 }
-inline ::proto::RiskFreeRate* OptionMarket::release_rate() {
-  // @@protoc_insertion_point(field_release:proto.OptionMarket.rate)
+inline ::pb::RiskFreeRate* OptionMarket::release_rate() {
+  // @@protoc_insertion_point(field_release:pb.OptionMarket.rate)
   
-  ::proto::RiskFreeRate* temp = rate_;
+  ::pb::RiskFreeRate* temp = rate_;
   rate_ = NULL;
   return temp;
 }
-inline ::proto::RiskFreeRate* OptionMarket::mutable_rate() {
+inline ::pb::RiskFreeRate* OptionMarket::mutable_rate() {
   
   if (rate_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::RiskFreeRate>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::RiskFreeRate>(GetArenaNoVirtual());
     rate_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.OptionMarket.rate)
+  // @@protoc_insertion_point(field_mutable:pb.OptionMarket.rate)
   return rate_;
 }
-inline void OptionMarket::set_allocated_rate(::proto::RiskFreeRate* rate) {
+inline void OptionMarket::set_allocated_rate(::pb::RiskFreeRate* rate) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete rate_;
@@ -2043,7 +2043,7 @@ inline void OptionMarket::set_allocated_rate(::proto::RiskFreeRate* rate) {
     
   }
   rate_ = rate;
-  // @@protoc_insertion_point(field_set_allocated:proto.OptionMarket.rate)
+  // @@protoc_insertion_point(field_set_allocated:pb.OptionMarket.rate)
 }
 
 // -------------------------------------------------------------------
@@ -2055,16 +2055,16 @@ inline void ImpliedVolQuote::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double ImpliedVolQuote::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolQuote.timestamp)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolQuote.timestamp)
   return timestamp_;
 }
 inline void ImpliedVolQuote::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolQuote.timestamp)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolQuote.timestamp)
 }
 
-// .proto.OptionQuote input = 2;
+// .pb.OptionQuote input = 2;
 inline bool ImpliedVolQuote::has_input() const {
   return this != internal_default_instance() && input_ != NULL;
 }
@@ -2074,32 +2074,32 @@ inline void ImpliedVolQuote::clear_input() {
   }
   input_ = NULL;
 }
-inline const ::proto::OptionQuote& ImpliedVolQuote::_internal_input() const {
+inline const ::pb::OptionQuote& ImpliedVolQuote::_internal_input() const {
   return *input_;
 }
-inline const ::proto::OptionQuote& ImpliedVolQuote::input() const {
-  const ::proto::OptionQuote* p = input_;
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolQuote.input)
-  return p != NULL ? *p : *reinterpret_cast<const ::proto::OptionQuote*>(
-      &::proto::_OptionQuote_default_instance_);
+inline const ::pb::OptionQuote& ImpliedVolQuote::input() const {
+  const ::pb::OptionQuote* p = input_;
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolQuote.input)
+  return p != NULL ? *p : *reinterpret_cast<const ::pb::OptionQuote*>(
+      &::pb::_OptionQuote_default_instance_);
 }
-inline ::proto::OptionQuote* ImpliedVolQuote::release_input() {
-  // @@protoc_insertion_point(field_release:proto.ImpliedVolQuote.input)
+inline ::pb::OptionQuote* ImpliedVolQuote::release_input() {
+  // @@protoc_insertion_point(field_release:pb.ImpliedVolQuote.input)
   
-  ::proto::OptionQuote* temp = input_;
+  ::pb::OptionQuote* temp = input_;
   input_ = NULL;
   return temp;
 }
-inline ::proto::OptionQuote* ImpliedVolQuote::mutable_input() {
+inline ::pb::OptionQuote* ImpliedVolQuote::mutable_input() {
   
   if (input_ == NULL) {
-    auto* p = CreateMaybeMessage<::proto::OptionQuote>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::pb::OptionQuote>(GetArenaNoVirtual());
     input_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolQuote.input)
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolQuote.input)
   return input_;
 }
-inline void ImpliedVolQuote::set_allocated_input(::proto::OptionQuote* input) {
+inline void ImpliedVolQuote::set_allocated_input(::pb::OptionQuote* input) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete input_;
@@ -2115,7 +2115,7 @@ inline void ImpliedVolQuote::set_allocated_input(::proto::OptionQuote* input) {
     
   }
   input_ = input;
-  // @@protoc_insertion_point(field_set_allocated:proto.ImpliedVolQuote.input)
+  // @@protoc_insertion_point(field_set_allocated:pb.ImpliedVolQuote.input)
 }
 
 // string error = 3;
@@ -2123,41 +2123,41 @@ inline void ImpliedVolQuote::clear_error() {
   error_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& ImpliedVolQuote::error() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolQuote.error)
   return error_.GetNoArena();
 }
 inline void ImpliedVolQuote::set_error(const ::std::string& value) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolQuote.error)
 }
 #if LANG_CXX11
 inline void ImpliedVolQuote::set_error(::std::string&& value) {
   
   error_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_set_rvalue:pb.ImpliedVolQuote.error)
 }
 #endif
 inline void ImpliedVolQuote::set_error(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_set_char:pb.ImpliedVolQuote.error)
 }
 inline void ImpliedVolQuote::set_error(const char* value, size_t size) {
   
   error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_set_pointer:pb.ImpliedVolQuote.error)
 }
 inline ::std::string* ImpliedVolQuote::mutable_error() {
   
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolQuote.error)
   return error_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* ImpliedVolQuote::release_error() {
-  // @@protoc_insertion_point(field_release:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_release:pb.ImpliedVolQuote.error)
   
   return error_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -2168,7 +2168,7 @@ inline void ImpliedVolQuote::set_allocated_error(::std::string* error) {
     
   }
   error_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error);
-  // @@protoc_insertion_point(field_set_allocated:proto.ImpliedVolQuote.error)
+  // @@protoc_insertion_point(field_set_allocated:pb.ImpliedVolQuote.error)
 }
 
 // double vol = 4;
@@ -2176,13 +2176,13 @@ inline void ImpliedVolQuote::clear_vol() {
   vol_ = 0;
 }
 inline double ImpliedVolQuote::vol() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolQuote.vol)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolQuote.vol)
   return vol_;
 }
 inline void ImpliedVolQuote::set_vol(double value) {
   
   vol_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolQuote.vol)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolQuote.vol)
 }
 
 // int64 nbiteration = 5;
@@ -2190,13 +2190,13 @@ inline void ImpliedVolQuote::clear_nbiteration() {
   nbiteration_ = GOOGLE_LONGLONG(0);
 }
 inline ::google::protobuf::int64 ImpliedVolQuote::nbiteration() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolQuote.nbiteration)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolQuote.nbiteration)
   return nbiteration_;
 }
 inline void ImpliedVolQuote::set_nbiteration(::google::protobuf::int64 value) {
   
   nbiteration_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolQuote.nbiteration)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolQuote.nbiteration)
 }
 
 // -------------------------------------------------------------------
@@ -2208,13 +2208,13 @@ inline void ImpliedVolSlice::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double ImpliedVolSlice::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolSlice.timestamp)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolSlice.timestamp)
   return timestamp_;
 }
 inline void ImpliedVolSlice::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolSlice.timestamp)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolSlice.timestamp)
 }
 
 // bool iserror = 2;
@@ -2222,13 +2222,13 @@ inline void ImpliedVolSlice::clear_iserror() {
   iserror_ = false;
 }
 inline bool ImpliedVolSlice::iserror() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolSlice.iserror)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolSlice.iserror)
   return iserror_;
 }
 inline void ImpliedVolSlice::set_iserror(bool value) {
   
   iserror_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolSlice.iserror)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolSlice.iserror)
 }
 
 // double expiry = 3;
@@ -2236,42 +2236,42 @@ inline void ImpliedVolSlice::clear_expiry() {
   expiry_ = 0;
 }
 inline double ImpliedVolSlice::expiry() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolSlice.expiry)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolSlice.expiry)
   return expiry_;
 }
 inline void ImpliedVolSlice::set_expiry(double value) {
   
   expiry_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolSlice.expiry)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolSlice.expiry)
 }
 
-// repeated .proto.ImpliedVolQuote quotes = 4;
+// repeated .pb.ImpliedVolQuote quotes = 4;
 inline int ImpliedVolSlice::quotes_size() const {
   return quotes_.size();
 }
 inline void ImpliedVolSlice::clear_quotes() {
   quotes_.Clear();
 }
-inline ::proto::ImpliedVolQuote* ImpliedVolSlice::mutable_quotes(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolSlice.quotes)
+inline ::pb::ImpliedVolQuote* ImpliedVolSlice::mutable_quotes(int index) {
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolSlice.quotes)
   return quotes_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolQuote >*
+inline ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolQuote >*
 ImpliedVolSlice::mutable_quotes() {
-  // @@protoc_insertion_point(field_mutable_list:proto.ImpliedVolSlice.quotes)
+  // @@protoc_insertion_point(field_mutable_list:pb.ImpliedVolSlice.quotes)
   return &quotes_;
 }
-inline const ::proto::ImpliedVolQuote& ImpliedVolSlice::quotes(int index) const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolSlice.quotes)
+inline const ::pb::ImpliedVolQuote& ImpliedVolSlice::quotes(int index) const {
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolSlice.quotes)
   return quotes_.Get(index);
 }
-inline ::proto::ImpliedVolQuote* ImpliedVolSlice::add_quotes() {
-  // @@protoc_insertion_point(field_add:proto.ImpliedVolSlice.quotes)
+inline ::pb::ImpliedVolQuote* ImpliedVolSlice::add_quotes() {
+  // @@protoc_insertion_point(field_add:pb.ImpliedVolSlice.quotes)
   return quotes_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolQuote >&
+inline const ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolQuote >&
 ImpliedVolSlice::quotes() const {
-  // @@protoc_insertion_point(field_list:proto.ImpliedVolSlice.quotes)
+  // @@protoc_insertion_point(field_list:pb.ImpliedVolSlice.quotes)
   return quotes_;
 }
 
@@ -2284,42 +2284,42 @@ inline void ImpliedVolSurface::clear_timestamp() {
   timestamp_ = 0;
 }
 inline double ImpliedVolSurface::timestamp() const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolSurface.timestamp)
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolSurface.timestamp)
   return timestamp_;
 }
 inline void ImpliedVolSurface::set_timestamp(double value) {
   
   timestamp_ = value;
-  // @@protoc_insertion_point(field_set:proto.ImpliedVolSurface.timestamp)
+  // @@protoc_insertion_point(field_set:pb.ImpliedVolSurface.timestamp)
 }
 
-// repeated .proto.ImpliedVolSlice slices = 2;
+// repeated .pb.ImpliedVolSlice slices = 2;
 inline int ImpliedVolSurface::slices_size() const {
   return slices_.size();
 }
 inline void ImpliedVolSurface::clear_slices() {
   slices_.Clear();
 }
-inline ::proto::ImpliedVolSlice* ImpliedVolSurface::mutable_slices(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.ImpliedVolSurface.slices)
+inline ::pb::ImpliedVolSlice* ImpliedVolSurface::mutable_slices(int index) {
+  // @@protoc_insertion_point(field_mutable:pb.ImpliedVolSurface.slices)
   return slices_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolSlice >*
+inline ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolSlice >*
 ImpliedVolSurface::mutable_slices() {
-  // @@protoc_insertion_point(field_mutable_list:proto.ImpliedVolSurface.slices)
+  // @@protoc_insertion_point(field_mutable_list:pb.ImpliedVolSurface.slices)
   return &slices_;
 }
-inline const ::proto::ImpliedVolSlice& ImpliedVolSurface::slices(int index) const {
-  // @@protoc_insertion_point(field_get:proto.ImpliedVolSurface.slices)
+inline const ::pb::ImpliedVolSlice& ImpliedVolSurface::slices(int index) const {
+  // @@protoc_insertion_point(field_get:pb.ImpliedVolSurface.slices)
   return slices_.Get(index);
 }
-inline ::proto::ImpliedVolSlice* ImpliedVolSurface::add_slices() {
-  // @@protoc_insertion_point(field_add:proto.ImpliedVolSurface.slices)
+inline ::pb::ImpliedVolSlice* ImpliedVolSurface::add_slices() {
+  // @@protoc_insertion_point(field_add:pb.ImpliedVolSurface.slices)
   return slices_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::proto::ImpliedVolSlice >&
+inline const ::google::protobuf::RepeatedPtrField< ::pb::ImpliedVolSlice >&
 ImpliedVolSurface::slices() const {
-  // @@protoc_insertion_point(field_list:proto.ImpliedVolSurface.slices)
+  // @@protoc_insertion_point(field_list:pb.ImpliedVolSurface.slices)
   return slices_;
 }
 
@@ -2347,7 +2347,7 @@ ImpliedVolSurface::slices() const {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace proto
+}  // namespace pb
 
 // @@protoc_insertion_point(global_scope)
 
