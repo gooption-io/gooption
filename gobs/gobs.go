@@ -1,11 +1,19 @@
 package main
 
 import (
+	"flag"
 	"math"
+	"sort"
 	"strings"
 	"time"
 
+	"github.com/gogo/protobuf/proto"
 	"github.com/gooption-io/gooption/proto/go/pb"
+	"github.com/gooption-io/gooption/utils"
+	"github.com/pkg/errors"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
+	context "golang.org/x/net/context"
 	"gonum.org/v1/gonum/stat/distuv"
 )
 
@@ -24,31 +32,106 @@ var (
 		"call": 1.0,
 		"put":  -1.0,
 	}
+
+	env     = flag.String("env", "prod", "dev/prod config for ports")
+	tcpReqs = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "tcp_requests_total",
+			Help: "How many TCP requests processed, partitioned by request type",
+		},
+		[]string{"code"},
+	)
 )
+
+// server panic recovery
+// for example if we fail to load config
+func recoverServer() {
+	if r := recover(); r != nil {
+		logrus.WithField("error", r).Errorln("panic recovered")
+	}
+}
+
+func main() {
+	// recovery
+	defer recoverServer()
+
+	// flag
+	flag.Parse()
+
+	// // prom
+	prometheus.MustRegister(tcpReqs)
+
+	// config
+	utils.InitViperConfig("gobs", ".")
+
+	// serve
+	NewService(&server{}, utils.NewServiceConfig(*env)).Serve()
+}
+
+// server is used to implement pb.ModerlServer.
+type server struct{}
+
+/*
+Price computes the fair value of a european stock option according to Black Scholes formula
+Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
+Stock assumed to pay no dividends
+*/
+func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
+	tcpReqs.WithLabelValues("PriceRequest").Add(1)
+
+	var (
+		mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
+
+		s = in.Marketdata.Spot.Index.Value
+		v = in.Marketdata.Vol.Index.Value
+		r = in.Marketdata.Rate.Index.Value
+		k = in.Contract.Strike
+		t = time.Unix(int64(in.Contract.Expiry), 0).Sub(
+			time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
+	)
+
+	return &pb.PriceResponse{
+		Price: bs(s, v, r, k, t, mult),
+	}, nil
+}
 
 /*
 Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
 Stock assumed to pay no dividends
 */
-func bs(pricingDate float64, contract *pb.European, mkt *pb.OptionMarket) float64 {
-	var (
-		mult = putCallMap[strings.ToLower(contract.Putcall)]
-
-		s = mkt.Spot.Index.Value
-		v = mkt.Vol.Index.Value
-		r = mkt.Rate.Index.Value
-		k = contract.Strike
-		t = time.Unix(int64(contract.Expiry), 0).Sub(
-			time.Unix(int64(pricingDate), 0)).Hours() / 24.0 / 365.250
-	)
-
+func bs(s, v, r, k, t, mult float64) float64 {
 	d1 := d1(s, k, t, v, r)
 	d2 := d2(d1, v, t)
 
 	return mult * (s*phi(mult*d1) - k*phi(mult*d2)*math.Exp(-r*t))
 }
 
-func bsGreek(in *pb.GreekRequest) []*pb.GreekResponse_Greek {
+func d1(S, K, T, Sigma, R float64) float64 {
+	return (1.0 / Sigma * math.Sqrt(T)) * (math.Log(S/K) + (R+Sigma*Sigma*0.5)*T)
+}
+
+func d2(d1, Sigma, T float64) float64 {
+	return d1 - Sigma*math.Sqrt(T)
+}
+
+/*
+Greeks computes the greeks of a european option according to Black Scholes formula
+Black Scholes Greeks : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#The_Greeks
+Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
+Setting Request to "all" will compute all greeks
+*/
+func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
+	tcpReqs.WithLabelValues("GreekRequest").Add(1)
+
+	if len(in.Greek) == 0 {
+		return nil, errors.New("No greeks requested")
+	}
+
+	sort.Strings(in.Greek)
+	if sort.SearchStrings(in.Greek, "all") < len(in.Greek) {
+		in.Greek = allGreeks
+	}
+
 	var (
 		mult = putCallMap[strings.ToLower(in.Request.Contract.Putcall)]
 
@@ -87,88 +170,9 @@ func bsGreek(in *pb.GreekRequest) []*pb.GreekResponse_Greek {
 		greeks[index] = greekResponse
 	}
 
-	return greeks
-}
-
-func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
-	var (
-		t = func(q *pb.OptionQuoteSlice) float64 {
-			return time.Unix(int64(q.Expiry), 0).Sub(time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
-		}
-	)
-
-	slice := in.Quotes[index]
-	spot := in.Marketdata.Spot.Index.Value
-	calibratedSlice := pb.ImpliedVolSlice{
-		Timestamp: in.Marketdata.Timestamp,
-		Expiry:    slice.Expiry,
-		Iserror:   false,
-		Quotes:    make([]*pb.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
-	}
-
-	calibIndex := 0
-	for _, put := range slice.Puts {
-		if put.Strike/spot > putLBound && put.Strike/spot <= 1.0 {
-			calibratedSlice.Quotes[calibIndex] = ivRootSolver(in.Pricingdate, t(slice), put, in.Marketdata)
-			if calibratedSlice.Quotes[calibIndex].Error != "" {
-				calibratedSlice.Iserror = true
-			}
-			calibIndex++
-		}
-	}
-
-	for _, call := range slice.Calls {
-		if call.Strike/spot > 1.0 {
-			calibratedSlice.Quotes[calibIndex] = ivRootSolver(in.Pricingdate, t(slice), call, in.Marketdata)
-			if calibratedSlice.Quotes[calibIndex].Error != "" {
-				calibratedSlice.Iserror = true
-			}
-			calibIndex++
-		}
-	}
-
-	calibratedSlice.Quotes = calibratedSlice.Quotes[0:calibIndex]
-	out <- calibratedSlice
-}
-
-/*
-Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
-*/
-func ivRootSolver(pricingDate, expiry float64, quote *pb.OptionQuote, mkt *pb.OptionMarket) *pb.ImpliedVolQuote {
-	k := quote.Strike
-	s := mkt.Spot.Index.Value
-	r := mkt.Rate.Index.Value
-	t := time.Unix(int64(expiry), 0).Sub(
-		time.Unix(int64(pricingDate), 0)).Hours() / 24.0 / 365.250
-
-	iv := ivSeed
-	mktPrice := (quote.Ask + quote.Bid) / 2.0
-	contract := &pb.European{Strike: k, Putcall: quote.Putcall, Expiry: expiry}
-	for index := 0; index < maxIter; index++ {
-		bsPrice := bs(pricingDate, contract, mkt)
-		iv := iv - (bsPrice-mktPrice)/vega(s, t, d1(s, k, t, iv, r))
-		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
-			return &pb.ImpliedVolQuote{
-				Input:       quote,
-				Vol:         iv,
-				Nbiteration: int64(index),
-			}
-		}
-	}
-
-	return &pb.ImpliedVolQuote{
-		Input:       quote,
-		Error:       "Did not converge to required interval",
-		Nbiteration: maxIter,
-	}
-}
-
-func d1(S, K, T, Sigma, R float64) float64 {
-	return (1.0 / Sigma * math.Sqrt(T)) * (math.Log(S/K) + (R+Sigma*Sigma*0.5)*T)
-}
-
-func d2(d1, Sigma, T float64) float64 {
-	return d1 - Sigma*math.Sqrt(T)
+	return &pb.GreekResponse{
+		Greeks: greeks,
+	}, nil
 }
 
 func delta(d1, mult float64) float64 {
@@ -189,4 +193,126 @@ func theta(s, k, t, sigma, r, d1, d2, mult float64) float64 {
 
 func rho(k, t, r, d2, mult float64) float64 {
 	return mult * k * t * math.Exp(-r*t) * phi(mult*d2)
+}
+
+/*
+ImpliedVol computes volatility matching the option quote passed as Quote using Newton Raphson solver
+Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
+The second argument returned is the number of iteration used to converge
+*/
+func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
+	tcpReqs.WithLabelValues("ImpliedVolRequest").Add(1)
+	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
+
+	surf := &pb.ImpliedVolSurface{
+		Timestamp: in.Marketdata.Timestamp,
+		Slices:    make([]*pb.ImpliedVolSlice, len(in.Quotes)),
+	}
+
+	out := make(chan pb.ImpliedVolSlice, len(in.Quotes))
+	defer close(out)
+
+	for idx := 0; idx < len(in.Quotes); idx++ {
+		go bsImpliedVol(idx, in, out)
+	}
+
+	for idx := 0; idx < len(in.Quotes); idx++ {
+		slice := <-out
+		surf.Slices[idx] = &slice
+	}
+
+	logrus.Debugf("%+v\n", proto.MarshalTextString(surf))
+	return &pb.ImpliedVolResponse{
+		Volsurface: surf,
+	}, nil
+}
+
+type ivSolverResult struct {
+	IV                float64
+	NbSolverIteration int
+	Error             error
+}
+
+func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
+	var (
+		slice = in.Quotes[index]
+		mult  = func(q *pb.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }
+
+		s = in.Marketdata.Spot.Index.Value
+		r = in.Marketdata.Rate.Index.Value
+		k = func(q *pb.OptionQuote) float64 { return q.Strike }
+		p = func(q *pb.OptionQuote) float64 { return (q.Ask + q.Bid) / 2.0 }
+		t = func(q *pb.OptionQuoteSlice) float64 {
+			return time.Unix(int64(q.Expiry), 0).Sub(time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
+		}
+	)
+
+	calibratedSlice := pb.ImpliedVolSlice{
+		Timestamp: in.Marketdata.Timestamp,
+		Expiry:    slice.Expiry,
+		Iserror:   false,
+		Quotes:    make([]*pb.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
+	}
+
+	calibIndex := 0
+	for _, put := range slice.Puts {
+		if put.Strike/s > putLBound && put.Strike/s <= 1.0 {
+			res := ivRootSolver(p(put), s, r, k(put), t(slice), mult(put))
+			calibratedSlice.Quotes[calibIndex] = newImpliedVolQuote(res, put)
+			if res.Error != nil {
+				calibratedSlice.Iserror = true
+			}
+
+			calibIndex++
+		}
+	}
+
+	for _, call := range slice.Calls {
+		if call.Strike/s > 1.0 {
+			res := ivRootSolver(p(call), s, r, k(call), t(slice), mult(call))
+			calibratedSlice.Quotes[calibIndex] = newImpliedVolQuote(res, call)
+			if res.Error != nil {
+				calibratedSlice.Iserror = true
+			}
+
+			calibIndex++
+		}
+	}
+
+	calibratedSlice.Quotes = calibratedSlice.Quotes[0:calibIndex]
+	out <- calibratedSlice
+}
+
+func newImpliedVolQuote(res *ivSolverResult, quote *pb.OptionQuote) *pb.ImpliedVolQuote {
+	iv := &pb.ImpliedVolQuote{
+		Timestamp:   quote.Timestamp,
+		Input:       quote,
+		Vol:         res.IV,
+		Nbiteration: int64(res.NbSolverIteration),
+	}
+
+	if res.Error != nil {
+		iv.Error = res.Error.Error()
+	}
+
+	return iv
+}
+
+/*
+Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
+*/
+func ivRootSolver(mktPrice, s, r, k, t, mult float64) *ivSolverResult {
+	var (
+		iv      = 0.1
+		maxIter = 1000
+	)
+
+	for index := 0; index < maxIter; index++ {
+		bsPrice := bs(s, iv, r, k, t, mult)
+		iv = iv - (bsPrice-mktPrice)/vega(s, t, d1(s, k, t, iv, r))
+		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
+			return &ivSolverResult{iv, index, nil}
+		}
+	}
+	return &ivSolverResult{iv, maxIter, errors.New("Did not converge to required interval")}
 }
