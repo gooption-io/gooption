@@ -1,2 +1,2 @@
-POST http://localhost:8081/v1/gobs/impliedvol
+POST http://localhost:8081/v1/europeanoptionpricer/impliedvol
 @../ImpliedVolRequest.json

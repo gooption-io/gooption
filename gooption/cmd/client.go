@@ -81,7 +81,7 @@ type client struct{}
 
 func (c client) priceRequest() {
 	resp := query(
-		q.PriceRequest,
+		PriceRequest,
 		map[string]string{
 			"$timestamp":    "1514162664",
 			"$optionTicker": "AAPL DEC2017 PUT",
@@ -111,7 +111,7 @@ func (c client) priceRequest() {
 
 func (c client) greekRequest() {
 	resp := query(
-		q.PriceRequest,
+		PriceRequest,
 		map[string]string{
 			"$timestamp":    "1513551151",
 			"$optionTicker": "AAPL DEC2017 PUT",
@@ -148,7 +148,7 @@ func (c client) greekRequest() {
 
 func (c client) ivRequest() {
 	resp := query(
-		q.ImpliedvolRequest,
+		ImpliedvolRequest,
 		map[string]string{
 			"$timestamp":  "1513551151",
 			"$undTicker":  "AAPL",

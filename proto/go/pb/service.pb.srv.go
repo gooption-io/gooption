@@ -55,13 +55,13 @@ func ServeEuropeanOptionPricerServer(tcp, prom string, server EuropeanOptionPric
 	httpServer := &http.Server{Handler: promhttp.HandlerFor(reg, promhttp.HandlerOpts{}), Addr: prom}
 	go func() {
 		// Start your http server for prometheus.
-		logrus.Infoln("prometheus server ready on port ", prom)
+		logrus.Infoln("EuropeanOptionPricer prometheus server ready at ", prom)
 		if err := httpServer.ListenAndServe(); err != nil {
 			log.Fatal("Unable to start a http server.")
 		}
 	}()
 
-	logrus.Infoln("grpc server ready on port ", tcp)
+	logrus.Infoln("EuropeanOptionPricer grpc server ready on port at ", tcp)
 	return grpcSrv.Serve(lis)
 }
 
@@ -77,6 +77,6 @@ func ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort string) error {
 		return err
 	}
 
-	logrus.Infoln("http server ready on port ", httpPort)
+	logrus.Infoln("EuropeanOptionPricer reverse proxy ready at ", httpPort)
 	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }
