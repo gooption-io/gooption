@@ -17,6 +17,9 @@
 
 #include "quantlib.h"
 
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+
 using namespace std;
 using namespace QuantLib;
 namespace po = boost::program_options;
@@ -40,27 +43,31 @@ namespace QuantLib {
 #endif
 
 const double putLBound = 0.2;
+std::shared_ptr<spdlog::logger> console = spdlog::stdout_color_mt("goql");
 
 // Logic and data behind the server's behavior.
 class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Service {
         Status Price(ServerContext* context, const PriceRequest* request, PriceResponse* response) override {
+                console->info("Incoming PriceRequest");
                 Settings::instance().evaluationDate() = to_ql_date(request->pricingdate());
                 boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(request->pricingdate(), request->marketdata());
                 EuropeanOption europeanOption = buildEuropeanOption(request->contract().expiry(), request->contract().strike(), request->contract().putcall());
                 europeanOption.setPricingEngine(boost::shared_ptr<PricingEngine>(new AnalyticEuropeanEngine(bsmProcess)));
-                response = new PriceResponse();
                 response->set_price(europeanOption.NPV());
+                console->info("Outgoing PriceResponse");
                 return Status::OK;
         }
 
         Status Greek(ServerContext* context, const GreekRequest* request,GreekResponse* response) override {
-        return Status::OK;
+                console->info("Incoming GreekRequest");
+                console->info("Outgoing GreekResponse");
+                return Status::OK;
         }
 
         Status ImpliedVol(ServerContext* context, const ImpliedVolRequest* request, ImpliedVolResponse* response) override {
+                console->info("Incoming ImpliedVolRequest");
                 Settings::instance().evaluationDate() = to_ql_date(request->pricingdate());
                 boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(request->pricingdate(), request->marketdata());
-
                 auto s = request->marketdata().spot().index().value();
                 for(int i = 0;i < request->quotes_size();i++) {
                         auto slice = request->quotes(i);
@@ -81,6 +88,8 @@ class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Servic
                                 }
                         }
                 }
+
+                console->info("Outgoing ImpliedVolResponse");
                 return Status::OK;
         }
 };
@@ -112,7 +121,7 @@ int main(int argc, char** argv) {
         builder.RegisterService(&service);
         // Finally assemble the server.
         std::unique_ptr<Server> server(builder.BuildAndStart());
-        std::cout << "Server listening on " << server_address << std::endl;
+        console->info("EuropeanOptionPricer grpc server ready on port at " + server_address);
         // Wait for the server to shutdown. Note that some other thread must be
         // responsible for shutting down the server for this call to ever return.
         server->Wait();
