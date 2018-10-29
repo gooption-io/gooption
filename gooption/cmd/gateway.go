@@ -32,7 +32,7 @@ var gatewayCmd = &cobra.Command{
 	Short: "Starts http reverse proxy",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := pb.RunGobsGateway(tcpPort, httpPort); err != nil {
+		if err := pb.ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort); err != nil {
 			os.Exit(1)
 		}
 	},

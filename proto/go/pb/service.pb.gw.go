@@ -2,7 +2,7 @@
 // source: service.proto
 
 /*
-Package proto is a reverse proxy.
+Package pb is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
@@ -28,7 +28,7 @@ var _ status.Status
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-func request_Gobs_Price_0(ctx context.Context, marshaler runtime.Marshaler, client GobsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_EuropeanOptionPricer_Price_0(ctx context.Context, marshaler runtime.Marshaler, client EuropeanOptionPricerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PriceRequest
 	var metadata runtime.ServerMetadata
 
@@ -41,7 +41,7 @@ func request_Gobs_Price_0(ctx context.Context, marshaler runtime.Marshaler, clie
 
 }
 
-func request_Gobs_Greek_0(ctx context.Context, marshaler runtime.Marshaler, client GobsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_EuropeanOptionPricer_Greek_0(ctx context.Context, marshaler runtime.Marshaler, client EuropeanOptionPricerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GreekRequest
 	var metadata runtime.ServerMetadata
 
@@ -54,7 +54,7 @@ func request_Gobs_Greek_0(ctx context.Context, marshaler runtime.Marshaler, clie
 
 }
 
-func request_Gobs_ImpliedVol_0(ctx context.Context, marshaler runtime.Marshaler, client GobsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_EuropeanOptionPricer_ImpliedVol_0(ctx context.Context, marshaler runtime.Marshaler, client EuropeanOptionPricerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ImpliedVolRequest
 	var metadata runtime.ServerMetadata
 
@@ -67,9 +67,9 @@ func request_Gobs_ImpliedVol_0(ctx context.Context, marshaler runtime.Marshaler,
 
 }
 
-// RegisterGobsHandlerFromEndpoint is same as RegisterGobsHandler but
+// RegisterEuropeanOptionPricerHandlerFromEndpoint is same as RegisterEuropeanOptionPricerHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterGobsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterEuropeanOptionPricerHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -89,23 +89,23 @@ func RegisterGobsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux,
 		}()
 	}()
 
-	return RegisterGobsHandler(ctx, mux, conn)
+	return RegisterEuropeanOptionPricerHandler(ctx, mux, conn)
 }
 
-// RegisterGobsHandler registers the http handlers for service Gobs to "mux".
+// RegisterEuropeanOptionPricerHandler registers the http handlers for service EuropeanOptionPricer to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterGobsHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterGobsHandlerClient(ctx, mux, NewGobsClient(conn))
+func RegisterEuropeanOptionPricerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterEuropeanOptionPricerHandlerClient(ctx, mux, NewEuropeanOptionPricerClient(conn))
 }
 
-// RegisterGobsHandlerClient registers the http handlers for service Gobs
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "GobsClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "GobsClient"
+// RegisterEuropeanOptionPricerHandlerClient registers the http handlers for service EuropeanOptionPricer
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "EuropeanOptionPricerClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "EuropeanOptionPricerClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "GobsClient" to call the correct interceptors.
-func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, client GobsClient) error {
+// "EuropeanOptionPricerClient" to call the correct interceptors.
+func RegisterEuropeanOptionPricerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client EuropeanOptionPricerClient) error {
 
-	mux.Handle("POST", pattern_Gobs_Price_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_EuropeanOptionPricer_Price_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -123,18 +123,18 @@ func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Gobs_Price_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_EuropeanOptionPricer_Price_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Gobs_Price_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_EuropeanOptionPricer_Price_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_Gobs_Greek_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_EuropeanOptionPricer_Greek_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -152,18 +152,18 @@ func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Gobs_Greek_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_EuropeanOptionPricer_Greek_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Gobs_Greek_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_EuropeanOptionPricer_Greek_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_Gobs_ImpliedVol_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_EuropeanOptionPricer_ImpliedVol_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -181,14 +181,14 @@ func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Gobs_ImpliedVol_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_EuropeanOptionPricer_ImpliedVol_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Gobs_ImpliedVol_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_EuropeanOptionPricer_ImpliedVol_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -196,17 +196,17 @@ func RegisterGobsHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 }
 
 var (
-	pattern_Gobs_Price_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "price"}, ""))
+	pattern_EuropeanOptionPricer_Price_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "europeanoptionpricer", "price"}, ""))
 
-	pattern_Gobs_Greek_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "greek"}, ""))
+	pattern_EuropeanOptionPricer_Greek_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "europeanoptionpricer", "greek"}, ""))
 
-	pattern_Gobs_ImpliedVol_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "gobs", "impliedvol"}, ""))
+	pattern_EuropeanOptionPricer_ImpliedVol_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "europeanoptionpricer", "impliedvol"}, ""))
 )
 
 var (
-	forward_Gobs_Price_0 = runtime.ForwardResponseMessage
+	forward_EuropeanOptionPricer_Price_0 = runtime.ForwardResponseMessage
 
-	forward_Gobs_Greek_0 = runtime.ForwardResponseMessage
+	forward_EuropeanOptionPricer_Greek_0 = runtime.ForwardResponseMessage
 
-	forward_Gobs_ImpliedVol_0 = runtime.ForwardResponseMessage
+	forward_EuropeanOptionPricer_ImpliedVol_0 = runtime.ForwardResponseMessage
 )

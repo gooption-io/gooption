@@ -1,5 +1,5 @@
 //go:generate gooption-cli -p client -r Price -r Greek -r ImpliedVol
-package main
+package cmd
 
 import (
 	"encoding/json"
@@ -20,7 +20,7 @@ import (
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 
-	q "github.com/lehajam/gooption/query"
+	q "github.com/gooption-io/gooption/gooption/cmd/query"
 	"github.com/sirupsen/logrus"
 )
 
@@ -77,7 +77,9 @@ func query(queryString string, variables map[string]string) *api.Response {
 	return resp
 }
 
-func priceRequest() {
+type client struct{}
+
+func (c client) priceRequest() {
 	resp := query(
 		q.PriceRequest,
 		map[string]string{
@@ -98,7 +100,7 @@ func priceRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewGobsClient(conn2)
+	gobsClient := pb.NewEuropeanOptionPricerClient(conn2)
 	price, err := gobsClient.Price(context.Background(), priceReq)
 	if err != nil {
 		log.Fatal(err)
@@ -107,7 +109,7 @@ func priceRequest() {
 	fmt.Printf("price: %f\n", price.Price)
 }
 
-func greekRequest() {
+func (c client) greekRequest() {
 	resp := query(
 		q.PriceRequest,
 		map[string]string{
@@ -128,7 +130,7 @@ func greekRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewGobsClient(conn2)
+	gobsClient := pb.NewEuropeanOptionPricerClient(conn2)
 	greek, err := gobsClient.Greek(
 		context.Background(),
 		&pb.GreekRequest{
@@ -144,7 +146,7 @@ func greekRequest() {
 	}
 }
 
-func ivRequest() {
+func (c client) ivRequest() {
 	resp := query(
 		q.ImpliedvolRequest,
 		map[string]string{
@@ -164,7 +166,7 @@ func ivRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewGobsClient(conn2)
+	gobsClient := pb.NewEuropeanOptionPricerClient(conn2)
 	volSurf, err := gobsClient.ImpliedVol(context.Background(), ivReq)
 	if err != nil {
 		log.Fatal(err)

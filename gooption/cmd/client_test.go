@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"testing"
@@ -17,13 +17,13 @@ func Test_insertGreekRequest(t *testing.T) {
 }
 
 func Test_priceRequest(t *testing.T) {
-	priceRequest()
+	client{}.priceRequest()
 }
 
 func Test_ivRequest(t *testing.T) {
-	ivRequest()
+	client{}.ivRequest()
 }
 
 func Test_greekRequest(t *testing.T) {
-	greekRequest()
+	client{}.greekRequest()
 }

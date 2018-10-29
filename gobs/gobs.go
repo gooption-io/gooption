@@ -34,7 +34,7 @@ var (
 
 func main() {
 	flag.Parse()
-	err := pb.RunGobsServer(*tcp, *promhttp, &server{})
+	err := pb.ServeEuropeanOptionPricerServer(*tcp, *promhttp, &server{})
 	if err != nil {
 		logrus.Errorln(err)
 		os.Exit(1)

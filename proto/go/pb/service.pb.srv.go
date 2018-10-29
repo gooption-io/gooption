@@ -21,7 +21,7 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-prometheus"
 )
 
-func RunGobsServer(tcp, prom string, server GobsServer) error {
+func ServeEuropeanOptionPricerServer(tcp, prom string, server EuropeanOptionPricerServer) error {
 	lis, err := net.Listen("tcp", tcp)
 	if err != nil {
 		return err
@@ -45,7 +45,7 @@ func RunGobsServer(tcp, prom string, server GobsServer) error {
 			grpc.UnaryServerInterceptor(grpc_prometheus.UnaryServerInterceptor),
 			grpc_logrus.UnaryServerInterceptor(logrus.NewEntry(logrus.New()), opts...)))
 
-	RegisterGobsServer(grpcSrv, server)
+	RegisterEuropeanOptionPricerServer(grpcSrv, server)
 	reflection.Register(grpcSrv)
 
 	// prom
@@ -65,14 +65,14 @@ func RunGobsServer(tcp, prom string, server GobsServer) error {
 	return grpcSrv.Serve(lis)
 }
 
-func RunGobsGateway(tcpPort, httpPort string) error {
+func ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := RegisterGobsHandlerFromEndpoint(ctx, mux, tcpPort, opts)
+	err := RegisterEuropeanOptionPricerHandlerFromEndpoint(ctx, mux, tcpPort, opts)
 	if err != nil {
 		return err
 	}
