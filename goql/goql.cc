@@ -50,6 +50,49 @@ class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Servic
 
         Status Greek(ServerContext* context, const GreekRequest* request,GreekResponse* response) override {
                 console->info("Incoming GreekRequest");
+                auto priceRequest = request->request();
+                Settings::instance().evaluationDate() = to_ql_date(priceRequest.pricingdate());
+                boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(priceRequest.pricingdate(), priceRequest.marketdata());
+                EuropeanOption europeanOption = buildEuropeanOption(priceRequest.contract().expiry(), priceRequest.contract().strike(), priceRequest.contract().putcall());
+                europeanOption.setPricingEngine(boost::shared_ptr<PricingEngine>(new AnalyticEuropeanEngine(bsmProcess)));
+
+                vector<string> greeks;
+                for(int i = 0; i < request->greek_size();i++) {
+                        if(request->greek(i) == "all") {
+                                greeks = vector<string>{"delta", "gamma", "vega", "rho", "theta"};
+                                break;
+                        }
+                        greeks.push_back(request->greek(i));
+                }
+
+                for(int i = 0; i < greeks.size();i++) {
+                        if(greeks[i] == "delta") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("delta");
+                                delta->set_value(europeanOption.delta());
+                        }
+                        if(greeks[i] == "gamma") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("gamma");
+                                delta->set_value(europeanOption.gamma());
+                        }
+                        if(greeks[i] == "vega") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("vega");
+                                delta->set_value(europeanOption.vega());
+                        }
+                        if(greeks[i] == "rho") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("rho");
+                                delta->set_value(europeanOption.rho());
+                        }
+                        if(greeks[i] == "theta") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("theta");
+                                delta->set_value(europeanOption.theta());
+                        }
+                }
+
                 console->info("Outgoing GreekResponse");
                 return Status::OK;
         }
