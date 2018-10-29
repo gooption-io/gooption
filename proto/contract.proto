@@ -1,0 +1,11 @@
+syntax = "proto3";
+package pb;
+
+message European {
+  double timestamp = 1;
+  string ticker = 2;
+  string undticker = 3;
+  double strike = 4;
+  double expiry = 5;
+  string putcall = 6;
+}

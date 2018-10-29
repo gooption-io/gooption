@@ -1,2 +1,0 @@
-POST http://localhost:8081/v1/gobs/price
-@PriceRequest.json

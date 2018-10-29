@@ -1,0 +1,18 @@
+type: google.api.Service
+config_version: 3
+
+#
+# HTTP rules define translation from HTTP/REST/JSON to gRPC. With these rules
+# HTTP/REST/JSON clients will be able to call the Bookstore service.
+#
+http:
+  rules:
+  - selector: pb.EuropeanOptionPricer.Price
+    post: /v1/europeanoptionpricer/price
+    body: "*"
+  - selector: pb.EuropeanOptionPricer.Greek
+    post: /v1/europeanoptionpricer/greek
+    body: "*"
+  - selector: pb.EuropeanOptionPricer.ImpliedVol
+    post: /v1/europeanoptionpricer/impliedvol
+    body: "*"

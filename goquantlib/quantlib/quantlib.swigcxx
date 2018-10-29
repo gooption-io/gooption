@@ -1,6 +1,0 @@
-%module quantlib
-%{
-    #include "european.hpp"
-%}
-
-%include "european.hpp"

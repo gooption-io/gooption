@@ -1,0 +1,69 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goql-configmap
+data:
+  goql.yml: |-
+    # my global config
+    tcp-listen-address :50051
+    http-listen-address :8081
+    prom-listen-address :8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goql
+  labels:
+    app: goql
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: goql
+  template:
+    metadata:
+      labels:
+        app: goql
+    spec:
+      containers:
+      - name: goql
+        image: gooption/goql:0.1
+        command:
+        - "/goql"
+        args:
+        - " -config=/etc/goql/goql.yml"
+        ports:
+        - containerPort: 8080
+        - containerPort: 8081
+        - containerPort: 50051
+        volumeMounts:
+        - name: goql-config
+          mountPath: /etc/goql
+      volumes:
+        - name: goql-config
+          configMap:
+            name: goql-configmap
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goql
+  labels:
+    app: goql
+spec:
+  selector:
+    app: goql
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: promhttp
+  - port: 8081
+    targetPort: 8081
+    name: http
+  - port: 50051
+    targetPort: 50051
+    name: tcp
+---

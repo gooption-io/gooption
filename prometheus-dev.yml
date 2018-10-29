@@ -24,9 +24,9 @@ scrape_configs:
     static_configs:
       - targets: ['gobs:1001']
 
-  - job_name: 'goquantlib'
-    static_configs:
-      - targets: ['goquantlib:1011']
+  # - job_name: 'goquantlib'
+  #   static_configs:
+  #     - targets: ['goquantlib:1011']
 
   - job_name: 'prometheus'
     static_configs:
@@ -47,7 +47,7 @@ scrape_configs:
   - job_name: 'dgraph'
     metrics_path: "/debug/prometheus_metrics"
     static_configs:
-      - targets: 
+      - targets:
         - 127.0.0.1:8080
         - 127.0.0.1:6080
 

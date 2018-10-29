@@ -1,3 +1,0 @@
-tcp-listen-address :50051
-http-listen-address :8081
-prom-listen-address :8080
