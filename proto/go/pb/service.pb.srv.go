@@ -7,19 +7,20 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	"github.com/grpc-ecosystem/go-grpc-middleware/recovery"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 
 	"github.com/grpc-ecosystem/go-grpc-prometheus"
 )
 
-// methods takes server chain as argument so it remains configurable per service while not changing core logic
-// might be useful for dependency injection
 func RunGobsServer(tcp, prom string, server GobsServer) error {
 	lis, err := net.Listen("tcp", tcp)
 	if err != nil {
@@ -62,4 +63,20 @@ func RunGobsServer(tcp, prom string, server GobsServer) error {
 
 	logrus.Infoln("grpc server ready on port ", tcp)
 	return grpcSrv.Serve(lis)
+}
+
+func RunGobsGateway(tcpPort, httpPort string) error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	err := RegisterGobsHandlerFromEndpoint(ctx, mux, tcpPort, opts)
+	if err != nil {
+		return err
+	}
+
+	logrus.Infoln("http server ready on port ", httpPort)
+	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }
