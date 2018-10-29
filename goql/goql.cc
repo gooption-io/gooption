@@ -33,56 +33,7 @@ namespace QuantLib {
 }
 #endif
 
-const double putLBound = 0.2;
 std::shared_ptr<spdlog::logger> console = spdlog::stdout_color_mt("goql");
-
-void calibrateImpliedVolSlice(const OptionQuoteSlice& quotes, const OptionMarket& market, boost::shared_ptr<BlackScholesMertonProcess> process, ImpliedVolSlice* calibratedSlice) {
-        auto s = market.spot().index().value();
-        calibratedSlice->set_expiry(quotes.expiry());
-        calibratedSlice->set_timestamp(market.timestamp());
-
-        for(int k=0;k<quotes.puts_size();k++){
-                auto put = quotes.puts(k);
-                if (put.strike()/s > putLBound && put.strike()/s <= 1.0) {
-                        ImpliedVolQuote* ivQuote = calibratedSlice->add_quotes();
-                        ivQuote->set_nbiteration(-1);
-                        ivQuote->set_timestamp(put.timestamp());
-                        ivQuote->set_allocated_input(new OptionQuote(put));
-
-                        try {
-                                EuropeanOption europeanOption = buildEuropeanOption(quotes.expiry(), put.strike(), "put");
-                                ivQuote->set_vol(europeanOption.impliedVolatility(put.ask(), process));
-                        } catch(exception& e) {
-                                ivQuote->set_error(e.what());
-                                calibratedSlice->set_iserror(true);
-                        } catch(...) {
-                                ivQuote->set_error("Unknown error when calling QuantLib");
-                                calibratedSlice->set_iserror(true);
-                        }
-                }
-        }
-
-        for(int k=0;k<quotes.calls_size();k++){
-                auto call = quotes.calls(k);
-                if (call.strike()/s > 1.0) {
-                        ImpliedVolQuote* ivQuote = calibratedSlice->add_quotes();
-                        ivQuote->set_nbiteration(-1);
-                        ivQuote->set_timestamp(call.timestamp());
-                        ivQuote->set_allocated_input(new OptionQuote(call));
-
-                        try {
-                                EuropeanOption europeanOption = buildEuropeanOption(quotes.expiry(), call.strike(), "call");
-                                ivQuote->set_vol(europeanOption.impliedVolatility(call.ask(), process));
-                        } catch(exception& e) {
-                                ivQuote->set_error(e.what());
-                                calibratedSlice->set_iserror(true);
-                        } catch(...) {
-                                ivQuote->set_error("Unknown error when calling QuantLib");
-                                calibratedSlice->set_iserror(true);
-                        }
-                }
-        }
-}
 
 // Logic and data behind the server's behavior.
 class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Service {
@@ -99,6 +50,49 @@ class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Servic
 
         Status Greek(ServerContext* context, const GreekRequest* request,GreekResponse* response) override {
                 console->info("Incoming GreekRequest");
+                auto priceRequest = request->request();
+                Settings::instance().evaluationDate() = to_ql_date(priceRequest.pricingdate());
+                boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(priceRequest.pricingdate(), priceRequest.marketdata());
+                EuropeanOption europeanOption = buildEuropeanOption(priceRequest.contract().expiry(), priceRequest.contract().strike(), priceRequest.contract().putcall());
+                europeanOption.setPricingEngine(boost::shared_ptr<PricingEngine>(new AnalyticEuropeanEngine(bsmProcess)));
+
+                vector<string> greeks;
+                for(int i = 0; i < request->greek_size();i++) {
+                        if(request->greek(i) == "all") {
+                                greeks = vector<string>{"delta", "gamma", "vega", "rho", "theta"};
+                                break;
+                        }
+                        greeks.push_back(request->greek(i));
+                }
+
+                for(int i = 0; i < greeks.size();i++) {
+                        if(greeks[i] == "delta") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("delta");
+                                delta->set_value(europeanOption.delta());
+                        }
+                        if(greeks[i] == "gamma") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("gamma");
+                                delta->set_value(europeanOption.gamma());
+                        }
+                        if(greeks[i] == "vega") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("vega");
+                                delta->set_value(europeanOption.vega());
+                        }
+                        if(greeks[i] == "rho") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("rho");
+                                delta->set_value(europeanOption.rho());
+                        }
+                        if(greeks[i] == "theta") {
+                                auto delta = response->add_greeks();
+                                delta->set_label("theta");
+                                delta->set_value(europeanOption.theta());
+                        }
+                }
+
                 console->info("Outgoing GreekResponse");
                 return Status::OK;
         }
