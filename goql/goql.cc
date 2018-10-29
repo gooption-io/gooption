@@ -15,6 +15,8 @@
 #include "boost/program_options.hpp"
 #include "boost/date_time/posix_time/posix_time.hpp"
 
+#include "quantlib.h"
+
 using namespace std;
 using namespace QuantLib;
 namespace po = boost::program_options;
@@ -37,60 +39,17 @@ namespace QuantLib {
 }
 #endif
 
-#define to_ql_date(d) Date(boost::posix_time::from_time_t(d))
+const double putLBound = 0.2;
 
 // Logic and data behind the server's behavior.
 class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Service {
         Status Price(ServerContext* context, const PriceRequest* request, PriceResponse* response) override {
-                int t0 = request->pricingdate();
-                int t = request->contract().expiry();
-
-                auto k = request->contract().strike();
-                auto putcall = static_cast<Option::Type>(request->contract().putcall() == "call" ? 1 : -1);
-
-                auto s = request->marketdata().spot().index().value();
-                auto v = request->marketdata().vol().index().value();
-                auto r = request->marketdata().rate().index().value();
-
-                Calendar calendar = TARGET();
-                DayCounter dayCounter = Actual365Fixed();
-                Date settlement = to_ql_date(t0)+0; //0 day settlement
-                Settings::instance().evaluationDate() = to_ql_date(t0);
-
-                // bootstrap the yield/dividend/vol curves
-                Handle<Quote> underlyingH(
-                        boost::shared_ptr<Quote>(new SimpleQuote(s)));
-
-                Handle<YieldTermStructure> flatTermStructure(
-                        boost::shared_ptr<YieldTermStructure>(
-                        new FlatForward(settlement, r, dayCounter)));
-
-                Handle<YieldTermStructure> flatDividendTS(
-                        boost::shared_ptr<YieldTermStructure>(
-                        new FlatForward(settlement, 0., dayCounter)));
-
-                Handle<BlackVolTermStructure> flatVolTS(
-                        boost::shared_ptr<BlackVolTermStructure>(
-                        new BlackConstantVol(settlement, calendar, v, dayCounter)));
-
-                boost::shared_ptr<BlackScholesMertonProcess> bsmProcess(
-                        new BlackScholesMertonProcess(
-                        underlyingH,
-                        flatDividendTS,
-                        flatTermStructure,
-                        flatVolTS));
-
-                boost::shared_ptr<Exercise> europeanExercise(
-                        new EuropeanExercise(to_ql_date(t)));
-
-                boost::shared_ptr<StrikedTypePayoff> payoff(
-                        new PlainVanillaPayoff(putcall,k));
-
-                VanillaOption europeanOption(payoff, europeanExercise);
-                europeanOption.setPricingEngine(
-                        boost::shared_ptr<PricingEngine>(
-                                new AnalyticEuropeanEngine(bsmProcess)));
-
+                Settings::instance().evaluationDate() = to_ql_date(request->pricingdate());
+                boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(request->pricingdate(), request->marketdata());
+                EuropeanOption europeanOption = buildEuropeanOption(request->contract().expiry(), request->contract().strike(), request->contract().putcall());
+                europeanOption.setPricingEngine(boost::shared_ptr<PricingEngine>(new AnalyticEuropeanEngine(bsmProcess)));
+                response = new PriceResponse();
+                response->set_price(europeanOption.NPV());
                 return Status::OK;
         }
 
@@ -99,12 +58,35 @@ class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Servic
         }
 
         Status ImpliedVol(ServerContext* context, const ImpliedVolRequest* request, ImpliedVolResponse* response) override {
-        return Status::OK;
+                Settings::instance().evaluationDate() = to_ql_date(request->pricingdate());
+                boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(request->pricingdate(), request->marketdata());
+
+                auto s = request->marketdata().spot().index().value();
+                for(int i = 0;i < request->quotes_size();i++) {
+                        auto slice = request->quotes(i);
+
+                        for(int k=0;k<slice.puts_size();k++){
+                                auto put = slice.puts(k);
+                                if (put.strike()/s > putLBound && put.strike()/s <= 1.0) {
+                                        EuropeanOption europeanOption = buildEuropeanOption(slice.expiry(), put.strike(), "put");
+                                        europeanOption.impliedVolatility(put.ask(), bsmProcess);
+                                }
+                        }
+
+                        for(int k=0;k<slice.calls_size();k++){
+                                auto call = slice.calls(k);
+                                if (call.strike()/s > 1.0) {
+                                        EuropeanOption europeanOption = buildEuropeanOption(slice.expiry(), call.strike(), "call");
+                                        europeanOption.impliedVolatility(call.ask(), bsmProcess);
+                                }
+                        }
+                }
+                return Status::OK;
         }
 };
 
 std::string withServerAddress(int argc, char** argv)  {
-        po::options_description desc("Allowed options");
+        po::options_description desc("goql options");
         desc.add_options()("tcp-listen-address", po::value<string>(), "tcp port");
 
         po::variables_map vm;
