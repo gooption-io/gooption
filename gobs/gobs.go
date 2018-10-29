@@ -181,7 +181,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 	defer close(out)
 
 	for idx := 0; idx < len(in.Quotes); idx++ {
-		go bsImpliedVol(idx, in, out)
+		go calibrateImpliedVolSlice(idx, in, out)
 	}
 
 	for idx := 0; idx < len(in.Quotes); idx++ {
@@ -200,7 +200,7 @@ type ivSolverResult struct {
 	NbSolverIteration int
 }
 
-func bsImpliedVol(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
+func calibrateImpliedVolSlice(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
 	var (
 		slice = in.Quotes[index]
 		mult  = func(q *pb.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }

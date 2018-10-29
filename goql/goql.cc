@@ -5,6 +5,7 @@
 
 #include <grpc++/grpc++.h>
 #include "service.grpc.pb.h"
+#include "marketdata.pb.h"
 
 #include <ql/quantlib.hpp>
 #include <ql/time/calendars/target.hpp>
@@ -15,26 +16,16 @@
 #include "boost/program_options.hpp"
 #include "boost/date_time/posix_time/posix_time.hpp"
 
-#include "quantlib.h"
+#include "ql.cc"
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+using namespace pb;
 using namespace std;
+using namespace grpc;
 using namespace QuantLib;
 namespace po = boost::program_options;
-
-using grpc::Server;
-using grpc::ServerBuilder;
-using grpc::ServerContext;
-using grpc::Status;
-using pb::PriceRequest;
-using pb::PriceResponse;
-using pb::GreekRequest;
-using pb::GreekResponse;
-using pb::ImpliedVolRequest;
-using pb::ImpliedVolResponse;
-using pb::EuropeanOptionPricer;
 
 #if defined(QL_ENABLE_SESSIONS)
 namespace QuantLib {
@@ -44,6 +35,54 @@ namespace QuantLib {
 
 const double putLBound = 0.2;
 std::shared_ptr<spdlog::logger> console = spdlog::stdout_color_mt("goql");
+
+void calibrateImpliedVolSlice(const OptionQuoteSlice& quotes, const OptionMarket& market, boost::shared_ptr<BlackScholesMertonProcess> process, ImpliedVolSlice* calibratedSlice) {
+        auto s = market.spot().index().value();
+        calibratedSlice->set_expiry(quotes.expiry());
+        calibratedSlice->set_timestamp(market.timestamp());
+
+        for(int k=0;k<quotes.puts_size();k++){
+                auto put = quotes.puts(k);
+                if (put.strike()/s > putLBound && put.strike()/s <= 1.0) {
+                        ImpliedVolQuote* ivQuote = calibratedSlice->add_quotes();
+                        ivQuote->set_nbiteration(-1);
+                        ivQuote->set_timestamp(put.timestamp());
+                        ivQuote->set_allocated_input(new OptionQuote(put));
+
+                        try {
+                                EuropeanOption europeanOption = buildEuropeanOption(quotes.expiry(), put.strike(), "put");
+                                ivQuote->set_vol(europeanOption.impliedVolatility(put.ask(), process));
+                        } catch(exception& e) {
+                                ivQuote->set_error(e.what());
+                                calibratedSlice->set_iserror(true);
+                        } catch(...) {
+                                ivQuote->set_error("Unknown error when calling QuantLib");
+                                calibratedSlice->set_iserror(true);
+                        }
+                }
+        }
+
+        for(int k=0;k<quotes.calls_size();k++){
+                auto call = quotes.calls(k);
+                if (call.strike()/s > 1.0) {
+                        ImpliedVolQuote* ivQuote = calibratedSlice->add_quotes();
+                        ivQuote->set_nbiteration(-1);
+                        ivQuote->set_timestamp(call.timestamp());
+                        ivQuote->set_allocated_input(new OptionQuote(call));
+
+                        try {
+                                EuropeanOption europeanOption = buildEuropeanOption(quotes.expiry(), call.strike(), "call");
+                                ivQuote->set_vol(europeanOption.impliedVolatility(call.ask(), process));
+                        } catch(exception& e) {
+                                ivQuote->set_error(e.what());
+                                calibratedSlice->set_iserror(true);
+                        } catch(...) {
+                                ivQuote->set_error("Unknown error when calling QuantLib");
+                                calibratedSlice->set_iserror(true);
+                        }
+                }
+        }
+}
 
 // Logic and data behind the server's behavior.
 class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Service {
@@ -68,31 +107,19 @@ class EuropeanOptionPricerServerImpl final : public EuropeanOptionPricer::Servic
                 console->info("Incoming ImpliedVolRequest");
                 Settings::instance().evaluationDate() = to_ql_date(request->pricingdate());
                 boost::shared_ptr<BlackScholesMertonProcess> bsmProcess = buildBlackScholesMertonProcess(request->pricingdate(), request->marketdata());
-                auto s = request->marketdata().spot().index().value();
                 for(int i = 0;i < request->quotes_size();i++) {
-                        auto slice = request->quotes(i);
-
-                        for(int k=0;k<slice.puts_size();k++){
-                                auto put = slice.puts(k);
-                                if (put.strike()/s > putLBound && put.strike()/s <= 1.0) {
-                                        EuropeanOption europeanOption = buildEuropeanOption(slice.expiry(), put.strike(), "put");
-                                        europeanOption.impliedVolatility(put.ask(), bsmProcess);
-                                }
-                        }
-
-                        for(int k=0;k<slice.calls_size();k++){
-                                auto call = slice.calls(k);
-                                if (call.strike()/s > 1.0) {
-                                        EuropeanOption europeanOption = buildEuropeanOption(slice.expiry(), call.strike(), "call");
-                                        europeanOption.impliedVolatility(call.ask(), bsmProcess);
-                                }
-                        }
+                        console->debug("Calibrating slice");
+                        auto quotes = request->quotes(i);
+                        auto calibratedSlice = response->mutable_volsurface()->add_slices();
+                        calibrateImpliedVolSlice(quotes, request->marketdata(), bsmProcess, calibratedSlice);
+                        console->debug(calibratedSlice->ShortDebugString());
                 }
-
                 console->info("Outgoing ImpliedVolResponse");
+                console->debug(response->ShortDebugString());
                 return Status::OK;
         }
 };
+
 
 std::string withServerAddress(int argc, char** argv)  {
         po::options_description desc("goql options");
