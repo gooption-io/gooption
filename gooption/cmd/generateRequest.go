@@ -20,7 +20,7 @@ import (
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
-	"github.com/gooption-io/gooption/proto/go/pb"
+	gooption "github.com/gooption-io/gooption/proto"
 	"github.com/lehajam/goyahoo"
 	"github.com/spf13/cobra"
 )
@@ -31,7 +31,7 @@ var (
 	optionTicker, undTicker, rateTicker, putcall string
 	pricingDate                                  = float64(time.Now().Unix())
 
-	option = &pb.European{
+	option = &gooption.European{
 		Timestamp: pricingDate,
 		Ticker:    optionTicker,
 		Undticker: undTicker,
@@ -40,24 +40,24 @@ var (
 		Putcall:   putcall,
 	}
 
-	mkt = &pb.OptionMarket{
+	mkt = &gooption.OptionMarket{
 		Timestamp: pricingDate,
-		Spot: &pb.Spot{
-			Index: &pb.Index{
+		Spot: &gooption.Spot{
+			Index: &gooption.Index{
 				Timestamp: pricingDate,
 				Ticker:    undTicker,
 				Value:     spot,
 			},
 		},
-		Vol: &pb.FlatVol{
-			Index: &pb.Index{
+		Vol: &gooption.FlatVol{
+			Index: &gooption.Index{
 				Timestamp: pricingDate,
 				Ticker:    undTicker,
 				Value:     vol,
 			},
 		},
-		Rate: &pb.RiskFreeRate{
-			Index: &pb.Index{
+		Rate: &gooption.RiskFreeRate{
+			Index: &gooption.Index{
 				Timestamp: pricingDate,
 				Ticker:    rateTicker,
 				Value:     rate,
@@ -65,15 +65,15 @@ var (
 		},
 	}
 
-	priceRequest = &pb.PriceRequest{
+	priceRequest = &gooption.PriceRequest{
 		Pricingdate: pricingDate,
 		Contract:    option,
 		Marketdata:  mkt,
 	}
 
-	greekRequest = &pb.GreekRequest{
+	greekRequest = &gooption.GreekRequest{
 		Greek: []string{"all"},
-		Request: &pb.PriceRequest{
+		Request: &gooption.PriceRequest{
 			Pricingdate: pricingDate,
 			Contract:    option,
 			Marketdata:  mkt,
@@ -130,20 +130,20 @@ func generateRequest(name string, message proto.Message) {
 	}
 }
 
-func newImpliedVolRequest() *pb.ImpliedVolRequest {
+func newImpliedVolRequest() *gooption.ImpliedVolRequest {
 	chain, _, err := goyahoo.GetOptionChain(undTicker)
 	if err != nil {
 		panic(err)
 	}
 
-	request := &pb.ImpliedVolRequest{
+	request := &gooption.ImpliedVolRequest{
 		Pricingdate: pricingDate,
 		Marketdata:  mkt,
-		Quotes:      make([]*pb.OptionQuoteSlice, len(chain)),
+		Quotes:      make([]*gooption.OptionQuoteSlice, len(chain)),
 	}
 
 	for i, yahooQuote := range chain {
-		request.Quotes[i] = &pb.OptionQuoteSlice{
+		request.Quotes[i] = &gooption.OptionQuoteSlice{
 			Timestamp: pricingDate,
 			Expiry:    float64(yahooQuote.ExpirationDates[i]),
 			Puts:      newOptionQuote(yahooQuote.Options[0].Puts, "put"),
@@ -154,10 +154,10 @@ func newImpliedVolRequest() *pb.ImpliedVolRequest {
 	return request
 }
 
-func newOptionQuote(quotes []goyahoo.Quote, putcall string) []*pb.OptionQuote {
-	requestQuotes := make([]*pb.OptionQuote, len(quotes))
+func newOptionQuote(quotes []goyahoo.Quote, putcall string) []*gooption.OptionQuote {
+	requestQuotes := make([]*gooption.OptionQuote, len(quotes))
 	for i, quote := range quotes {
-		requestQuotes[i] = &pb.OptionQuote{
+		requestQuotes[i] = &gooption.OptionQuote{
 			Timestamp:    pricingDate,
 			Strike:       quote.Strike,
 			Ask:          quote.Ask,

@@ -17,7 +17,8 @@ package cmd
 import (
 	"os"
 
-	"github.com/gooption-io/gooption/proto/go/pb"
+	"github.com/gooption-io/gooption/proto"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +33,8 @@ var gatewayCmd = &cobra.Command{
 	Short: "Starts http reverse proxy",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := pb.ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort); err != nil {
+		if err := gooption.ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort); err != nil {
+			logrus.Errorln(err)
 			os.Exit(1)
 		}
 	},

@@ -7,12 +7,12 @@ config_version: 3
 #
 http:
   rules:
-  - selector: pb.EuropeanOptionPricer.Price
+  - selector: gooption.EuropeanOptionPricer.Price
     post: /v1/europeanoptionpricer/price
     body: "*"
-  - selector: pb.EuropeanOptionPricer.Greek
+  - selector: gooption.EuropeanOptionPricer.Greek
     post: /v1/europeanoptionpricer/greek
     body: "*"
-  - selector: pb.EuropeanOptionPricer.ImpliedVol
+  - selector: gooption.EuropeanOptionPricer.ImpliedVol
     post: /v1/europeanoptionpricer/impliedvol
     body: "*"

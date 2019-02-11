@@ -14,7 +14,7 @@ import (
 	"github.com/lehajam/dgo"
 	"github.com/lehajam/dgo/protos/api"
 
-	"github.com/gooption-io/gooption/proto/go/pb"
+	"github.com/gooption-io/gooption/proto"
 	"google.golang.org/grpc"
 
 	"github.com/gogo/protobuf/jsonpb"
@@ -81,14 +81,14 @@ type client struct{}
 
 func (c client) priceRequest() {
 	resp := query(
-		PriceRequest,
+		q.PriceRequest,
 		map[string]string{
 			"$timestamp":    "1514162664",
 			"$optionTicker": "AAPL DEC2017 PUT",
 			"$rateTicker":   "USD.FEDFUND",
 		})
 
-	priceReq := &pb.PriceRequest{}
+	priceReq := &gooption.PriceRequest{}
 	err := dgo.Unmarshal(resp.GetJson(), priceReq)
 	if err != nil {
 		panic(err)
@@ -100,7 +100,7 @@ func (c client) priceRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewEuropeanOptionPricerClient(conn2)
+	gobsClient := gooption.NewEuropeanOptionPricerClient(conn2)
 	price, err := gobsClient.Price(context.Background(), priceReq)
 	if err != nil {
 		log.Fatal(err)
@@ -111,14 +111,14 @@ func (c client) priceRequest() {
 
 func (c client) greekRequest() {
 	resp := query(
-		PriceRequest,
+		q.PriceRequest,
 		map[string]string{
 			"$timestamp":    "1513551151",
 			"$optionTicker": "AAPL DEC2017 PUT",
 			"$rateTicker":   "USD.FEDFUND",
 		})
 
-	priceReq := &pb.PriceRequest{}
+	priceReq := &gooption.PriceRequest{}
 	err := dgo.Unmarshal(resp.GetJson(), priceReq)
 	if err != nil {
 		panic(err)
@@ -130,10 +130,10 @@ func (c client) greekRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewEuropeanOptionPricerClient(conn2)
+	gobsClient := gooption.NewEuropeanOptionPricerClient(conn2)
 	greek, err := gobsClient.Greek(
 		context.Background(),
-		&pb.GreekRequest{
+		&gooption.GreekRequest{
 			Request: priceReq,
 			Greek:   []string{"all"},
 		})
@@ -148,14 +148,14 @@ func (c client) greekRequest() {
 
 func (c client) ivRequest() {
 	resp := query(
-		ImpliedvolRequest,
+		q.ImpliedvolRequest,
 		map[string]string{
 			"$timestamp":  "1513551151",
 			"$undTicker":  "AAPL",
 			"$rateTicker": "USD.FEDFUND",
 		})
 
-	ivReq := &pb.ImpliedVolRequest{}
+	ivReq := &gooption.ImpliedVolRequest{}
 	err := dgo.Unmarshal(resp.GetJson(), ivReq)
 	if err != nil {
 		panic(err)
@@ -166,7 +166,7 @@ func (c client) ivRequest() {
 	conn2 := dial("gobs")
 	defer conn2.Close()
 
-	gobsClient := pb.NewEuropeanOptionPricerClient(conn2)
+	gobsClient := gooption.NewEuropeanOptionPricerClient(conn2)
 	volSurf, err := gobsClient.ImpliedVol(context.Background(), ivReq)
 	if err != nil {
 		log.Fatal(err)
@@ -221,7 +221,7 @@ func insertPriceRequest() {
 	}
 	defer file.Close()
 
-	request := &pb.PriceRequest{}
+	request := &gooption.PriceRequest{}
 	err = jsonpb.Unmarshal(file, request)
 	if err != nil {
 		panic(err)
@@ -242,7 +242,7 @@ func insertGreekRequest() {
 	}
 	defer file.Close()
 
-	request := &pb.GreekRequest{}
+	request := &gooption.GreekRequest{}
 	err = jsonpb.Unmarshal(file, request)
 	if err != nil {
 		panic(err)
@@ -263,7 +263,7 @@ func insertImpliedVolRequest() {
 	}
 	defer file.Close()
 
-	request := &pb.ImpliedVolRequest{}
+	request := &gooption.ImpliedVolRequest{}
 	err = jsonpb.Unmarshal(file, request)
 	if err != nil {
 		panic(err)

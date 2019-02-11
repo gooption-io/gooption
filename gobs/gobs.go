@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gogo/protobuf/proto"
-	"github.com/gooption-io/gooption/proto/go/pb"
+	"github.com/gooption-io/gooption/proto"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	context "golang.org/x/net/context"
@@ -34,7 +34,7 @@ var (
 
 func main() {
 	flag.Parse()
-	err := pb.ServeEuropeanOptionPricerServer(*tcp, *promhttp, &server{})
+	err := gooption.ServeEuropeanOptionPricerServer(*tcp, *promhttp, &server{})
 	if err != nil {
 		logrus.Errorln(err)
 		os.Exit(1)
@@ -49,7 +49,7 @@ Price computes the fair value of a european stock option according to Black Scho
 Black Scholes Formula : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model#Black.E2.80.93Scholes_formula
 Stock assumed to pay no dividends
 */
-func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceResponse, error) {
+func (srv *server) Price(ctx context.Context, in *gooption.PriceRequest) (*gooption.PriceResponse, error) {
 	var (
 		mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
 
@@ -61,7 +61,7 @@ func (srv *server) Price(ctx context.Context, in *pb.PriceRequest) (*pb.PriceRes
 			time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
 	)
 
-	return &pb.PriceResponse{
+	return &gooption.PriceResponse{
 		Price: bs(s, v, r, k, t, mult),
 	}, nil
 }
@@ -91,7 +91,7 @@ Black Scholes Greeks : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model
 Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
-func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekResponse, error) {
+func (srv *server) Greek(ctx context.Context, in *gooption.GreekRequest) (*gooption.GreekResponse, error) {
 	if len(in.Greek) == 0 {
 		return nil, errors.New("No greeks requested")
 	}
@@ -115,9 +115,9 @@ func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekRes
 		d2 = d2(d1, v, t)
 	)
 
-	greeks := make([]*pb.GreekResponse_Greek, len(in.Greek))
+	greeks := make([]*gooption.GreekResponse_Greek, len(in.Greek))
 	for index, greek := range in.Greek {
-		greekResponse := &pb.GreekResponse_Greek{
+		greekResponse := &gooption.GreekResponse_Greek{
 			Label: greek,
 		}
 
@@ -139,7 +139,7 @@ func (srv *server) Greek(ctx context.Context, in *pb.GreekRequest) (*pb.GreekRes
 		greeks[index] = greekResponse
 	}
 
-	return &pb.GreekResponse{
+	return &gooption.GreekResponse{
 		Greeks: greeks,
 	}, nil
 }
@@ -169,15 +169,15 @@ ImpliedVol computes volatility matching the option quote passed as Quote using N
 Newton Raphson solver : https://en.wikipedia.org/wiki/Newton%27s_method
 The second argument returned is the number of iteration used to converge
 */
-func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*pb.ImpliedVolResponse, error) {
+func (srv *server) ImpliedVol(ctx context.Context, in *gooption.ImpliedVolRequest) (*gooption.ImpliedVolResponse, error) {
 	logrus.Debugf("%+v\n", proto.MarshalTextString(in))
 
-	surf := &pb.ImpliedVolSurface{
+	surf := &gooption.ImpliedVolSurface{
 		Timestamp: in.Marketdata.Timestamp,
-		Slices:    make([]*pb.ImpliedVolSlice, len(in.Quotes)),
+		Slices:    make([]*gooption.ImpliedVolSlice, len(in.Quotes)),
 	}
 
-	out := make(chan pb.ImpliedVolSlice, len(in.Quotes))
+	out := make(chan gooption.ImpliedVolSlice, len(in.Quotes))
 	defer close(out)
 
 	for idx := 0; idx < len(in.Quotes); idx++ {
@@ -190,7 +190,7 @@ func (srv *server) ImpliedVol(ctx context.Context, in *pb.ImpliedVolRequest) (*p
 	}
 
 	logrus.Debugf("%+v\n", proto.MarshalTextString(surf))
-	return &pb.ImpliedVolResponse{
+	return &gooption.ImpliedVolResponse{
 		Volsurface: surf,
 	}, nil
 }
@@ -200,32 +200,32 @@ type ivSolverResult struct {
 	NbSolverIteration int
 }
 
-func calibrateImpliedVolSlice(index int, in *pb.ImpliedVolRequest, out chan<- pb.ImpliedVolSlice) {
+func calibrateImpliedVolSlice(index int, in *gooption.ImpliedVolRequest, out chan<- gooption.ImpliedVolSlice) {
 	var (
 		slice = in.Quotes[index]
-		mult  = func(q *pb.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }
+		mult  = func(q *gooption.OptionQuote) float64 { return putCallMap[strings.ToLower(q.Putcall)] }
 
 		s = in.Marketdata.Spot.Index.Value
 		r = in.Marketdata.Rate.Index.Value
-		k = func(q *pb.OptionQuote) float64 { return q.Strike }
-		p = func(q *pb.OptionQuote) float64 { return (q.Ask + q.Bid) / 2.0 }
-		t = func(q *pb.OptionQuoteSlice) float64 {
+		k = func(q *gooption.OptionQuote) float64 { return q.Strike }
+		p = func(q *gooption.OptionQuote) float64 { return (q.Ask + q.Bid) / 2.0 }
+		t = func(q *gooption.OptionQuoteSlice) float64 {
 			return time.Unix(int64(q.Expiry), 0).Sub(time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
 		}
 	)
 
-	calibratedSlice := pb.ImpliedVolSlice{
+	calibratedSlice := gooption.ImpliedVolSlice{
 		Timestamp: in.Marketdata.Timestamp,
 		Expiry:    slice.Expiry,
 		Iserror:   false,
-		Quotes:    make([]*pb.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
+		Quotes:    make([]*gooption.ImpliedVolQuote, len(slice.Puts)+len(slice.Calls)),
 	}
 
-	calibrate := func(quote *pb.OptionQuote) *pb.ImpliedVolQuote {
+	calibrate := func(quote *gooption.OptionQuote) *gooption.ImpliedVolQuote {
 		res, err := ivRootSolver(p(quote), s, r, k(quote), t(slice), mult(quote))
 		if err != nil {
 			calibratedSlice.Iserror = true
-			return &pb.ImpliedVolQuote{
+			return &gooption.ImpliedVolQuote{
 				Timestamp:   quote.Timestamp,
 				Input:       quote,
 				Error:       err.Error(),
@@ -233,7 +233,7 @@ func calibrateImpliedVolSlice(index int, in *pb.ImpliedVolRequest, out chan<- pb
 			}
 		}
 
-		return &pb.ImpliedVolQuote{
+		return &gooption.ImpliedVolQuote{
 			Timestamp:   quote.Timestamp,
 			Input:       quote,
 			Vol:         res.IV,
