@@ -1,0 +1,9 @@
+FROM gooption/builder:latest as builder
+ADD . /go/src/github.com/gooption-io/gooption/gooption
+WORKDIR /go/src/github.com/gooption-io/gooption/gooption
+RUN CGO_ENABLED=0 GOOS=linux go build
+
+FROM scratch
+EXPOSE 8081
+COPY --from=builder /go/src/github.com/gooption-io/gooption/gooption/gooption /
+ENTRYPOINT ["/gooption", "gateway"]

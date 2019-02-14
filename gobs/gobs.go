@@ -23,8 +23,11 @@ const (
 )
 
 var (
+	// Version should be set by build flags: `git describe --tags`
+	Version = "please set in makefile"
+
 	tcp      = flag.String("tcp-listen-address", ":50051", "tcp port")
-	promhttp = flag.String("prom-listen-address", ":8080", "prometheud http port")
+	promhttp = flag.String("prom-listen-address", ":8080", "prometheus http port")
 
 	phi        = distuv.Normal{Mu: 0, Sigma: 1}.CDF
 	dphi       = distuv.Normal{Mu: 0, Sigma: 1}.Prob

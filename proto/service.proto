@@ -82,7 +82,8 @@ message ImpliedVolSurface {
     repeated ImpliedVolSlice slices = 2;
 }
 
-// service
+// Compute
+
 message PriceRequest {
   double pricingdate = 1;
   European contract = 2;

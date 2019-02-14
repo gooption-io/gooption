@@ -1,96 +1,20 @@
 version: '3.6'
 services:
   gobs:
-    image: gooption/gobs:dev
-    command: /gobs -config=/etc/gobs/gobs.yml
-    volumes:
-      - "./gobs/gobs.yml:/etc/gobs/gobs.yml"
+    image: gooption/gobs:manual
     ports:
-     - 8080:8080
-     - 8081:8081
+     - 8083:8080
      - 50051:50051
     networks:
-      - back-end
-  
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
-      - prometheus-data:/prometheus
-    ports:
-      - 9090:9090
-    networks: 
-      - front-end
-      - back-end
-  
-  exporter:
-    image: prom/node-exporter
-    ports:
-      - 9100:9100
-    networks: 
-      - back-end
-  
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - grafana-data:/var/lib/grafana
-    ports:
-      - 3000:3000
-    networks: 
-      - front-end
-      - back-end
+      back-end:
 
-  zero:
-    image: dgraph/dgraph:v1.0.5
-    volumes:
-      - type: volume
-        source: dgraph-data
-        target: /dgraph
-        volume:
-          nocopy: true
+  gateway:
+    image: gooption/gateway:manual
+    command: gooption gateway --grpc-address=gobs:50051
     ports:
-      - 5080:5080
-      - 6080:6080
-    networks: 
-      - front-end
-    restart: on-failure
-    command: dgraph zero --my=zero:5080
-  
-  server:
-    image: dgraph/dgraph:v1.0.5
-    volumes:
-      - type: volume
-        source: dgraph-data
-        target: /dgraph
-        volume:
-          nocopy: true
-    ports:
-      - 8082:8082
-      - 9082:9082
-    networks: 
-      - front-end
-    restart: on-failure
-    command: dgraph server --port_offset=2 --my=server:7080 --lru_mb=2048 --zero=zero:5080
+    - 8081:8081
+    networks:
+      back-end:
 
-  ratel:
-    image: dgraph/dgraph:v1.0.5
-    volumes:
-      - type: volume
-        source: dgraph-data
-        target: /dgraph
-        volume:
-          nocopy: true
-    ports:
-      - 8000:8000
-    networks: 
-      - front-end
-    command: dgraph-ratel
-
-volumes:
-  prometheus-data:
-  grafana-data:
-  dgraph-data:
-  
 networks:
-  front-end: 
-  back-end: 
+  back-end:

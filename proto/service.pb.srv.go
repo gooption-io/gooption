@@ -77,6 +77,7 @@ func ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort string) error {
 		return err
 	}
 
+	logrus.Infoln("connected to EuropeanOptionPricer at ", tcpPort)
 	logrus.Infoln("EuropeanOptionPricer reverse proxy ready at ", httpPort)
 	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }

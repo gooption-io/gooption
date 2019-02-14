@@ -1,0 +1,26 @@
+.PHONY: all build test tf clean image dist
+
+BUILD_VERSION ?= manual
+BUILD_FLAGS := -a -tags netgo -tags nocgo -ldflags '-extldflags "-static" -X "github.com/gooption-io/gooption/gobs.Version=$(GIT_VERSION)"'
+BUILDOUT ?= gooption
+IMAGE_NAME = "gooption/gateway:${BUILD_VERSION}"
+
+all: dist
+
+dist: clean build image
+
+clean:
+	rm -f ${BUILDOUT}
+
+build:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build $(BUILD_FLAGS) -o $(BUILDOUT) .
+
+test:
+	go test -race ./...
+
+# Test fast
+tf:
+	go test -short ./...
+
+image:
+	docker build -t $(IMAGE_NAME) .
