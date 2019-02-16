@@ -1,6 +1,6 @@
 # gooption
 
-![Image of gopher option trader](logo.png)
+![Image of gopher option trader](gopher.png)
 
 Scalable, Distributed, Low Latency, High Throughput, Extensible option pricing system.
 
