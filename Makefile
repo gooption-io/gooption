@@ -31,7 +31,7 @@ install:
 	done
 
 builder:
-	docker build -t $(IMAGE_NAME) .
+	docker build --no-cache -t $(IMAGE_NAME) .
 
 image:
 	@for pkg in $(PROJECTS); do \

@@ -23,4 +23,4 @@ tf:
 	go test -short ./...
 
 image:
-	docker build -t $(IMAGE_NAME) .
+	docker build --no-cache -t $(IMAGE_NAME) .

@@ -44,5 +44,5 @@ func init() {
 	rootCmd.AddCommand(gatewayCmd)
 
 	gatewayCmd.Flags().StringVar(&httpPort, "address", ":8081", "proxy url")
-	gatewayCmd.Flags().StringVar(&tcpPort, "grpc-address", "0.0.0.0:50051", "grpc server address")
+	gatewayCmd.Flags().StringVar(&tcpPort, "grpc-address", ":50051", "grpc server address")
 }

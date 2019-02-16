@@ -3,18 +3,30 @@ services:
   gobs:
     image: gooption/gobs:manual
     ports:
-     - 8083:8080
+     - 8080:8080
      - 50051:50051
-    networks:
-      back-end:
 
   gateway:
     image: gooption/gateway:manual
     command: gooption gateway --grpc-address=gobs:50051
     ports:
     - 8081:8081
-    networks:
-      back-end:
 
-networks:
-  back-end:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus-data:/prometheus
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+
+volumes:
+  grafana-data:
+  prometheus-data:
