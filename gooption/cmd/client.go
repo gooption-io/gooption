@@ -33,7 +33,7 @@ func dial(service string) *grpc.ClientConn {
 	if service == "gobs" {
 		conn, err = grpc.Dial(":50051", grpc.WithInsecure())
 	} else if service == "dgraph" {
-		conn, err = grpc.Dial(":9082", grpc.WithInsecure())
+		conn, err = grpc.Dial(":9080", grpc.WithInsecure())
 	} else {
 		err = errors.New("Unknown service")
 	}
@@ -113,7 +113,7 @@ func (c client) greekRequest() {
 	resp := query(
 		q.PriceRequest,
 		map[string]string{
-			"$timestamp":    "1513551151",
+			"$timestamp":    "1514162664",
 			"$optionTicker": "AAPL DEC2017 PUT",
 			"$rateTicker":   "USD.FEDFUND",
 		})
@@ -150,7 +150,7 @@ func (c client) ivRequest() {
 	resp := query(
 		q.ImpliedvolRequest,
 		map[string]string{
-			"$timestamp":  "1513551151",
+			"$timestamp":  "1514162664",
 			"$undTicker":  "AAPL",
 			"$rateTicker": "USD.FEDFUND",
 		})
@@ -160,7 +160,7 @@ func (c client) ivRequest() {
 	if err != nil {
 		panic(err)
 	}
-	ivReq.Pricingdate = float64(1513551151)
+	ivReq.Pricingdate = float64(1514162664)
 	fmt.Printf("%+v\n", proto.MarshalTextString(ivReq))
 
 	conn2 := dial("gobs")
