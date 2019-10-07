@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/gooption-io/gooption/gooption/cmd"
+import "github.com/gooption-io/gooption/v1/gooption/cmd"
 
 func main() {
 	cmd.Execute()
