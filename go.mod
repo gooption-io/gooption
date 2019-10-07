@@ -4,12 +4,11 @@ go 1.13
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
-	github.com/etcd-io/bbolt v1.3.3 // indirect
 	github.com/fatih/color v1.7.0
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/gogo/protobuf v1.3.0
 	github.com/golang/protobuf v1.3.2
-	github.com/gooption-io/gooption v0.0.0-20181030083956-63e2fb9296d8
+
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.11.3
@@ -35,9 +34,13 @@ require (
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.4.0
 	github.com/tendermint/abci v0.12.0
+	github.com/tendermint/tendermint v0.32.5 // indirect
 	github.com/tendermint/tmlibs v0.9.0
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
 	golang.org/x/net v0.0.0-20191003171128-d98b1b443823
+	golang.org/x/sys v0.0.0-20191007092633-5f54ce542709 // indirect
+	golang.org/x/text v0.3.2 // indirect
 	gonum.org/v1/gonum v0.0.0-20191004082826-a11ea52b6f3c
+	google.golang.org/genproto v0.0.0-20191002211648-c459b9ce5143 // indirect
 	google.golang.org/grpc v1.24.0
 )

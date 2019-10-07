@@ -14,13 +14,12 @@ import (
 	"github.com/lehajam/dgo"
 	"github.com/lehajam/dgo/protos/api"
 
-	"github.com/gooption-io/gooption/proto/go/pb"
+	"github.com/gooption-io/gooption/v1/proto/go/pb"
 	"google.golang.org/grpc"
 
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 
-	q "github.com/gooption-io/gooption/gooption/cmd/query"
 	"github.com/sirupsen/logrus"
 )
 
