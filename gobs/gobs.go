@@ -8,11 +8,14 @@ import (
 	"strings"
 	"time"
 
+	"context"
+
 	"github.com/gogo/protobuf/proto"
+	_ "github.com/gooption-io/gooption/initializer"
+	"github.com/gooption-io/gooption/logging"
 	"github.com/gooption-io/gooption/proto/go/pb"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	context "golang.org/x/net/context"
 	"gonum.org/v1/gonum/stat/distuv"
 )
 
@@ -33,9 +36,13 @@ var (
 )
 
 func main() {
+
 	flag.Parse()
+	logging.Log("info", "Starting gRPC server on port %v", *tcp)
+
 	err := pb.ServeEuropeanOptionPricerServer(*tcp, *promhttp, &server{})
 	if err != nil {
+		logging.Log("fatal", "Error while starting server: %v", err)
 		logrus.Errorln(err)
 		os.Exit(1)
 	}
@@ -272,7 +279,7 @@ func ivRootSolver(mktPrice, s, r, k, t, mult float64) (*ivSolverResult, error) {
 	for index := 0; index < maxIter; index++ {
 		bsPrice := bs(s, iv, r, k, t, mult)
 		iv = iv - (bsPrice-mktPrice)/vega(s, t, d1(s, k, t, iv, r))
-		if math.Abs(bsPrice-mktPrice) < 1E-10 { //decrease to 1E-25 to test convergence error
+		if math.Abs(bsPrice-mktPrice) < 1e-10 { //decrease to 1E-25 to test convergence error
 			return &ivSolverResult{iv, index}, nil
 		}
 	}
