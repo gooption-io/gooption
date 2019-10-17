@@ -18,7 +18,7 @@ pipeline:
     tags:
       - v0
       - dev
-    dockerfile: ./gobs/dockerfile
+    dockerfile: ./gobs/Dockerfile
     context: ./gobs
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
 
@@ -37,7 +37,7 @@ pipeline:
     tags:
       - v0
       - dev
-    dockerfile: ./goql/dockerfile
+    dockerfile: ./goql/Dockerfile
     context: ./goql
     secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
 

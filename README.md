@@ -68,3 +68,9 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 go get -u github.com/golang/protobuf/protoc-gen-go
 ```
+
+### gobs Docker image build
+Ensure you're within the gooption root directory to get the right Docker build context
+```
+docker build -f gobs/Dockerfile . -t gooption/gobs:<BUILD> --no-cache
+```

@@ -1,10 +1,12 @@
 package pb
 
 import (
-	"log"
+	//"log"
 	"net"
 	"net/http"
 
+	"github.com/gooption-io/gooption/v1/logging"
+	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/cors"
@@ -17,8 +19,6 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	"github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-
-	"github.com/grpc-ecosystem/go-grpc-prometheus"
 )
 
 func ServeEuropeanOptionPricerServer(tcp, prom string, server EuropeanOptionPricerServer) error {
@@ -42,7 +42,7 @@ func ServeEuropeanOptionPricerServer(tcp, prom string, server EuropeanOptionPric
 	grpcSrv := grpc.NewServer(
 		grpc_middleware.WithUnaryServerChain(
 			grpc_recovery.UnaryServerInterceptor(),
-			grpc.UnaryServerInterceptor(grpc_prometheus.UnaryServerInterceptor),
+			grpc_prometheus.UnaryServerInterceptor,
 			grpc_logrus.UnaryServerInterceptor(logrus.NewEntry(logrus.New()), opts...)))
 
 	RegisterEuropeanOptionPricerServer(grpcSrv, server)
@@ -52,16 +52,36 @@ func ServeEuropeanOptionPricerServer(tcp, prom string, server EuropeanOptionPric
 	reg := prometheus.NewRegistry()
 	grpc_prometheus.Register(grpcSrv)
 	reg.MustRegister(grpc_prometheus.NewServerMetrics())
-	httpServer := &http.Server{Handler: promhttp.HandlerFor(reg, promhttp.HandlerOpts{}), Addr: prom}
+
+	// Entrypoint HTTP handler
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		_, errWelcomePage := w.Write([]byte(`<html>
+             <head><title>Go Option GOBS Prom</title></head>
+             <body>
+             <h1>Go Option GOBS Prometheus Metrics</h1>
+             <p><a href="/metrics">Metrics</a></p>
+             </body>
+             </html>`))
+
+		if errWelcomePage != nil {
+			logging.Log(
+				"error",
+				"Failed to render Prometheus metrics welcome page %v", err)
+		}
+	})
+
+	// HTTP Handler for Prometheus metrics
+	http.Handle("/metrics", promhttp.Handler())
+
 	go func() {
 		// Start your http server for prometheus.
-		logrus.Infoln("EuropeanOptionPricer prometheus server ready at ", prom)
-		if err := httpServer.ListenAndServe(); err != nil {
-			log.Fatal("Unable to start a http server.")
+		logging.Log("info", "EuropeanOptionPricer prometheus server ready at port %v", prom)
+		if err := http.ListenAndServe(prom, nil); err != nil {
+			logging.Log("fatal", "Unable to start Prometheus HTTP metrics server with error %v.", err)
 		}
 	}()
 
-	logrus.Infoln("EuropeanOptionPricer grpc server ready on port at ", tcp)
+	logging.Log("info", "EuropeanOptionPricer grpc server ready on port at %v", tcp)
 	return grpcSrv.Serve(lis)
 }
 
@@ -77,6 +97,6 @@ func ServeEuropeanOptionPricerServerGateway(tcpPort, httpPort string) error {
 		return err
 	}
 
-	logrus.Infoln("EuropeanOptionPricer reverse proxy ready at ", httpPort)
+	logging.Log("info", "EuropeanOptionPricer reverse proxy ready at %v", httpPort)
 	return http.ListenAndServe(httpPort, cors.Default().Handler(mux))
 }

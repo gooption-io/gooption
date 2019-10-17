@@ -17,7 +17,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/gooption-io/gooption/proto/go/pb"
+	"github.com/gooption-io/gooption/v1/proto/go/pb"
 	"github.com/spf13/cobra"
 )
 
