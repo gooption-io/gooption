@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package gooption.contract;
+
+option go_package = "github.com/gooption-io/gooption/contract/api;api_pb";
+
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service EuropeanService {
+  rpc ListEuropeans (ListEuropeansRequest) returns (ListEuropeansResponse) {
+    option (google.api.http) = {
+      get: "/europeans"
+    };
+  }
+  rpc GetEuropean (GetEuropeanRequest) returns (European) {
+    option (google.api.http) = {
+      get: "/europeans/{european_id}"
+    };
+  }
+  rpc CreateEuropean (CreateEuropeanRequest) returns (European) {
+    option (google.api.http) = {
+      post: "/europeans"
+      body: "european"
+    };
+  }
+  rpc UpdateEuropean (UpdateEuropeanRequest) returns (European) {
+    option (google.api.http) = {
+      patch: "/europeans/{european.european_id}"
+      body: "european"
+    };
+  }
+  rpc DeleteEuropean (DeleteEuropeanRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/europeans/{european_id}"
+    };
+  }
+}
+
+message European {
+  string european_id = 1;
+
+  double timestamp = 2;
+  string ticker = 3;
+  string undticker = 4;
+  double strike = 5;
+  double expiry = 6;
+  string putcall = 7;
+}
+
+message ListEuropeansRequest {
+}
+
+message ListEuropeansResponse {
+  repeated European europeans = 1;
+}
+
+message GetEuropeanRequest {
+  string european_id = 1;
+  string ticker = 2;
+  double timestamp = 3;
+}
+
+message CreateEuropeanRequest {
+  European european = 1;
+}
+
+message UpdateEuropeanRequest {
+  European european = 1;
+}
+
+message DeleteEuropeanRequest {
+  string european_id = 1;
+}

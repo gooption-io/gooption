@@ -1,0 +1,192 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "european.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/europeans": {
+      "get": {
+        "operationId": "ListEuropeans",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractListEuropeansResponse"
+            }
+          }
+        },
+        "tags": [
+          "EuropeanService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateEuropean",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractEuropean"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contractEuropean"
+            }
+          }
+        ],
+        "tags": [
+          "EuropeanService"
+        ]
+      }
+    },
+    "/europeans/{european.european_id}": {
+      "patch": {
+        "operationId": "UpdateEuropean",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractEuropean"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "european.european_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contractEuropean"
+            }
+          }
+        ],
+        "tags": [
+          "EuropeanService"
+        ]
+      }
+    },
+    "/europeans/{european_id}": {
+      "get": {
+        "operationId": "GetEuropean",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractEuropean"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "european_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "tags": [
+          "EuropeanService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteEuropean",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "european_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "EuropeanService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "contractEuropean": {
+      "type": "object",
+      "properties": {
+        "european_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number",
+          "format": "double"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "undticker": {
+          "type": "string"
+        },
+        "strike": {
+          "type": "number",
+          "format": "double"
+        },
+        "expiry": {
+          "type": "number",
+          "format": "double"
+        },
+        "putcall": {
+          "type": "string"
+        }
+      }
+    },
+    "contractListEuropeansResponse": {
+      "type": "object",
+      "properties": {
+        "europeans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contractEuropean"
+          }
+        }
+      }
+    }
+  }
+}
