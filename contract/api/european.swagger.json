@@ -55,7 +55,7 @@
         ]
       }
     },
-    "/europeans/{european.european_id}": {
+    "/europeans/{european.uid}": {
       "patch": {
         "operationId": "UpdateEuropean",
         "responses": {
@@ -68,7 +68,7 @@
         },
         "parameters": [
           {
-            "name": "european.european_id",
+            "name": "european.uid",
             "in": "path",
             "required": true,
             "type": "string"
@@ -87,7 +87,7 @@
         ]
       }
     },
-    "/europeans/{european_id}": {
+    "/europeans/{uid}": {
       "get": {
         "operationId": "GetEuropean",
         "responses": {
@@ -100,7 +100,7 @@
         },
         "parameters": [
           {
-            "name": "european_id",
+            "name": "uid",
             "in": "path",
             "required": true,
             "type": "string"
@@ -135,7 +135,7 @@
         },
         "parameters": [
           {
-            "name": "european_id",
+            "name": "uid",
             "in": "path",
             "required": true,
             "type": "string"
@@ -151,7 +151,7 @@
     "contractEuropean": {
       "type": "object",
       "properties": {
-        "european_id": {
+        "uid": {
           "type": "string"
         },
         "timestamp": {

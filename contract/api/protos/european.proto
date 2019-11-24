@@ -16,7 +16,7 @@ service EuropeanService {
   }
   rpc GetEuropean (GetEuropeanRequest) returns (European) {
     option (google.api.http) = {
-      get: "/europeans/{european_id}"
+      get: "/europeans/{uid}"
     };
   }
   rpc CreateEuropean (CreateEuropeanRequest) returns (European) {
@@ -27,20 +27,19 @@ service EuropeanService {
   }
   rpc UpdateEuropean (UpdateEuropeanRequest) returns (European) {
     option (google.api.http) = {
-      patch: "/europeans/{european.european_id}"
+      patch: "/europeans/{european.uid}"
       body: "european"
     };
   }
   rpc DeleteEuropean (DeleteEuropeanRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/europeans/{european_id}"
+      delete: "/europeans/{uid}"
     };
   }
 }
 
 message European {
-  string european_id = 1;
-
+  string uid = 1;
   double timestamp = 2;
   string ticker = 3;
   string undticker = 4;
@@ -57,7 +56,7 @@ message ListEuropeansResponse {
 }
 
 message GetEuropeanRequest {
-  string european_id = 1;
+  string uid = 1;
   string ticker = 2;
   double timestamp = 3;
 }
@@ -71,5 +70,5 @@ message UpdateEuropeanRequest {
 }
 
 message DeleteEuropeanRequest {
-  string european_id = 1;
+  string uid = 1;
 }

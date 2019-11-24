@@ -38,7 +38,7 @@ func request_EuropeanService_ListEuropeans_0(ctx context.Context, marshaler runt
 }
 
 var (
-	filter_EuropeanService_GetEuropean_0 = &utilities.DoubleArray{Encoding: map[string]int{"european_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_EuropeanService_GetEuropean_0 = &utilities.DoubleArray{Encoding: map[string]int{"uid": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_EuropeanService_GetEuropean_0(ctx context.Context, marshaler runtime.Marshaler, client EuropeanServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -52,15 +52,15 @@ func request_EuropeanService_GetEuropean_0(ctx context.Context, marshaler runtim
 		_   = err
 	)
 
-	val, ok = pathParams["european_id"]
+	val, ok = pathParams["uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "european_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.EuropeanId, err = runtime.String(val)
+	protoReq.Uid, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "european_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
 
 	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_EuropeanService_GetEuropean_0); err != nil {
@@ -108,15 +108,15 @@ func request_EuropeanService_UpdateEuropean_0(ctx context.Context, marshaler run
 		_   = err
 	)
 
-	val, ok = pathParams["european.european_id"]
+	val, ok = pathParams["european.uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "european.european_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "european.uid")
 	}
 
-	err = runtime.PopulateFieldFromPath(&protoReq, "european.european_id", val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "european.uid", val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "european.european_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "european.uid", err)
 	}
 
 	msg, err := client.UpdateEuropean(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -135,15 +135,15 @@ func request_EuropeanService_DeleteEuropean_0(ctx context.Context, marshaler run
 		_   = err
 	)
 
-	val, ok = pathParams["european_id"]
+	val, ok = pathParams["uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "european_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.EuropeanId, err = runtime.String(val)
+	protoReq.Uid, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "european_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
 
 	msg, err := client.DeleteEuropean(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -295,13 +295,13 @@ func RegisterEuropeanServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 var (
 	pattern_EuropeanService_ListEuropeans_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"europeans"}, ""))
 
-	pattern_EuropeanService_GetEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"europeans", "european_id"}, ""))
+	pattern_EuropeanService_GetEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"europeans", "uid"}, ""))
 
 	pattern_EuropeanService_CreateEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"europeans"}, ""))
 
-	pattern_EuropeanService_UpdateEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"europeans", "european.european_id"}, ""))
+	pattern_EuropeanService_UpdateEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"europeans", "european.uid"}, ""))
 
-	pattern_EuropeanService_DeleteEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"europeans", "european_id"}, ""))
+	pattern_EuropeanService_DeleteEuropean_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"europeans", "uid"}, ""))
 )
 
 var (

@@ -2,10 +2,11 @@ package server
 
 import (
 	"context"
+	api_pb "contract/api"
 	"testing"
 	"time"
 
-	api_pb "contract/api"
+	"github.com/stretchr/testify/require"
 )
 
 func Test_EuropeanServiceServer_ListEuropeans(t *testing.T) {
@@ -16,34 +17,24 @@ func Test_EuropeanServiceServer_ListEuropeans(t *testing.T) {
 
 	resp, err := svr.ListEuropeans(ctx, req)
 
-	t.SkipNow()
-
-	if err != nil {
-		t.Errorf("returned an error %v", err)
-	}
-
-	if resp == nil {
-		t.Error("response should not nil")
-	}
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.NotEmpty(t, resp.Europeans)
 }
 
 func Test_EuropeanServiceServer_GetEuropean(t *testing.T) {
 	svr := NewEuropeanServiceServer()
 
 	ctx := context.Background()
-	req := &api_pb.GetEuropeanRequest{}
+	req := &api_pb.GetEuropeanRequest{
+		Ticker: "AAPL DEC2019 PUT",
+	}
 
 	resp, err := svr.GetEuropean(ctx, req)
 
-	t.SkipNow()
-
-	if err != nil {
-		t.Errorf("returned an error %v", err)
-	}
-
-	if resp == nil {
-		t.Error("response should not nil")
-	}
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.NotEmpty(t, resp.Uid)
 }
 
 func Test_EuropeanServiceServer_CreateEuropean(t *testing.T) {
@@ -64,15 +55,9 @@ func Test_EuropeanServiceServer_CreateEuropean(t *testing.T) {
 
 	resp, err := svr.CreateEuropean(ctx, req)
 
-	t.SkipNow()
-
-	if err != nil {
-		t.Errorf("returned an error %v", err)
-	}
-
-	if resp == nil {
-		t.Error("response should not nil")
-	}
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.NotEmpty(t, resp.Uid)
 }
 
 func Test_EuropeanServiceServer_UpdateEuropean(t *testing.T) {
@@ -110,5 +95,12 @@ func Test_EuropeanServiceServer_DeleteEuropean(t *testing.T) {
 
 	if resp == nil {
 		t.Error("response should not nil")
+	}
+}
+
+func Test_europeanServiceServerImpl_CreateSchema(t *testing.T) {
+	ctx := context.Background()
+	if err := createSchema(ctx, newDgraphClient()); err != nil {
+		t.Errorf("europeanServiceServerImpl.CreateSchema() error = %v", err)
 	}
 }

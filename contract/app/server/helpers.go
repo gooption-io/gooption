@@ -1,11 +1,8 @@
 package server
 
 import (
-	api_pb "contract/api"
-	"errors"
 	"io/ioutil"
 	"log"
-	"os"
 
 	context "golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -17,152 +14,48 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func dial(service string) *grpc.ClientConn {
-	var (
-		conn *grpc.ClientConn
-		err  error
-	)
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
-	if service == "gobs" {
-		conn, err = grpc.Dial(":50051", grpc.WithInsecure())
-	} else if service == "dgraph" {
-		conn, err = grpc.Dial(":9082", grpc.WithInsecure())
-	} else {
-		err = errors.New("Unknown service")
-	}
-
-	if err != nil {
-		log.Fatal(service)
-		log.Fatal(err)
-		panic(service + "\n" + err.Error())
-	}
-
-	return conn
-}
-
-func clientDir() string {
-	dir, err := ioutil.TempDir("", "client_")
+func newDgraphClient() *dgo.Dgraph {
+	_, err := ioutil.TempDir("", "client_")
 	if err != nil {
 		log.Fatal(err)
 		panic(err)
 	}
-	return dir
-}
 
-var json = jsoniter.ConfigCompatibleWithStandardLibrary
-
-func newDgraphClient() *dgo.Dgraph {
-	clientDir := clientDir()
-	defer os.RemoveAll(clientDir)
-
-	conn := dial("dgraph")
-	defer conn.Close()
+	conn, err := grpc.Dial(":9080", grpc.WithInsecure())
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
 
 	dc := api.NewDgraphClient(conn)
 	return dgo.NewDgraphClient(dc)
 }
 
-func query(ctx context.Context, db *dgo.Dgraph, queryString string, variables map[string]string) *api.Response {
-	if variables == nil {
-		resp, err := db.NewTxn().Query(ctx, queryString)
-		if err != nil {
-			logrus.Errorln(err)
-			panic(err)
-		}
+func insertObj(ctx context.Context, db *dgo.Dgraph, obj interface{}) (*api.Assigned, error) {
+	txn := db.NewTxn()
+	defer txn.Discard(context.Background())
 
-		return resp
-	} else {
-		resp, err := db.NewTxn().QueryWithVars(ctx, queryString, variables)
-		if err != nil {
-			logrus.Errorln(err)
-			panic(err)
-		}
-
-		return resp
-	}
-}
-
-func getAllContracts(ctx context.Context, db *dgo.Dgraph) []*api_pb.European {
-	query := `{
-		time(func: has(calls), orderdesc: timestamp, first: 1) {
-			T as timestamp
-		}
-
-		contracts(func: has(~calls), first: 50) @filter(eq(timestamp, val(T))) {
-			uid
-			strike
-			putcall
-			ask
-			~calls { expiry }
-		}
-	}`
-
-	res := &struct {
-		Time []struct {
-			Timestamp float64 `json:"timestamp"`
-		} `json:"time"`
-
-		Contracts []struct {
-			Ask     float64 `json:"ask"`
-			Putcall string  `json:"putcall"`
-			Strike  float64 `json:"strike"`
-			UID     string  `json:"uid"`
-			Calls   []struct {
-				Expiry float64 `json:"expiry"`
-			} `json:"~calls"`
-		} `json:"contracts"`
-	}{}
-
-	dRes, err := db.NewTxn().Query(ctx, query)
+	pb, err := json.Marshal(obj)
 	if err != nil {
 		logrus.Errorln(err)
-		panic(err)
+		return nil, err
 	}
 
-	json.Unmarshal(dRes.GetJson(), &res)
+	assigned, err := txn.Mutate(context.Background(), &api.Mutation{CommitNow: true, SetJson: pb})
 	if err != nil {
-		panic(err)
+		logrus.Errorln(err)
+		return nil, err
 	}
 
-	var europeans = make([]*api_pb.European, len(res.Contracts))
-	for index, contract := range res.Contracts {
-		logrus.Info(contract.Strike)
-		europeans[index] = &api_pb.European{
-			Timestamp: res.Time[0].Timestamp,
-			Undticker: "AAPL",
-			Strike:    contract.Strike,
-			Expiry:    contract.Calls[0].Expiry,
-			Putcall:   contract.Putcall,
-		}
-	}
-
-	return europeans
+	return assigned, nil
 }
-func insert(ctx context.Context, db *dgo.Dgraph, request interface{}, schema string) *api.Assigned {
+
+func alterSchema(ctx context.Context, db *dgo.Dgraph, schema string) error {
 	op := &api.Operation{
 		Schema: schema,
 	}
-	err := db.Alter(ctx, op)
-	if err != nil {
-		logrus.Errorln(err)
-		panic(err)
-	}
 
-	mu := &api.Mutation{
-		CommitNow: true,
-	}
-	pb, err := json.Marshal(request)
-	if err != nil {
-		logrus.Errorln(err)
-		panic(err)
-	}
-
-	mu.SetJson = pb
-	assigned, err := db.NewTxn().Mutate(ctx, mu)
-	if err != nil {
-		logrus.Errorln(err)
-		panic(err)
-	}
-
-	return assigned
+	return db.Alter(ctx, op)
 }

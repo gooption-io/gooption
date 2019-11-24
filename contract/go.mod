@@ -12,6 +12,7 @@ require (
 	github.com/lehajam/dgo v0.0.0-20180530025956-c90f4da65d88
 	github.com/sirupsen/logrus v1.4.2
 	github.com/srvc/appctx v0.1.0
+	github.com/stretchr/testify v1.4.0
 	golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297
 	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55
 	google.golang.org/grpc v1.25.1
