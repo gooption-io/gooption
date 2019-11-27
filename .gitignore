@@ -3,4 +3,3 @@ debug.*
 .DS_Store
 results.bin
 *.ipynb
-contract/bin/*
