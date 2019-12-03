@@ -1,0 +1,51 @@
+syntax = "proto3";
+package pb;
+
+import "contract.proto";
+import "marketdata.proto";
+
+service EuropeanOptionPricer {
+  rpc Price (PriceRequest) returns (Price) {}
+  rpc Greek (GreekRequest) returns (GreekResponse) {}
+  rpc ImpliedVol (ImpliedVolRequest) returns (ImpliedVolResponse) {}
+}
+
+message PriceRequest {
+  double pricingdate = 1;
+  European contract = 2;
+  StockQuote spot = 2;
+  double vol = 2;
+  double rate = 2;
+}
+
+message PriceResponse {
+  double price = 2;
+  string error = 3;
+}
+
+message GreekRequest {
+  PriceRequest request = 1;
+  repeated string greek = 2;
+}
+
+message GreekResponse {
+  message Greek {
+    string label = 1;
+    double value = 2;
+    string error = 3;
+  }
+  repeated Greek greeks = 1;
+  string error = 2;
+}
+
+message ImpliedVolRequest {
+  double pricingdate = 1;
+  StockQuote spot = 2;
+  repeated OptionQuote quotes = 3;
+  double rate = 4;
+}
+
+message ImpliedVolResponse {
+  ImpliedVolSurface volsurface = 1;
+  string error = 2;
+}

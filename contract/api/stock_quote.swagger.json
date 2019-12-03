@@ -1,0 +1,185 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "stock_quote.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/stock_quotes": {
+      "get": {
+        "operationId": "ListStockQuotes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractListStockQuotesResponse"
+            }
+          }
+        },
+        "tags": [
+          "StockQuoteService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateStockQuote",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractStockQuote"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contractStockQuote"
+            }
+          }
+        ],
+        "tags": [
+          "StockQuoteService"
+        ]
+      }
+    },
+    "/stock_quotes/{stock_quote.uid}": {
+      "patch": {
+        "operationId": "UpdateStockQuote",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractStockQuote"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stock_quote.uid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contractStockQuote"
+            }
+          }
+        ],
+        "tags": [
+          "StockQuoteService"
+        ]
+      }
+    },
+    "/stock_quotes/{stock_quote_id}": {
+      "get": {
+        "operationId": "GetStockQuote",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/contractStockQuote"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stock_quote_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StockQuoteService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteStockQuote",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stock_quote_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StockQuoteService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "contractListStockQuotesResponse": {
+      "type": "object",
+      "properties": {
+        "stock_quotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contractStockQuote"
+          }
+        }
+      }
+    },
+    "contractStockQuote": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number",
+          "format": "double"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "open": {
+          "type": "number",
+          "format": "double"
+        },
+        "close": {
+          "type": "number",
+          "format": "double"
+        },
+        "volume": {
+          "type": "number",
+          "format": "double"
+        },
+        "low": {
+          "type": "number",
+          "format": "double"
+        },
+        "high": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    }
+  }
+}

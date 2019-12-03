@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package gooption.contract;
+
+option go_package = "github.com/gooption-io/gooption/contract/api;api_pb";
+
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service StockQuoteService {
+  rpc ListStockQuotes (ListStockQuotesRequest) returns (ListStockQuotesResponse) {
+    option (google.api.http) = {
+      get: "/stock_quotes"
+    };
+  }
+  rpc GetStockQuote (GetStockQuoteRequest) returns (StockQuote) {
+    option (google.api.http) = {
+      get: "/stock_quotes/{stock_quote_id}"
+    };
+  }
+  rpc CreateStockQuote (CreateStockQuoteRequest) returns (StockQuote) {
+    option (google.api.http) = {
+      post: "/stock_quotes"
+      body: "stock_quote"
+    };
+  }
+  rpc UpdateStockQuote (UpdateStockQuoteRequest) returns (StockQuote) {
+    option (google.api.http) = {
+      patch: "/stock_quotes/{stock_quote.uid}"
+      body: "stock_quote"
+    };
+  }
+  rpc DeleteStockQuote (DeleteStockQuoteRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/stock_quotes/{stock_quote_id}"
+    };
+  }
+}
+
+message StockQuote {
+  string uid = 1;
+  double timestamp = 2;
+  string ticker = 3;
+  double open = 4;
+  double close = 5;
+  double volume = 6;
+  double low = 7;
+  double high = 8;
+}
+
+message SourceDecorator {
+  string uid = 1;
+  string source = 2;
+}
+
+message ListStockQuotesRequest {
+}
+
+message ListStockQuotesResponse {
+  repeated StockQuote stock_quotes = 1;
+}
+
+message GetStockQuoteRequest {
+  string stock_quote_id = 1;
+}
+
+message CreateStockQuoteRequest {
+  StockQuote stock_quote = 1;
+}
+
+message UpdateStockQuoteRequest {
+  StockQuote stock_quote = 1;
+}
+
+message DeleteStockQuoteRequest {
+  string stock_quote_id = 1;
+}

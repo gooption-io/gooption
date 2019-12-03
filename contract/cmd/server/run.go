@@ -16,6 +16,7 @@ func run() error {
 		grapiserver.WithDefaultLogger(),
 		grapiserver.WithServers(
 			server.NewEuropeanServiceServer(),
+			server.NewStockQuoteServiceServer(),
 		),
 	)
 	return s.Serve(ctx)
