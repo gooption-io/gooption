@@ -2,9 +2,10 @@ package server
 
 import (
 	"context"
-	api_pb "contract/api"
 	"testing"
 	"time"
+
+	api_pb "github.com/gooption-io/gooption/v1/contract/api"
 
 	"github.com/stretchr/testify/require"
 )

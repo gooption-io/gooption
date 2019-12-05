@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	api_pb "contract/api"
+	api_pb "github.com/gooption-io/gooption/v1/contract/api"
 )
 
 func Test_StockQuoteServiceServer_ListStockQuotes(t *testing.T) {

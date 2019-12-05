@@ -1,4 +1,4 @@
-module contract
+module github.com/gooption-io/gooption/v1/contract
 
 go 1.13
 

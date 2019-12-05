@@ -1,7 +1,7 @@
 package main
 
 import (
-	"contract/app/server"
+	"github.com/gooption-io/gooption/v1/contract/app/server"
 
 	"github.com/srvc/appctx"
 

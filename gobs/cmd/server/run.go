@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/srvc/appctx"
+	"gobs/app/server"
 
 	"github.com/izumin5210/grapi/pkg/grapiserver"
+	"github.com/srvc/appctx"
 )
 
 func run() error {
@@ -13,7 +14,7 @@ func run() error {
 	s := grapiserver.New(
 		grapiserver.WithDefaultLogger(),
 		grapiserver.WithServers(
-		// TODO
+			server.NewEuropeanPricerServiceServer(),
 		),
 	)
 	return s.Serve(ctx)

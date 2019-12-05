@@ -2,11 +2,14 @@ package server
 
 import (
 	"context"
-	"gonum.org/v1/gonum/stat/distuv"
+	"fmt"
 	"math"
 
-	"github.com/izumin5210/grapi/pkg/grapiserver"
+	"gonum.org/v1/gonum/stat/distuv"
+
 	api_pb "gobs/api"
+
+	"github.com/izumin5210/grapi/pkg/grapiserver"
 )
 
 const (
@@ -16,7 +19,6 @@ const (
 )
 
 var (
-
 	phi        = distuv.Normal{Mu: 0, Sigma: 1}.CDF
 	dphi       = distuv.Normal{Mu: 0, Sigma: 1}.Prob
 	putCallMap = map[string]float64{"call": 1.0, "put": -1.0}
@@ -51,7 +53,7 @@ func (s *europeanPricerServiceServerImpl) Compute(ctx context.Context, req *api_
 	//t := time.Unix(int64(req.Contract.Expiry), 0).Sub(
 	//	time.Unix(int64(req.Pricingdate), 0)).Hours() / 24.0 / 365.250
 
-	fmt.Print(req.Spot.Close)
+	fmt.Print(req.Spot)
 	//bs(req.Spot.Close,
 	//	req.Vol,
 	//	req.Rate,

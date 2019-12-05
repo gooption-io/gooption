@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+
 	"github.com/lehajam/dgo"
 	"github.com/sirupsen/logrus"
 
@@ -10,7 +11,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	api_pb "contract/api"
+	api_pb "github.com/gooption-io/gooption/v1/contract/api"
 )
 
 // StockQuoteServiceServer is a composite interface of api_pb.StockQuoteServiceServer and grapiserver.Server.

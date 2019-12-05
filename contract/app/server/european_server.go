@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	api_pb "contract/api"
+	api_pb "github.com/gooption-io/gooption/v1/contract/api"
 )
 
 // EuropeanServiceServer is a composite interface of api_pb.EuropeanServiceServer and grapiserver.Server.
