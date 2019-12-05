@@ -9,7 +9,7 @@ import (
 	math "math"
 
 	proto "github.com/golang/protobuf/proto"
-	api "github.com/gooption-io/gooption/v1/contract"
+	api "github.com/gooption-io/gooption/v1/contract/api"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"

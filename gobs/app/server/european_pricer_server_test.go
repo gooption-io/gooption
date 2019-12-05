@@ -1,9 +1,10 @@
 package server
 
 import (
-	api_pb "gobs/api"
-	"testing"
 	"context"
+	"testing"
+
+	api_pb "github.com/gooption-io/gooption/v1/gobs/api"
 )
 
 func Test_europeanPricerServiceServerImpl_Compute(t *testing.T) {

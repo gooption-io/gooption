@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gobs/app/server"
+	"github.com/gooption-io/gooption/v1/gobs/app/server"
 
 	"github.com/izumin5210/grapi/pkg/grapiserver"
 	"github.com/srvc/appctx"

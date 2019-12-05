@@ -7,7 +7,7 @@ import (
 
 	"gonum.org/v1/gonum/stat/distuv"
 
-	api_pb "gobs/api"
+	api_pb "github.com/gooption-io/gooption/v1/gobs/api"
 
 	"github.com/izumin5210/grapi/pkg/grapiserver"
 )
