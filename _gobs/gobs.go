@@ -2,21 +2,21 @@ package main
 
 import (
 	"flag"
-	"math"
-	"os"
-	"sort"
-	"strings"
-	"time"
+"math"
+"os"
+"sort"
+"strings"
+"time"
 
-	"context"
+"context"
 
-	"github.com/gogo/protobuf/proto"
-	_ "github.com/gooption-io/gooption/v1/initializer"
-	"github.com/gooption-io/gooption/v1/logging"
-	"github.com/gooption-io/gooption/v1/proto/go/pb"
-	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
-	"gonum.org/v1/gonum/stat/distuv"
+"github.com/gogo/protobuf/proto"
+_ "github.com/gooption-io/gooption/v1/initializer"
+"github.com/gooption-io/gooption/v1/logging"
+"github.com/gooption-io/gooption/v1/proto/go/pb"
+"github.com/pkg/errors"
+"github.com/sirupsen/logrus"
+"gonum.org/v1/gonum/stat/distuv"
 )
 
 const (

@@ -1,0 +1,269 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "european_pricer.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/compute": {
+      "get": {
+        "operationId": "Compute",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gobsComputationResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pricingdate",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "contract.uid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "contract.timestamp",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "contract.ticker",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "contract.undticker",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "contract.strike",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "contract.expiry",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "contract.putcall",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "spot.uid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "spot.timestamp",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "spot.ticker",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "spot.open",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "spot.close",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "spot.volume",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "spot.low",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "spot.high",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "vol",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "rate",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "greek",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "EuropeanPricerService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "contractEuropean": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number",
+          "format": "double"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "undticker": {
+          "type": "string"
+        },
+        "strike": {
+          "type": "number",
+          "format": "double"
+        },
+        "expiry": {
+          "type": "number",
+          "format": "double"
+        },
+        "putcall": {
+          "type": "string"
+        }
+      }
+    },
+    "contractStockQuote": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number",
+          "format": "double"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "open": {
+          "type": "number",
+          "format": "double"
+        },
+        "close": {
+          "type": "number",
+          "format": "double"
+        },
+        "volume": {
+          "type": "number",
+          "format": "double"
+        },
+        "low": {
+          "type": "number",
+          "format": "double"
+        },
+        "high": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "gobsComputationResponse": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "greeks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gobsGreek"
+          }
+        },
+        "price_error": {
+          "type": "string"
+        },
+        "greeks_error": {
+          "type": "string"
+        }
+      }
+    },
+    "gobsGreek": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number",
+          "format": "double"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
