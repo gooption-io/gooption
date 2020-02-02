@@ -2,10 +2,11 @@ package server
 
 import (
 	"context"
+	"fmt"
 
+	dgo "github.com/dgraph-io/dgo/v2"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/izumin5210/grapi/pkg/grapiserver"
-	"github.com/lehajam/dgo"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -30,25 +31,48 @@ type europeanServiceServerImpl struct {
 	db *dgo.Dgraph
 }
 
+// used to allow * queries by types
+// to be replaced by dgraph types
+type typeDecorator struct {
+	UID  string `json:"uid"`
+	Type string `json:"type"`
+}
+
+type ListEuropeansResponseVals struct {
+	Europeans []api_pb.European `protobuf:"bytes,1,rep,name=europeans,proto3" json:"europeans,omitempty"`
+}
+
 func (s *europeanServiceServerImpl) ListEuropeans(ctx context.Context, req *api_pb.ListEuropeansRequest) (*api_pb.ListEuropeansResponse, error) {
+	//	query := `query ListEuropeans($filter: string){
 	query := `{
-		Europeans(func: eq(type, "european")){
-			uid
-			ticker
-			strike
-			undticker
-			expiry
-			putcall
-		}
+	Europeans(func: eq(type, "european")) %s {
+		uid
+		timestamp
+		ticker
+		strike
+		und
+		expiry
+		putcall
+	  }
 	}`
 
+	filter := ""
+	if req.Ticker != "" && req.Timestamp != 0 {
+		filter = fmt.Sprintf("@filter(eq(undticker, %s) AND eq(timestamp, %f))", req.Ticker, req.Timestamp)
+	} else if req.Ticker != "" {
+		filter = fmt.Sprintf("@filter(eq(undticker, %s))", req.Ticker)
+	} else if req.Timestamp != 0 {
+		filter = fmt.Sprintf("@filter(eq(timestamp, %f))", req.Timestamp)
+	}
+
+	query = fmt.Sprintf(query, filter)
 	resp, err := s.db.NewTxn().Query(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
 	match := &api_pb.ListEuropeansResponse{}
-	err = dgo.Unmarshal(resp.GetJson(), match)
+	err = json.Unmarshal(resp.GetJson(), match)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +102,7 @@ func (s *europeanServiceServerImpl) GetEuropean(ctx context.Context, req *api_pb
 	}
 
 	match := &api_pb.ListEuropeansResponse{}
-	err = dgo.Unmarshal(resp.GetJson(), match)
+	err = json.Unmarshal(resp.GetJson(), match)
 	if err != nil {
 		return nil, err
 	}
@@ -90,11 +114,8 @@ func (s *europeanServiceServerImpl) GetEuropean(ctx context.Context, req *api_pb
 	return match.Europeans[0], nil
 }
 
-type typeDecorator struct {
-	UID  string `json:"uid"`
-	Type string `json:"type"`
-}
-
+// TODO: create european and add type in same tx
+// TODO: create many europeans at once
 func (s *europeanServiceServerImpl) CreateEuropean(ctx context.Context, req *api_pb.CreateEuropeanRequest) (*api_pb.European, error) {
 	assigned, err := insertObj(ctx, s.db, req.European)
 	if err != nil {
@@ -102,14 +123,26 @@ func (s *europeanServiceServerImpl) CreateEuropean(ctx context.Context, req *api
 		return nil, err
 	}
 
-	withType := typeDecorator{assigned.Uids["blank-0"], "european"}
-	_, err = insertObj(ctx, s.db, withType)
-	if err != nil {
+	// TODO: get first UID rather than iterating through the map
+	// maybe this goes away once we insert many contracts at once
+	for k := range assigned.Uids {
+		withType := typeDecorator{assigned.Uids[k], "european"}
+
+		_, err = insertObj(ctx, s.db, withType)
+		if err != nil {
+			logrus.Errorln(err)
+			return nil, err
+		}
+
+		req.European.Uid = withType.UID
+	}
+
+	if req.European.Uid == "" {
+		err = fmt.Errorf("dgraph mutation returned no uid")
 		logrus.Errorln(err)
 		return nil, err
 	}
 
-	req.European.Uid = withType.UID
 	return req.European, nil
 }
 

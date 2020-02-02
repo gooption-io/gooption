@@ -49,6 +49,8 @@ message European {
 }
 
 message ListEuropeansRequest {
+  string ticker = 2;
+  double timestamp = 3;
 }
 
 message ListEuropeansResponse {

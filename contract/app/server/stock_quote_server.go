@@ -2,8 +2,9 @@ package server
 
 import (
 	"context"
+	"fmt"
 
-	"github.com/lehajam/dgo"
+	dgo "github.com/dgraph-io/dgo/v2"
 	"github.com/sirupsen/logrus"
 
 	"github.com/golang/protobuf/ptypes/empty"
@@ -33,7 +34,7 @@ type stockQuoteServiceServerImpl struct {
 
 func (s *stockQuoteServiceServerImpl) ListStockQuotes(ctx context.Context, req *api_pb.ListStockQuotesRequest) (*api_pb.ListStockQuotesResponse, error) {
 	query := `{
-	  StockQuotes(func: eq(type, "stock_quote")){
+	  StockQuotes(func: eq(type, "stock_quote")) {
 		uid
 		timestamp
 		ticker
@@ -51,7 +52,7 @@ func (s *stockQuoteServiceServerImpl) ListStockQuotes(ctx context.Context, req *
 	}
 
 	match := &api_pb.ListStockQuotesResponse{}
-	err = dgo.Unmarshal(resp.GetJson(), match)
+	err = json.Unmarshal(resp.GetJson(), match)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +84,7 @@ func (s *stockQuoteServiceServerImpl) GetStockQuote(ctx context.Context, req *ap
 	}
 
 	match := &api_pb.ListStockQuotesResponse{}
-	err = dgo.Unmarshal(resp.GetJson(), match)
+	err = json.Unmarshal(resp.GetJson(), match)
 	if err != nil {
 		return nil, err
 	}
@@ -102,14 +103,26 @@ func (s *stockQuoteServiceServerImpl) CreateStockQuote(ctx context.Context, req 
 		return nil, err
 	}
 
-	withType := typeDecorator{assigned.Uids["blank-0"], "stock_quote"}
-	_, err = insertObj(ctx, s.db, withType)
-	if err != nil {
+	// TODO: get first UID rather than iterating through the map
+	// maybe this goes away once we insert many contracts at once
+	for k := range assigned.Uids {
+		withType := typeDecorator{assigned.Uids[k], "stock_quote"}
+
+		_, err = insertObj(ctx, s.db, withType)
+		if err != nil {
+			logrus.Errorln(err)
+			return nil, err
+		}
+
+		req.StockQuote.Uid = withType.UID
+	}
+
+	if req.StockQuote.Uid == "" {
+		err = fmt.Errorf("dgraph mutation returned no uid")
 		logrus.Errorln(err)
 		return nil, err
 	}
 
-	req.StockQuote.Uid = withType.UID
 	return req.StockQuote, nil
 }
 

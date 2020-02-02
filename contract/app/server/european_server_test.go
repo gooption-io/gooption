@@ -14,13 +14,18 @@ func Test_EuropeanServiceServer_ListEuropeans(t *testing.T) {
 	svr := NewEuropeanServiceServer()
 
 	ctx := context.Background()
-	req := &api_pb.ListEuropeansRequest{}
+	req := &api_pb.ListEuropeansRequest{
+		Ticker: "AAPL",
+	}
 
 	resp, err := svr.ListEuropeans(ctx, req)
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.NotEmpty(t, resp.Europeans)
+
+	json_resp, _ := json.Marshal(resp)
+	println(string(json_resp))
 }
 
 func Test_EuropeanServiceServer_GetEuropean(t *testing.T) {

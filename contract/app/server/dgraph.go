@@ -7,8 +7,8 @@ import (
 	context "golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/lehajam/dgo"
-	"github.com/lehajam/dgo/protos/api"
+	dgo "github.com/dgraph-io/dgo/v2"
+	"github.com/dgraph-io/dgo/v2/protos/api"
 
 	"github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
@@ -16,6 +16,7 @@ import (
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
+// TODO: close connection
 func newDgraphClient() *dgo.Dgraph {
 	_, err := ioutil.TempDir("", "client_")
 	if err != nil {
@@ -33,7 +34,7 @@ func newDgraphClient() *dgo.Dgraph {
 	return dgo.NewDgraphClient(dc)
 }
 
-func insertObj(ctx context.Context, db *dgo.Dgraph, obj interface{}) (*api.Assigned, error) {
+func insertObj(ctx context.Context, db *dgo.Dgraph, obj interface{}) (*api.Response, error) {
 	txn := db.NewTxn()
 	defer txn.Discard(context.Background())
 
@@ -43,13 +44,13 @@ func insertObj(ctx context.Context, db *dgo.Dgraph, obj interface{}) (*api.Assig
 		return nil, err
 	}
 
-	assigned, err := txn.Mutate(context.Background(), &api.Mutation{CommitNow: true, SetJson: pb})
+	resp, err := txn.Mutate(context.Background(), &api.Mutation{CommitNow: true, SetJson: pb})
 	if err != nil {
 		logrus.Errorln(err)
 		return nil, err
 	}
 
-	return assigned, nil
+	return resp, nil
 }
 
 func alterSchema(ctx context.Context, db *dgo.Dgraph, schema string) error {

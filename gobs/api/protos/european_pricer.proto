@@ -11,7 +11,8 @@ import "stock_quote.proto";
 service EuropeanPricerService {
   rpc Compute (ComputationRequest) returns (ComputationResponse) {
     option (google.api.http) = {
-      get: "/compute"
+        post: "/compute"
+        body: "*"
     };
   }
 }
@@ -28,8 +29,6 @@ message ComputationRequest {
 message ComputationResponse {
     double price = 2;
     repeated Greek greeks = 3;
-    string price_error = 4;
-    string greeks_error = 5;
 }
 
 message Greek {

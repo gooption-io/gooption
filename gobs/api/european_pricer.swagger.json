@@ -16,7 +16,7 @@
   ],
   "paths": {
     "/compute": {
-      "get": {
+      "post": {
         "operationId": "Compute",
         "responses": {
           "200": {
@@ -28,134 +28,12 @@
         },
         "parameters": [
           {
-            "name": "pricingdate",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "contract.uid",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "contract.timestamp",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "contract.ticker",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "contract.undticker",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "contract.strike",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "contract.expiry",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "contract.putcall",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "spot.uid",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "spot.timestamp",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "spot.ticker",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "spot.open",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "spot.close",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "spot.volume",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "spot.low",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "spot.high",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "vol",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "rate",
-            "in": "query",
-            "required": false,
-            "type": "number",
-            "format": "double"
-          },
-          {
-            "name": "greek",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gobsComputationRequest"
+            }
           }
         ],
         "tags": [
@@ -229,6 +107,35 @@
         }
       }
     },
+    "gobsComputationRequest": {
+      "type": "object",
+      "properties": {
+        "pricingdate": {
+          "type": "number",
+          "format": "double"
+        },
+        "contract": {
+          "$ref": "#/definitions/contractEuropean"
+        },
+        "spot": {
+          "$ref": "#/definitions/contractStockQuote"
+        },
+        "vol": {
+          "type": "number",
+          "format": "double"
+        },
+        "rate": {
+          "type": "number",
+          "format": "double"
+        },
+        "greek": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "gobsComputationResponse": {
       "type": "object",
       "properties": {
@@ -241,12 +148,6 @@
           "items": {
             "$ref": "#/definitions/gobsGreek"
           }
-        },
-        "price_error": {
-          "type": "string"
-        },
-        "greeks_error": {
-          "type": "string"
         }
       }
     },

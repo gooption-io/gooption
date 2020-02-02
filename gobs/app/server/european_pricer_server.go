@@ -2,8 +2,12 @@ package server
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
+	"sort"
+	"strings"
+	"time"
 
 	"gonum.org/v1/gonum/stat/distuv"
 
@@ -19,10 +23,10 @@ const (
 )
 
 var (
-	phi        = distuv.Normal{Mu: 0, Sigma: 1}.CDF
-	dphi       = distuv.Normal{Mu: 0, Sigma: 1}.Prob
-	putCallMap = map[string]float64{"call": 1.0, "put": -1.0}
-	allGreeks  = []string{"delta", "gamma", "vega", "theta", "rho"}
+	phi             = distuv.Normal{Mu: 0, Sigma: 1}.CDF
+	dphi            = distuv.Normal{Mu: 0, Sigma: 1}.Prob
+	mapToMultiplier = map[string]float64{"call": 1.0, "put": -1.0}
+	allGreeks       = []string{"delta", "gamma", "vega", "theta", "rho"}
 )
 
 // EuropeanPricerServiceServer is a composite interface of api_pb.EuropeanPricerServiceServer and grapiserver.Server.
@@ -49,81 +53,57 @@ Black Scholes Greeks : https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model
 Possible values for Requests :  "all", "delta", "gamma", "vega", "theta", "rho"
 Setting Request to "all" will compute all greeks
 */
-func (s *europeanPricerServiceServerImpl) Compute(ctx context.Context, req *api_pb.ComputationRequest) (*api_pb.ComputationResponse, error) {
-	//t := time.Unix(int64(req.Contract.Expiry), 0).Sub(
-	//	time.Unix(int64(req.Pricingdate), 0)).Hours() / 24.0 / 365.250
+func (srv *europeanPricerServiceServerImpl) Compute(ctx context.Context, req *api_pb.ComputationRequest) (*api_pb.ComputationResponse, error) {
+	var (
+		s = req.Spot.Close
+		v = req.Vol
+		r = req.Rate
+		k = req.Contract.Strike
+		t = time.Unix(int64(req.Contract.Expiry), 0).Sub(
+			time.Unix(int64(req.Pricingdate), 0)).Hours() / 24.0 / 365.250
 
-	fmt.Print(req.Spot)
-	//bs(req.Spot.Close,
-	//	req.Vol,
-	//	req.Rate,
-	//	req.Contract.Strike,
-	//	t)
+		mult = mapToMultiplier[strings.ToLower(req.Contract.Putcall)]
+	)
 
-	return nil, nil
-	//var (
-	//	mult = putCallMap[strings.ToLower(in.Contract.Putcall)]
-	//
-	//	s = in.Marketdata.Spot.Index.Value
-	//	v = in.Marketdata.Vol.Index.Value
-	//	r = in.Marketdata.Rate.Index.Value
-	//	k = in.Contract.Strike
-	//	t = time.Unix(int64(in.Contract.Expiry), 0).Sub(
-	//		time.Unix(int64(in.Pricingdate), 0)).Hours() / 24.0 / 365.250
-	//)
+	jreq, _ := json.MarshalIndent(req, "", "\t")
+	fmt.Printf("%s \n", jreq)
 
-	//if len(in.Greek) == 0 {
-	//	return nil, errors.New("No greeks requested")
-	//}
-	//
-	//sort.Strings(in.Greek)
-	//if sort.SearchStrings(in.Greek, "all") < len(in.Greek) {
-	//	in.Greek = allGreeks
-	//}
-	//
-	//var (
-	//	mult = putCallMap[strings.ToLower(in.Request.Contract.Putcall)]
-	//
-	//	s = in.Request.Marketdata.Spot.Index.Value
-	//	v = in.Request.Marketdata.Vol.Index.Value
-	//	r = in.Request.Marketdata.Rate.Index.Value
-	//	k = in.Request.Contract.Strike
-	//	t = time.Unix(int64(in.Request.Contract.Expiry), 0).Sub(
-	//		time.Unix(int64(in.Request.Pricingdate), 0)).Hours() / 24.0 / 365.250
-	//
-	//	d1 = d1(s, k, t, v, r)
-	//	d2 = d2(d1, v, t)
-	//)
-	//
-	//greeks := make([]*pb.GreekResponse_Greek, len(in.Greek))
-	//for index, greek := range in.Greek {
-	//	greekResponse := &pb.GreekResponse_Greek{
-	//		Label: greek,
-	//	}
-	//
-	//	switch greek {
-	//	case "delta":
-	//		greekResponse.Value = delta(d1, mult)
-	//	case "gamma":
-	//		greekResponse.Value = gamma(s, t, v, d1)
-	//	case "vega":
-	//		greekResponse.Value = vega(s, t, d1)
-	//	case "theta":
-	//		greekResponse.Value = theta(s, k, t, v, r, d1, d2, mult)
-	//	case "rho":
-	//		greekResponse.Value = rho(k, t, r, d2, mult)
-	//	default:
-	//		greekResponse.Error = "Unknown greek " + greek
-	//	}
-	//
-	//	greeks[index] = greekResponse
-	//}
-	//
-	//return &pb.GreekResponse{
-	//	Greeks: greeks,
-	//}, nil
+	sort.Strings(req.Greek)
+	if sort.SearchStrings(req.Greek, "all") < len(req.Greek) {
+		req.Greek = allGreeks
+	}
 
-	return nil, nil
+	d1 := d1(s, k, t, v, r)
+	d2 := d2(d1, v, t)
+
+	greeks := make([]*api_pb.Greek, len(req.Greek))
+	for index, name := range req.Greek {
+		greek := &api_pb.Greek{
+			Label: name,
+		}
+
+		switch name {
+		case "delta":
+			greek.Value = delta(d1, mult)
+		case "gamma":
+			greek.Value = gamma(s, t, v, d1)
+		case "vega":
+			greek.Value = vega(s, t, d1)
+		case "theta":
+			greek.Value = theta(s, k, t, v, r, d1, d2, mult)
+		case "rho":
+			greek.Value = rho(k, t, r, d2, mult)
+		default:
+			greek.Error = "Unknown greek " + name
+		}
+
+		greeks[index] = greek
+	}
+
+	return &api_pb.ComputationResponse{
+		Price:  bs(s, v, r, k, t, mult),
+		Greeks: greeks,
+	}, nil
 }
 
 /*

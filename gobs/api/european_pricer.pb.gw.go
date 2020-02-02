@@ -28,15 +28,15 @@ var _ status.Status
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-var (
-	filter_EuropeanPricerService_Compute_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_EuropeanPricerService_Compute_0(ctx context.Context, marshaler runtime.Marshaler, client EuropeanPricerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ComputationRequest
 	var metadata runtime.ServerMetadata
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_EuropeanPricerService_Compute_0); err != nil {
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -83,7 +83,7 @@ func RegisterEuropeanPricerServiceHandler(ctx context.Context, mux *runtime.Serv
 // "EuropeanPricerServiceClient" to call the correct interceptors.
 func RegisterEuropeanPricerServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client EuropeanPricerServiceClient) error {
 
-	mux.Handle("GET", pattern_EuropeanPricerService_Compute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_EuropeanPricerService_Compute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)

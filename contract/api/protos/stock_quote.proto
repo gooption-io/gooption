@@ -49,12 +49,9 @@ message StockQuote {
   double high = 8;
 }
 
-message SourceDecorator {
-  string uid = 1;
-  string source = 2;
-}
-
 message ListStockQuotesRequest {
+  string ticker = 2;
+  double timestamp = 3;
 }
 
 message ListStockQuotesResponse {

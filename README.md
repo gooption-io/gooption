@@ -74,3 +74,9 @@ Ensure you're within the gooption root directory to get the right Docker build c
 ```
 docker build -f gobs/Dockerfile . -t gooption/gobs:<BUILD> --no-cache
 ```
+
+### jupyter extension
+
+```
+jupyter labextension install @jupyterlab/celltags
+```
