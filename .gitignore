@@ -5,3 +5,4 @@ results.bin
 *-checkpoint.ipynb
 bin/
 tmp/
+.idea
