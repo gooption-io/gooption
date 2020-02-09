@@ -1,7 +1,0 @@
-syntax = "proto3";
-package pb;
-
-enum OptionType {
-    PUT = 0;
-    CALL = 1;
-}

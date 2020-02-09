@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package gooption_io.gooption;
+
+option go_package = "github.com/gooption-io/gooption/api;api_pb";
+
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service StockService {
+  rpc ListStocks (ListStocksRequest) returns (ListStocksResponse) {
+    option (google.api.http) = {
+      get: "/stocks"
+    };
+  }
+  rpc GetStock (GetStockRequest) returns (Stock) {
+    option (google.api.http) = {
+      get: "/stocks/{stock_id}"
+    };
+  }
+  rpc CreateStock (CreateStockRequest) returns (Stock) {
+    option (google.api.http) = {
+      post: "/stocks"
+      body: "stock"
+    };
+  }
+  rpc UpdateStock (UpdateStockRequest) returns (Stock) {
+    option (google.api.http) = {
+      patch: "/stocks/{stock.stock_id}"
+      body: "stock"
+    };
+  }
+  rpc DeleteStock (DeleteStockRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/stocks/{stock_id}"
+    };
+  }
+}
+
+message Stock {
+  string stock_id = 1;
+}
+
+message ListStocksRequest {
+}
+
+message ListStocksResponse {
+  repeated Stock stocks = 1;
+}
+
+message GetStockRequest {
+  string stock_id = 1;
+}
+
+message CreateStockRequest {
+  Stock stock = 1;
+}
+
+message UpdateStockRequest {
+  Stock stock = 1;
+}
+
+message DeleteStockRequest {
+  string stock_id = 1;
+}

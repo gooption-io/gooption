@@ -1,2 +1,0 @@
-POST http://localhost:8081/v1/europeanoptionpricer/impliedvol
-@../ImpliedVolRequest.json

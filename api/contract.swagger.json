@@ -1,0 +1,219 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "contract.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/contracts": {
+      "get": {
+        "operationId": "ListContracts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionListContractsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "tags": [
+          "ContractService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateContract",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionContract"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gooptionContract"
+            }
+          }
+        ],
+        "tags": [
+          "ContractService"
+        ]
+      }
+    },
+    "/contracts/{contract.uid}": {
+      "patch": {
+        "operationId": "UpdateContract",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionContract"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "contract.uid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gooptionContract"
+            }
+          }
+        ],
+        "tags": [
+          "ContractService"
+        ]
+      }
+    },
+    "/contracts/{uid}": {
+      "get": {
+        "operationId": "GetContract",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionContract"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ContractService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteContract",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ContractService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "gooptionContract": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "european": {
+          "$ref": "#/definitions/gooptionEuropean"
+        }
+      }
+    },
+    "gooptionEuropean": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number",
+          "format": "double"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "strike": {
+          "type": "number",
+          "format": "double"
+        },
+        "expiry": {
+          "type": "number",
+          "format": "double"
+        },
+        "putcall": {
+          "type": "string"
+        },
+        "underlying": {
+          "$ref": "#/definitions/gooptionStock"
+        }
+      }
+    },
+    "gooptionListContractsResponse": {
+      "type": "object",
+      "properties": {
+        "contracts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gooptionContract"
+          }
+        }
+      }
+    },
+    "gooptionStock": {
+      "type": "object",
+      "properties": {
+        "stock_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "stock.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/stocks": {
+      "get": {
+        "operationId": "ListStocks",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionListStocksResponse"
+            }
+          }
+        },
+        "tags": [
+          "StockService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionStock"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gooptionStock"
+            }
+          }
+        ],
+        "tags": [
+          "StockService"
+        ]
+      }
+    },
+    "/stocks/{stock.stock_id}": {
+      "patch": {
+        "operationId": "UpdateStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionStock"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stock.stock_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gooptionStock"
+            }
+          }
+        ],
+        "tags": [
+          "StockService"
+        ]
+      }
+    },
+    "/stocks/{stock_id}": {
+      "get": {
+        "operationId": "GetStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gooptionStock"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stock_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StockService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stock_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StockService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "gooptionListStocksResponse": {
+      "type": "object",
+      "properties": {
+        "stocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gooptionStock"
+          }
+        }
+      }
+    },
+    "gooptionStock": {
+      "type": "object",
+      "properties": {
+        "stock_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

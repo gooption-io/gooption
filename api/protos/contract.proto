@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package gooption_io.gooption;
+
+option go_package = "github.com/gooption-io/gooption/api;api_pb";
+
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "stock.proto";
+
+service ContractService {
+  rpc ListContracts (ListContractsRequest) returns (ListContractsResponse) {
+    option (google.api.http) = {
+      get: "/contracts"
+    };
+  }
+  rpc GetContract (GetContractRequest) returns (Contract) {
+    option (google.api.http) = {
+      get: "/contracts/{uid}"
+    };
+  }
+  rpc CreateContract (CreateContractRequest) returns (Contract) {
+    option (google.api.http) = {
+      post: "/contracts"
+      body: "contract"
+    };
+  }
+  rpc UpdateContract (UpdateContractRequest) returns (Contract) {
+    option (google.api.http) = {
+      patch: "/contracts/{contract.uid}"
+      body: "contract"
+    };
+  }
+  rpc DeleteContract (DeleteContractRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/contracts/{uid}"
+    };
+  }
+}
+
+message Contract {
+  string uid = 1;
+  oneof sum {
+    European european = 2;
+  }
+}
+
+message European {
+  string uid = 1;
+  double timestamp = 2;
+  string ticker = 3;
+  double strike = 5;
+  double expiry = 6;
+  string putcall = 7;
+  Stock underlying = 8;
+}
+
+message ListContractsRequest {
+  string type = 1;
+  string ticker = 2;
+  double timestamp = 3;
+}
+
+message ListContractsResponse {
+  repeated Contract contracts = 1;
+}
+
+message GetContractRequest {
+  string uid = 1;
+}
+
+message CreateContractRequest {
+  Contract contract = 1;
+}
+
+message UpdateContractRequest {
+  Contract contract = 1;
+}
+
+message DeleteContractRequest {
+  string uid = 1;
+}
