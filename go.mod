@@ -42,5 +42,5 @@ require (
 	golang.org/x/text v0.3.2 // indirect
 	gonum.org/v1/gonum v0.0.0-20191004082826-a11ea52b6f3c
 	google.golang.org/genproto v0.0.0-20191002211648-c459b9ce5143 // indirect
-	google.golang.org/grpc v1.24.0
+	google.golang.org/grpc v1.27.1
 )
