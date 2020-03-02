@@ -27,7 +27,7 @@ require (
 	github.com/prometheus/client_golang v1.2.1
 	github.com/prometheus/procfs v0.0.5 // indirect
 	github.com/rs/cors v1.7.0
-	github.com/shirou/gopsutil v2.19.9+incompatible
+	github.com/shirou/gopsutil v2.20.2+incompatible
 	github.com/shirou/w32 v0.0.0-20160930032740-bb4de0191aa4 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5
