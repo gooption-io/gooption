@@ -7,7 +7,7 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/gogo/protobuf v1.3.1
-	github.com/golang/protobuf v1.3.2
+	github.com/golang/protobuf v1.4.1
 
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
@@ -38,9 +38,7 @@ require (
 	github.com/tendermint/tmlibs v0.9.0
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
 	golang.org/x/net v0.0.0-20191003171128-d98b1b443823
-	golang.org/x/sys v0.0.0-20191007092633-5f54ce542709 // indirect
 	golang.org/x/text v0.3.2 // indirect
 	gonum.org/v1/gonum v0.0.0-20191004082826-a11ea52b6f3c
-	google.golang.org/genproto v0.0.0-20191002211648-c459b9ce5143 // indirect
-	google.golang.org/grpc v1.24.0
+	google.golang.org/grpc v1.33.2
 )
