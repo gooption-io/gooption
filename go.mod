@@ -7,8 +7,7 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/gogo/protobuf v1.3.1
-	github.com/golang/protobuf v1.3.2
-
+	github.com/golang/protobuf v1.4.3
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.11.3
@@ -23,13 +22,12 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
-	github.com/pkg/errors v0.8.1
-	github.com/prometheus/client_golang v1.2.1
-	github.com/prometheus/procfs v0.0.5 // indirect
+	github.com/pkg/errors v0.9.1
+	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/cors v1.7.0
 	github.com/shirou/gopsutil v2.19.9+incompatible
 	github.com/shirou/w32 v0.0.0-20160930032740-bb4de0191aa4 // indirect
-	github.com/sirupsen/logrus v1.4.2
+	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.4.0
@@ -37,8 +35,7 @@ require (
 	github.com/tendermint/tendermint v0.32.5 // indirect
 	github.com/tendermint/tmlibs v0.9.0
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
-	golang.org/x/net v0.0.0-20191003171128-d98b1b443823
-	golang.org/x/sys v0.0.0-20191007092633-5f54ce542709 // indirect
+	golang.org/x/net v0.0.0-20200625001655-4c5254603344
 	golang.org/x/text v0.3.2 // indirect
 	gonum.org/v1/gonum v0.0.0-20191004082826-a11ea52b6f3c
 	google.golang.org/genproto v0.0.0-20191002211648-c459b9ce5143 // indirect
